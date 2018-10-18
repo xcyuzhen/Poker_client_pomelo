@@ -1,2 +1,2 @@
-# Poker_client_pomelo
-Testing poker project
+# hello-world
+Hello world new project template.
