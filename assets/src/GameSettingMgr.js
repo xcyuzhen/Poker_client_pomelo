@@ -16,7 +16,7 @@ cc.Class({
     		this.gameSettingConfig = JSON.parse(gameSettingStr);
     	} else {
     		//不存在本地配置，初始化
-    		this.gameSettingConfig.serverType = 0;
+    		this.gameSettingConfig.serverType = "dev";
 
     		//存储设置
     		cc.sys.localStorage.setItem('gameSetting', JSON.stringify(this.gameSettingConfig));

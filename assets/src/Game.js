@@ -1,6 +1,7 @@
 var pomelo = require('./pomelo/pomelo-client')
 var GameSettingMgr = require('./GameSettingMgr')
-var NetMgr = require('./net/NetMgr')
+var HttpMgr = require('./net/HttpMgr')
+var SocketMgr = require('./net/SocketMgr')
 
 cc.Class({
     extends: cc.Component,
@@ -26,12 +27,16 @@ cc.Class({
         this.m_gameSettingMgr = new GameSettingMgr();
         this.m_gameSettingMgr.init();
 
-        this.m_netMgr = new NetMgr();
-        this.m_netMgr.init();
+        this.m_httpMgr = new HttpMgr();
+        this.m_httpMgr.init();
+
+        this.m_socketMgr = new SocketMgr();
+        this.m_socketMgr.init();
     },
 
     initData () {
-        Global.game = this;
-        Global.pomelo = pomelo;
+        Global.Tools = require('./tools/tools');
+        Global.Pomelo = pomelo;
+        Global.Game = this;
     },
 });
