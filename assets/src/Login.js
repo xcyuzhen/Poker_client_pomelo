@@ -29,12 +29,21 @@ cc.Class({
         } else {
             //手动登录
             this.m_animLoading.active = false;
+            this.m_animLoading.getComponent('animLoading').stopAnim();
             this.btnGuest.node.active = true;
         }
     },
 
     //游客登录按钮点击事件
     guestLogin () {
-    	
+        var self = this;
+
+        self.btnGuest.node.active = false;
+        self.m_animLoading.active = true;
+        self.m_animLoading.getComponent('animLoading').playAnim();
+
+    	Global.Game.m_socketMgr.login(Global.LoginType.GUEST, function () {
+            console.log("AAAAAAAAAAAAA 登录返回");
+        })
     },
 });

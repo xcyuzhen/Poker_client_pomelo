@@ -12,10 +12,59 @@ cc.Class({
     requestServerConfig () {
     	var self = this;
 
-        Global.Game.m_httpMgr.httpGet(Global.serverConfigUrl[Global.Game.m_gameSettingMgr.gameSettingConfig.serverType], function (res) {
+        Global.Game.m_httpMgr.httpGet(Global.ServerConfigUrl[Global.Game.m_gameSettingMgr.gameSettingConfig.serverType], function (res) {
     		var serverConfig = JSON.parse(res);
     		self.serverConfig = serverConfig[Global.Game.m_gameSettingMgr.gameSettingConfig.serverType];
-    		Global.Tools._debug(self.serverConfig)
         })
+    },
+
+    login (loginType, callBack) {
+    	var self = this;
+
+    	if (loginType === Global.LoginType.GUEST) {
+    		var params = {
+    			system:"win32",
+    			platform:"1",
+    			loginType:loginType,
+    			token:"",
+    			udid:"yuzhenudidguest1",
+    			appid:"",
+    			appkey:"",
+    			appsecret:"",
+    			username:"",
+    			password:"",
+    		}
+
+    		Global.Pomelo.init({
+    			host: self.serverConfig.Server.host,
+    			port: self.serverConfig.Server.port,
+    			log: true
+    		}, function () {
+    			Global.Pomelo.request('gate.gateHandler.queryEntry', {}, function (data) {
+    				Global.Pomelo.disconnect();
+    				if (data.code !== 0) {
+    					cc.log(data.error);
+    					return
+    				}
+
+    				Global.Pomelo.init({
+		    			host: data.host,
+		    			port: data.port,
+		    			log: true
+		    		}, function () {
+		    			Global.Pomelo.request('connector.entryHandler.enter', params, function (data) {
+		    				if (data.code !== 0) {
+		    					cc.log(data.error);
+		    					return
+		    				}
+
+		    				
+		    			})
+		    		})
+    			})
+    		})
+    	} else if (loginType === Global.LoginType.WEIXIN) {
+
+    	}
     },
 });

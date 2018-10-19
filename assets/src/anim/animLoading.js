@@ -8,4 +8,8 @@ cc.Class({
     playAnim () {
         this.anim.play();
     },
+
+    stopAnim() {
+    	this.anim.stop();
+    },
 });
