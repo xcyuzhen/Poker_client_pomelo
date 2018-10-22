@@ -14,6 +14,10 @@ cc.Class({
 
         Global.Game.m_httpMgr.httpGet(Global.ServerConfigUrl[Global.Game.m_gameSettingMgr.gameSettingConfig.serverType], function (res) {
     		var serverConfig = JSON.parse(res);
+
+    		console.log("AAAAAAAAAAAAAAAA ");
+    		Global.Tools._debug(serverConfig);
+
     		self.serverConfig = serverConfig[Global.Game.m_gameSettingMgr.gameSettingConfig.serverType];
         })
     },
@@ -28,31 +32,38 @@ cc.Class({
     			loginType:loginType,
     			token:"",
     			udid:"yuzhenudidguest1",
-    			appid:"",
+    			appid:"yuzhenudidguest1",
     			appkey:"",
     			appsecret:"",
     			username:"",
     			password:"",
     		}
 
+    		console.log("初始化 Pomelo " + self.serverConfig.Server.host + ", " + self.serverConfig.Server.port);
+
     		Global.Pomelo.init({
     			host: self.serverConfig.Server.host,
     			port: self.serverConfig.Server.port,
     			log: true
     		}, function () {
-    			Global.Pomelo.request('gate.gateHandler.queryEntry', {}, function (data) {
+    			Global.Pomelo.request('gate.gateHandler.queryEntry', {udid: params.udid}, function (data) {
+    				console.log("queryEntry 成功 ");
+    				Global.Tools._debug(data);
+
     				Global.Pomelo.disconnect();
     				if (data.code !== 0) {
     					cc.log(data.error);
     					return
     				}
 
+    				console.log("初始化 Pomelo " + data.host + ", " + data.port);
+
     				Global.Pomelo.init({
 		    			host: data.host,
 		    			port: data.port,
 		    			log: true
 		    		}, function () {
-		    			Global.Pomelo.request('connector.entryHandler.enter', params, function (data) {
+		    			Global.Pomelo.request('connector.entryHandler.login', params, function (data) {
 		    				if (data.code !== 0) {
 		    					cc.log(data.error);
 		    					return
