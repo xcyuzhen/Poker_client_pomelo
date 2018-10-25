@@ -31,15 +31,13 @@ cc.Class({
     			platform:"1",
     			loginType:loginType,
     			token:"",
-    			udid:"yuzhenudidguest1",
-    			appid:"yuzhenudidguest1",
+    			udid:"yuzhenudidguest2",
+    			appid:"yuzhenudidguest2",
     			appkey:"",
     			appsecret:"",
     			username:"",
     			password:"",
     		}
-
-    		console.log("初始化 Pomelo " + self.serverConfig.Server.host + ", " + self.serverConfig.Server.port);
 
     		Global.Pomelo.init({
     			host: self.serverConfig.Server.host,
@@ -51,12 +49,10 @@ cc.Class({
     				Global.Tools._debug(data);
 
     				Global.Pomelo.disconnect();
-    				if (data.code !== 0) {
+    				if (data.code !== 200) {
     					cc.log(data.error);
     					return
     				}
-
-    				console.log("初始化 Pomelo " + data.host + ", " + data.port);
 
     				Global.Pomelo.init({
 		    			host: data.host,
@@ -64,12 +60,12 @@ cc.Class({
 		    			log: true
 		    		}, function () {
 		    			Global.Pomelo.request('connector.entryHandler.login', params, function (data) {
-		    				if (data.code !== 0) {
+		    				if (data.code !== 200) {
 		    					cc.log(data.error);
 		    					return
 		    				}
 
-		    				
+		    				Global.Tools._debug(data);
 		    			})
 		    		})
     			})
