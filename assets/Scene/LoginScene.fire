@@ -329,7 +329,7 @@
     "target": {
       "__id__": 2
     },
-    "component": "Login",
+    "component": "login",
     "handler": "guestLogin",
     "customEventData": ""
   },
