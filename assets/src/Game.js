@@ -1,7 +1,7 @@
 var pomelo = require('./pomelo/pomelo-client')
-var GameSettingMgr = require('./GameSettingMgr')
-var HttpMgr = require('./net/HttpMgr')
-var SocketMgr = require('./net/SocketMgr')
+var GameSettingMgr = require('./gameSettingMgr')
+var HttpMgr = require('./net/httpMgr')
+var SocketMgr = require('./net/socketMgr')
 
 cc.Class({
     extends: cc.Component,
