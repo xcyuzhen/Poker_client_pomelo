@@ -32,3 +32,7 @@ var print_r = function (obj, indent) {
 Tools._debug = function (obj) {
     console.log(print_r(obj));
 }
+
+Tools.getUdid = function () {
+    return "yuzhenudidguest2";
+}

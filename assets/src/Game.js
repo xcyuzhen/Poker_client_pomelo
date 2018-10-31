@@ -39,4 +39,14 @@ cc.Class({
         Global.Pomelo = pomelo;
         Global.Game = this;
     },
+
+    //socket连接成功
+    socketConnected () {
+        //如果是登录界面
+        var curScene = cc.director.getScene();
+        if (curScene.getName() === "LoginScene") {
+            var login = curScene.getChildByName("Canvas").getComponent("login");
+            login.socketConnected();
+        }
+    },
 });

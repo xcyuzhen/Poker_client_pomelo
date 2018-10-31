@@ -1,12 +1,12 @@
-window.Global = {
-	ServerConfigUrl: {
-		dev: 'http://127.0.0.1:3001/serverconfig',
-		test: 'http://127.0.0.1:3001/serverconfig',
-		formal: 'http://127.0.0.1:3001/serverconfig',
-	},
+window.Global = {};
 
-	LoginType: {
-		GUEST: "guest",
-		WEIXIN: "wechat",
-	},
-};
+Global.ServerConfigUrl = {
+	dev: 'http://127.0.0.1:3001/serverconfig',
+	test: 'http://127.0.0.1:3001/serverconfig',
+	formal: 'http://127.0.0.1:3001/serverconfig',
+}
+
+Global.LoginType = {
+	GUEST: "guest",
+	WEIXIN: "wechat",
+}

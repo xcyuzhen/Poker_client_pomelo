@@ -12,12 +12,15 @@ cc.Class({
         this.node.addChild(this.m_animLoading);
         this.m_animLoading.setPosition(0, 0);
         this.m_animLoading.getComponent('animLoading').playAnim();
-
-        this.loginCheck();
     },
 
     onDestroy () {
         this.m_animLoading.removeFromParent(true);
+    },
+
+    //socket连接成功
+    socketConnected () {
+        this.loginCheck();
     },
 
     //登录检测
@@ -42,8 +45,23 @@ cc.Class({
         self.m_animLoading.active = true;
         self.m_animLoading.getComponent('animLoading').playAnim();
 
-    	Global.Game.m_socketMgr.login(Global.LoginType.GUEST, function () {
+        var udid = Global.Tools.getUdid()
+        var params = {
+            system: "win32",
+            platform: "1",
+            loginType: Global.LoginType.GUEST,
+            token: "",
+            udid: udid,
+            appid: udid,
+            appkey: "",
+            appsecret: "",
+            username: "",
+            password: "",
+        }
+
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.LOGIN, params, function (data) {
             console.log("AAAAAAAAAAAAA 登录返回");
+            Global.Tools._debug(data);
         })
     },
 });
