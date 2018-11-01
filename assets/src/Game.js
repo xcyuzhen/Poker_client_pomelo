@@ -2,6 +2,7 @@ var pomelo = require('./pomelo/pomelo-client')
 var GameSettingMgr = require('./gameSettingMgr')
 var HttpMgr = require('./net/httpMgr')
 var SocketMgr = require('./net/socketMgr')
+var UserData = require('./model/userData')
 
 cc.Class({
     extends: cc.Component,
@@ -38,6 +39,7 @@ cc.Class({
         Global.Tools = require('./tools/tools');
         Global.Pomelo = pomelo;
         Global.Game = this;
+        Global.SelfUserData = new UserData();
     },
 
     //socket连接成功

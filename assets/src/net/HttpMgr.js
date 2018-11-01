@@ -9,6 +9,8 @@ cc.Class({
             if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)) {
                 var respone = xhr.responseText;
                 callback(respone);
+            } else {
+                callback(-1);
             }
         };
         xhr.open("GET", url, true);
@@ -30,7 +32,7 @@ cc.Class({
                 var respone = xhr.responseText;
                 callback(respone);
             } else {
-                  callback(-1);
+                callback(-1);
             }
         };
         xhr.open("POST", url, true);

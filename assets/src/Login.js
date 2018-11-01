@@ -60,8 +60,11 @@ cc.Class({
         }
 
         Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.LOGIN, params, function (data) {
-            console.log("AAAAAAAAAAAAA 登录返回");
-            Global.Tools._debug(data);
+            if (data.code !== 200) {
+                console.log("登录失败，code = " + data.code);
+            } else {
+                Global.SelfUserData.setUserData(data.userData);
+            }
         })
     },
 });
