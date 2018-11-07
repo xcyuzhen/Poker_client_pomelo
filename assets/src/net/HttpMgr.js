@@ -30,13 +30,11 @@ cc.Class({
     httpPost: function (url, params, callback) {
         var xhr = cc.loader.getXMLHttpRequest();
         xhr.onreadystatechange = function () {
-             if (xhr.readyState === 4) {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    var respone = xhr.responseText;
-                    callback(respone);
-                } else {
-                    callback(-1);
-                }
+            if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 300)) {
+                var respone = xhr.responseText;
+                callback(respone);
+            } else {
+                callback(-1);
             }
         };
         xhr.open("POST", url, true);
