@@ -36,3 +36,13 @@ Tools._debug = function (obj) {
 Tools.getUdid = function () {
     return "yuzhenudidguest2";
 }
+
+Tools.createClickEventHandler = function (target, component, handler, customEventData) {
+    var clickEventHandler = new cc.Component.EventHandler();
+    clickEventHandler.target = target;
+    clickEventHandler.component = component;
+    clickEventHandler.handler = handler;
+    clickEventHandler.customEventData = customEventData;
+
+    return clickEventHandler;
+}
