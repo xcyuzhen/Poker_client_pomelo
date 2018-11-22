@@ -10,3 +10,8 @@ Global.LoginType = {
 	GUEST: "guest",
 	WEIXIN: "wechat",
 }
+
+Global.GameType = {
+	GT_MJ: 0,
+	GT_DDZ: 1,
+}

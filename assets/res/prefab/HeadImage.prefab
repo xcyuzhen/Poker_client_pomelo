@@ -20,18 +20,18 @@
         "__id__": 2
       },
       {
-        "__id__": 8
+        "__id__": 10
       }
     ],
     "_active": true,
-    "_level": 1,
+    "_level": 2,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 14
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 15
     },
     "_opacity": 255,
     "_color": {
@@ -94,11 +94,14 @@
     "_level": 2,
     "_components": [
       {
-        "__id__": 6
+        "__id__": 7
+      },
+      {
+        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 9
     },
     "_opacity": 255,
     "_color": {
@@ -158,10 +161,13 @@
     "_components": [
       {
         "__id__": 4
+      },
+      {
+        "__id__": 5
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 6
     },
     "_opacity": 255,
     "_color": {
@@ -237,12 +243,39 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 112,
+    "_originalHeight": 112,
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "0f9d4745-e5b3-4c5e-be25-d0b6564037f6"
     },
     "fileId": "31itwssPFG3Y7Vu+puKqy6",
     "sync": false
@@ -267,12 +300,39 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 112,
+    "_originalHeight": 112,
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "0f9d4745-e5b3-4c5e-be25-d0b6564037f6"
     },
     "fileId": "b82jInwaBCh4OKexTUu+CI",
     "sync": false
@@ -289,11 +349,14 @@
     "_level": 2,
     "_components": [
       {
-        "__id__": 9
+        "__id__": 11
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 10
+      "__id__": 13
     },
     "_opacity": 255,
     "_color": {
@@ -345,7 +408,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 8
+      "__id__": 10
     },
     "_enabled": true,
     "_srcBlendFactor": 770,
@@ -369,12 +432,39 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 10
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 112,
+    "_originalHeight": 112,
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "0f9d4745-e5b3-4c5e-be25-d0b6564037f6"
     },
     "fileId": "aeIye9TPtHlaJHNPY7Aw2t",
     "sync": false
@@ -438,7 +528,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "0f9d4745-e5b3-4c5e-be25-d0b6564037f6"
     },
     "fileId": "05vcXHld5ByLh9bafzJUv9",
     "sync": false

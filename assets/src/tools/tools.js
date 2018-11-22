@@ -46,3 +46,38 @@ Tools.createClickEventHandler = function (target, component, handler, customEven
 
     return clickEventHandler;
 }
+
+//==============================--
+//desc: 获取格式化的钱币
+//@tnum: 需要转化的数字
+//@isImage: 是否显示的是艺术字
+//@return 格式化后的字符串
+//example:
+//    输入                  输出
+//    123456, false         12.34万
+//    123456789, false      1.23亿
+//    123456, true          12.34w
+//    123456789, true       1.23y
+//==============================--
+Tools.getFormatMoney = function (tnum, isImage) {
+    var num = parseInt(tnum) || 0
+
+    var y = "亿";
+    var w = "万";
+    if (isImage) {
+        y = "y";
+        w = "w";
+    }
+
+    if (num >= 100000000) {
+        num = (num - num % 10000) / 100000000 + y
+    } else if (num >= 10000) {
+        num = (num - num % 100) / 10000 + w
+    } else if (num <= -100000000) {
+        num = (num - num % -10000) / 100000000 + y
+    } else if (num <= -10000) {
+        num = (num - num % -100) / 10000 + w
+    }
+
+    return num.toString();
+}

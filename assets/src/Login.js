@@ -64,6 +64,7 @@ cc.Class({
                 console.log("登录失败，code = " + data.code);
             } else {
                 Global.SelfUserData.setUserData(data.userData);
+                Global.GameList = data.gameList;
 
                 Global.Tools._debug(data)
 

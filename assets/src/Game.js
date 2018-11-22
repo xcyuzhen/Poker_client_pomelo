@@ -40,6 +40,7 @@ cc.Class({
         Global.Pomelo = pomelo;
         Global.Game = this;
         Global.SelfUserData = new UserData();
+        Global.GameList = {};
     },
 
     //socket连接成功
