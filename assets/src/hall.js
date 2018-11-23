@@ -39,13 +39,11 @@ cc.Class({
         self.m_gameListLayer.active = false;
         self.m_groupListLayer.active = true;
 
-        console.log("AAAAAAAAAAAAAAAA eventData = " + eventData)
-
         //拿到场次列表数据
         var groupListConfig;
         for (var index in Global.GameList) {
             var gameConfig = Global.GameList[index];
-            if (parseInt(gameConfig.id) === parseInt(eventData)) {
+            if (gameConfig.id == parseInt(eventData)) {
                 groupListConfig = gameConfig.groupList;
                 break
             }
@@ -70,6 +68,11 @@ cc.Class({
                     groupItem.x = (i + 0.5) * cellWidth;
                     groupItem.y = cellHeight / 2 + 20;
                     svContent.addChild(groupItem)
+
+                    var lbBase = cc.find("lbBase", groupItem).getComponent(cc.Label);
+                    lbBase.string = groupItemConfig.base;
+                    var lbLimit = cc.find("lbLimit", groupItem).getComponent(cc.Label);
+                    lbLimit.string = Global.Tools.getFormatMoney(groupItemConfig.limitMin) + " - " + Global.Tools.getFormatMoney(groupItemConfig.limitMax);
 
                     var clickHandler = Global.Tools.createClickEventHandler(self.node, "hall", "enterGroupLevel", groupItemConfig.level)
                     groupItem.getComponent(cc.Button).clickEvents.push(clickHandler);
