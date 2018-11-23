@@ -8,7 +8,6 @@ cc.Class({
         m_groupSV: cc.ScrollView,
         m_gameListLayer: cc.Node,
         m_groupListLayer: cc.Node,
-        GroupItem: cc.Prefab,
     },
 
     onLoad () {
@@ -18,7 +17,6 @@ cc.Class({
 
     //初始化数据
     initData () {
-
     },
 
     //刷新界面
@@ -34,14 +32,73 @@ cc.Class({
         this.m_lbID.string = "ID:" + Global.SelfUserData.mid;
     },
 
+    //选择游戏
     chooseGame (sender, eventData) {
-        this.m_gameListLayer.active = false;
-        this.m_groupListLayer.active = true;
+        var self = this;
+
+        self.m_gameListLayer.active = false;
+        self.m_groupListLayer.active = true;
+
+        console.log("AAAAAAAAAAAAAAAA eventData = " + eventData)
+
+        //拿到场次列表数据
+        var groupListConfig;
+        for (var index in Global.GameList) {
+            var gameConfig = Global.GameList[index];
+            if (parseInt(gameConfig.id) === parseInt(eventData)) {
+                groupListConfig = gameConfig.groupList;
+                break
+            }
+        }
+
+        //加载场次列表
+        var svContent = cc.find("view/content", self.m_groupSV.node);
+        if (!! svContent) {
+            //清除所有子节点
+            svContent.removeAllChildren(true);
+            self.m_groupSV.scrollToLeft();
+
+            //重新加载新节点
+            var cellWidth = self.m_groupSV.node.width / 4;
+            var cellHeight = self.m_groupSV.node.height;
+            cc.loader.loadRes("prefab/GroupItem", function (err, prefab) {
+                for (var i = 0; i < groupListConfig.length; i++) {
+                    var groupItemConfig = groupListConfig[i]
+                    var itemRes = Global.GroupItemResConfig[i]
+
+                    var groupItem = cc.instantiate(prefab);
+                    groupItem.x = (i + 0.5) * cellWidth;
+                    groupItem.y = cellHeight / 2 + 20;
+                    svContent.addChild(groupItem)
+
+                    var clickHandler = Global.Tools.createClickEventHandler(self.node, "hall", "enterGroupLevel", groupItemConfig.level)
+                    groupItem.getComponent(cc.Button).clickEvents.push(clickHandler);
+
+                    cc.loader.loadRes(Global.GroupItemResConfig[i], cc.SpriteFrame, function (err, spriteFrame) {
+                        var groupItem = this;
+                        groupItem.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+                    }.bind(groupItem))
+                }
+            });
+        }
     },
 
     //场次列表返回键点击事件
     btnBackEvent (sender) {
         this.m_gameListLayer.active = true;
         this.m_groupListLayer.active = false;
+    },
+
+    //请求加入某场次
+    enterGroupLevel (sender, groupLevel) {
+        var params = {
+            level: groupLevel,
+        }
+
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.ENTER_GROUP_LEVEL, params, function (data) {
+            if (data.code !== 200) {
+            } else {
+            }
+        })
     },
 });

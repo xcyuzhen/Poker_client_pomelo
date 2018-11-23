@@ -15,3 +15,10 @@ Global.GameType = {
 	GT_MJ: 0,
 	GT_DDZ: 1,
 }
+
+Global.GroupItemResConfig = [
+	"hall/e1",
+	"hall/e2",
+	"hall/e3",
+	"hall/e4",
+]
