@@ -99,6 +99,8 @@ cc.Class({
         }
 
         Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.ENTER_GROUP_LEVEL, params, function (data) {
+            Global.Tools._debug(data);
+
             if (data.code !== 200) {
             } else {
             }
