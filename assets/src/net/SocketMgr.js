@@ -1,12 +1,25 @@
 cc.Class({
     init () {
     	this.initData();
+        this.initPomeloEvent();
     	this.requestServerConfig();
     },
 
     initData () {
+        this.msgPause = false;                          //消息处理暂停
+        this.msgFrame = 5;                              //消息每5帧取一次
+        this.curMsgFrame = 0;                           //当前消息帧
+        this.msgList = [];                              //消息列表
     	this.serverConfig = {};
-        this.testFlag = "HHHHHHHHHHHHH ";
+    },
+
+    //注册各种消息的回调
+    initPomeloEvent () {
+        var self = this;
+
+        Global.Pomelo.on('onSocketMsg', function(data) {
+            self.msgList.push(data);
+        });
     },
 
     //拉取服务端配置
@@ -22,7 +35,7 @@ cc.Class({
 
             //连接socket
             self.connectSocket();
-        })
+        });
     },
 
     connectSocket () {
@@ -55,7 +68,7 @@ cc.Class({
                     self.socketConnected();
                 })
             })
-        })
+        });
     },
 
     //socket连接成功
@@ -74,6 +87,29 @@ cc.Class({
             Global.Pomelo.request('connector.socketMsgHandler.socketMsg', params, cb)
         } else {
             Global.Pomelo.notify('connector.socketMsgHandler.socketMsg', params)
+        }
+    },
+
+    //暂停消息处理
+    paushMsgHandle () {
+        this.msgPause = true;
+        this.curMsgFrame = 0;
+    },
+
+    //恢复消息处理
+    resumeMsgHandle () {
+        this.msgPause = false;
+        this.curMsgFrame = 0;
+    },
+
+    //处理一条消息
+    popOneMsgData () {
+        if (! this.msgPause) {
+            this.curMsgFrame ++;
+            if (this.curMsgFrame >= this.msgFrame) {
+                this.curMsgFrame = 0;
+                return this.msgList.shift();
+            }
         }
     },
 });

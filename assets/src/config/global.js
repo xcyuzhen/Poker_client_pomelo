@@ -11,9 +11,9 @@ Global.LoginType = {
 	WEIXIN: "wechat",
 }
 
-Global.GameType = {
-	GT_MJ: 0,
-	GT_DDZ: 1,
+Global.GameID = {
+	GT_MJ: 1,
+	GT_DDZ: 2,
 }
 
 Global.GroupItemResConfig = [
