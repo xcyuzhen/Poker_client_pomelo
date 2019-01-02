@@ -55,7 +55,7 @@
     "_zIndex": 0,
     "groupIndex": 0,
     "autoReleaseAssets": false,
-    "_id": "8fa3d468-975b-400c-9615-a5b81a4278dc"
+    "_id": "4fae9b94-8a0c-4df3-bd2f-f1df090fbb5e"
   },
   {
     "__type__": "cc.Node",
@@ -79,10 +79,13 @@
     "_level": 0,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 9
       },
       {
-        "__id__": 12
+        "__id__": 10
+      },
+      {
+        "__id__": 11
       }
     ],
     "_prefab": null,
@@ -129,7 +132,7 @@
     "_skewY": 0,
     "_zIndex": 0,
     "groupIndex": 0,
-    "_id": "efnw0r9mpJcJZxduZCzF30"
+    "_id": "14Ag0LI9ZDlZsJaf2V6XMu"
   },
   {
     "__type__": "cc.Node",
@@ -190,7 +193,7 @@
     "_skewY": 0,
     "_zIndex": 0,
     "groupIndex": 0,
-    "_id": "fcJVMz/XtEF7u2xT44PFJg"
+    "_id": "85hQ3gRJJAQrFXpQNpILDw"
   },
   {
     "__type__": "cc.Camera",
@@ -212,7 +215,7 @@
     "_depth": -1,
     "_zoomRatio": 1,
     "_targetTexture": null,
-    "_id": "ef1g1pLLtK6bL20fQn49s2"
+    "_id": "a5+8qSCWtC2bN+By4qxOIa"
   },
   {
     "__type__": "cc.Node",
@@ -273,7 +276,7 @@
     "_skewY": 0,
     "_zIndex": 0,
     "groupIndex": 0,
-    "_id": "80GEIG9npGjqvckyKn+O4G"
+    "_id": "49Lx7re9BK44cDW5fsKo46"
   },
   {
     "__type__": "cc.Sprite",
@@ -286,7 +289,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "ec853da0-ea57-4de8-8f44-3f696dfbc820"
+      "__uuid__": "d1678afd-8051-4ac1-8302-5f472a6b49f1"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -301,7 +304,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "672szSbzhO/7X+L5GjQfvu"
+    "_id": "d1b73MNcJMZJHzA573LpqK"
   },
   {
     "__type__": "cc.Node",
@@ -316,9 +319,6 @@
     "_components": [
       {
         "__id__": 8
-      },
-      {
-        "__id__": 9
       }
     ],
     "_prefab": null,
@@ -342,8 +342,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -601,
-      "y": 322,
+      "x": -608,
+      "y": 330,
       "z": 0
     },
     "_scale": {
@@ -365,7 +365,7 @@
     "_skewY": 0,
     "_zIndex": 0,
     "groupIndex": 0,
-    "_id": "b4uJ69uzhF+pJNZrqZJoz2"
+    "_id": "59rw54vkJFj7qdWxvqNIGb"
   },
   {
     "__type__": "cc.Sprite",
@@ -393,73 +393,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "4aC1iV2n5GXZJkV5XSxtbv"
-  },
-  {
-    "__type__": "cc.Button",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 7
-    },
-    "_enabled": true,
-    "transition": 3,
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "duration": 0.1,
-    "zoomScale": 1.1,
-    "clickEvents": [
-      {
-        "__id__": 10
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 214,
-      "g": 214,
-      "b": 214,
-      "a": 255
-    },
-    "_N$disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_N$normalSprite": null,
-    "_N$pressedSprite": null,
-    "pressedSprite": null,
-    "_N$hoverSprite": null,
-    "hoverSprite": null,
-    "_N$disabledSprite": null,
-    "_N$target": {
-      "__id__": 7
-    },
-    "_id": "92bhJntxBO9IvrABUFa30D"
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 2
-    },
-    "component": "ddzRoom",
-    "handler": "btnExitClickEvent",
-    "customEventData": ""
+    "_id": "60xiVfVt5JirGloR0TjyjN"
   },
   {
     "__type__": "cc.Canvas",
@@ -476,16 +410,26 @@
     },
     "_fitWidth": false,
     "_fitHeight": true,
-    "_id": "a551n+r3pOs7NPkNTW0Nxf"
+    "_id": "47xdmIhxdF9InlDllYU+vY"
   },
   {
-    "__type__": "3112c7wYtxJ3aiyvL134Wop",
+    "__type__": "9daddEAKKJJKYPYq2trWmyX",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "_id": "fc7ACA0KpHYpRsv3D9LJAa"
+    "_id": "80IG17tLJN4aCv72ULJM0f"
+  },
+  {
+    "__type__": "5d2a5wJc3hKW4r4ywkgaYu3",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_id": "1d0S77OylAyossGuPMZZ5Q"
   }
 ]

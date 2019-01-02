@@ -6,10 +6,7 @@ cc.Class({
     },
 
     initData () {
-        this.msgPause = false;                          //消息处理暂停
-        this.msgFrame = 5;                              //消息每5帧取一次
-        this.curMsgFrame = 0;                           //当前消息帧
-        this.msgList = [];                              //消息列表
+        this.msgList = {};                              //消息列表
     	this.serverConfig = {};
     },
 
@@ -18,7 +15,23 @@ cc.Class({
         var self = this;
 
         Global.Pomelo.on('onSocketMsg', function(data) {
-            self.msgList.push(data);
+            var groupName = data.groupName;
+            switch (groupName) {
+                case Global.MsgGroupName.HALL:
+                    var curScene = cc.director.getScene();
+                    if (curScene.getName() === "HallScene") {
+                        var hall = curScene.getChildByName("Canvas").getComponent("hall");
+                        hall.socketMsgGet(data);
+                    }
+                    break;
+                default:
+                    if (Global.Room) {
+                        Global.Room.socketMsgGet(data);
+                    } else {
+                        this.msgList[groupName] = this.msgList[groupName] || [];
+                        self.msgList[groupName].push(data);
+                    }
+            }
         });
     },
 
@@ -102,14 +115,15 @@ cc.Class({
         this.curMsgFrame = 0;
     },
 
-    //处理一条消息
-    popOneMsgData () {
-        if (! this.msgPause) {
-            this.curMsgFrame ++;
-            if (this.curMsgFrame >= this.msgFrame) {
-                this.curMsgFrame = 0;
-                return this.msgList.shift();
-            }
-        }
+    //根据groupName获取消息
+    getMsgDataByGroup (groupName) {
+        var msgList = this.msgList[groupName] || [];
+        
+        return msgList;
+    },
+
+    //删除groupName的所有消息
+    delMsgDataByGroup (groupName) {
+        delete(this.msgList[groupName]);
     },
 });
