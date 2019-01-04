@@ -23,6 +23,12 @@ Global.MsgGroupName = {
 	[Global.GameID.GT_DDZ]: "DdzGroup",
 };
 
+//房间场景名字配置
+Global.RoomSceneName = {
+	[Global.GameID.GT_MJ]: "MJRoomScene",
+	[Global.GameID.GT_DDZ]: "DDZRoomScene",
+};
+
 Global.GroupItemResConfig = [
 	"hall/e1",
 	"hall/e2",

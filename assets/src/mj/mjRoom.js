@@ -1,5 +1,5 @@
-const PlayerMgr = require("./PlayerMgr");
-const CardMgr = require("./CardMgr");
+const PlayerMgr = require("./playerMgr");
+const CardMgr = require("./cardMgr");
 
 cc.Class({
     extends: cc.Component,
@@ -48,6 +48,12 @@ cc.Class({
     },
 
     btnExitClickEvent () {
-        console.log("发起退出房间请求");
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.USER_LEAVE, {}, function (data) {
+            if (data.code !== 200) {
+                console.log(data.msg);
+            } else {
+                cc.director.loadScene("HallScene");
+            }
+        })
     },
 });

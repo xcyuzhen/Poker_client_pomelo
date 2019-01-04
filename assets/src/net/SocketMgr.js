@@ -15,6 +15,9 @@ cc.Class({
         var self = this;
 
         Global.Pomelo.on('onSocketMsg', function(data) {
+            console.log("SSSSSSSSSSSSSSSSSSSSSSS 收到消息推送");
+            Global.Tools._debug(data);
+
             var groupName = data.groupName;
             switch (groupName) {
                 case Global.MsgGroupName.HALL:
@@ -28,7 +31,7 @@ cc.Class({
                     if (Global.Room) {
                         Global.Room.socketMsgGet(data);
                     } else {
-                        this.msgList[groupName] = this.msgList[groupName] || [];
+                        self.msgList[groupName] = self.msgList[groupName] || [];
                         self.msgList[groupName].push(data);
                     }
             }

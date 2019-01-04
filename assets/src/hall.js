@@ -106,13 +106,16 @@ cc.Class({
             Global.Tools._debug(data);
 
             if (data.code !== 200) {
+                console.log(data.msg);
             } else {
+                var roomSceneName = Global.RoomSceneName[gameID];
+                cc.director.loadScene(roomSceneName);
             }
         })
     },
 
     //收到socketMsg
     socketMsgGet (res) {
-        
+
     },
 });

@@ -66,10 +66,8 @@ cc.Class({
                 Global.SelfUserData.setUserData(data.userData);
                 Global.GameList = data.gameList;
 
-                Global.Tools._debug(data)
-
                 cc.director.loadScene("HallScene");
             }
-        })
+        });
     },
 });
