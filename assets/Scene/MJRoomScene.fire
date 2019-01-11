@@ -79,13 +79,13 @@
     "_level": 0,
     "_components": [
       {
-        "__id__": 9
-      },
-      {
-        "__id__": 10
-      },
-      {
         "__id__": 11
+      },
+      {
+        "__id__": 12
+      },
+      {
+        "__id__": 13
       }
     ],
     "_prefab": null,
@@ -319,6 +319,9 @@
     "_components": [
       {
         "__id__": 8
+      },
+      {
+        "__id__": 9
       }
     ],
     "_prefab": null,
@@ -396,6 +399,72 @@
     "_id": "60xiVfVt5JirGloR0TjyjN"
   },
   {
+    "__type__": "cc.Button",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 7
+    },
+    "_enabled": true,
+    "transition": 1,
+    "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "duration": 0.1,
+    "zoomScale": 1.2,
+    "clickEvents": [
+      {
+        "__id__": 10
+      }
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 214,
+      "g": 214,
+      "b": 214,
+      "a": 255
+    },
+    "_N$disabledColor": {
+      "__type__": "cc.Color",
+      "r": 124,
+      "g": 124,
+      "b": 124,
+      "a": 255
+    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
+    "_N$target": {
+      "__id__": 7
+    },
+    "_id": "c2aKiiVPJP6b1w90DuZtRq"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "mjRoom",
+    "handler": "btnExitClickEvent",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.Canvas",
     "_name": "",
     "_objFlags": 0,
@@ -423,13 +492,13 @@
     "_id": "80IG17tLJN4aCv72ULJM0f"
   },
   {
-    "__type__": "5d2a5wJc3hKW4r4ywkgaYu3",
+    "__type__": "b01f33K7xRNm4Q1ulKaxkH+",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "_id": "1d0S77OylAyossGuPMZZ5Q"
+    "_id": "4bME/x7xpNvbL0d6Vp5PJE"
   }
 ]

@@ -74,7 +74,7 @@ cc.Class({
                     var lbLimit = cc.find("lbLimit", groupItem).getComponent(cc.Label);
                     lbLimit.string = Global.Tools.getFormatMoney(groupItemConfig.limitMin) + " - " + Global.Tools.getFormatMoney(groupItemConfig.limitMax);
 
-                    var clickHandler = Global.Tools.createClickEventHandler(self.node, "hall", "enterGroupLevel", {id: groupListConfig.id, level: groupItemConfig.level})
+                    var clickHandler = Global.Tools.createClickEventHandler(self.node, "hall", "enterGroupLevel", {id: eventData, level: groupItemConfig.level})
                     groupItem.getComponent(cc.Button).clickEvents.push(clickHandler);
 
                     cc.loader.loadRes(Global.GroupItemResConfig[i], cc.SpriteFrame, function (err, spriteFrame) {
@@ -94,6 +94,7 @@ cc.Class({
 
     //请求加入某场次
     enterGroupLevel (sender, groupData) {
+        Global.Tools._debug(groupData);
         var gameID = groupData.id;
         //删除冗余的数据
         Global.Game.m_socketMgr.delMsgDataByGroup(Global.MsgGroupName[gameID]);

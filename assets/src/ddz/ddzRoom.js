@@ -1,4 +1,4 @@
-const PlayerMgr = require("./PlayerMgr");
+const PlayerMgr = require("./playerMgr");
 
 cc.Class({
     extends: cc.Component,

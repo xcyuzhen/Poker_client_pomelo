@@ -15,8 +15,7 @@ cc.Class({
         var self = this;
 
         Global.Pomelo.on('onSocketMsg', function(data) {
-            console.log("SSSSSSSSSSSSSSSSSSSSSSS 收到消息推送");
-            Global.Tools._debug(data);
+            console.log("SSSSSSSSSSSSSSSSSSSSSSS socketMgr 收到推送消息，cmd = ", data.res.sockeCmd);
 
             var groupName = data.groupName;
             switch (groupName) {
@@ -29,8 +28,10 @@ cc.Class({
                     break;
                 default:
                     if (Global.Room) {
+                        console.log("SSSSSSSSSSSSSSSSSSSSSSS 房间已创建，推送到房间");
                         Global.Room.socketMsgGet(data);
                     } else {
+                        console.log("SSSSSSSSSSSSSSSSSSSSSSS 没有房间，缓存起来");
                         self.msgList[groupName] = self.msgList[groupName] || [];
                         self.msgList[groupName].push(data);
                     }
@@ -120,9 +121,10 @@ cc.Class({
 
     //根据groupName获取消息
     getMsgDataByGroup (groupName) {
-        var msgList = this.msgList[groupName] || [];
+        var resultMsgList = this.msgList[groupName] || [];
+        this.msgList[groupName] = [];
         
-        return msgList;
+        return resultMsgList;
     },
 
     //删除groupName的所有消息
