@@ -1,20 +1,11 @@
+var BaseMgr = require("src/mj/mjBaseMgr");
+
 cc.Class({
-    extends: cc.Node,
-
-    init () {
-        this.initData();
-        this.initUIView();
-    },
-
-    initData () {
-    },
-
-    initUIView () {
-    },
+    extends: BaseMgr,
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
     enterRoom (res) {
-
+    	
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 });

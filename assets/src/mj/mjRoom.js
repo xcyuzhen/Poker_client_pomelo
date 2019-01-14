@@ -1,10 +1,12 @@
-const PlayerMgr = require("./playerMgr");
-const CardMgr = require("./cardMgr");
+var UiConfig = require("src/mj/config/mjUiConfig");
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
+        m_roomInfoMgr: cc.Component,
+        m_playerMgr: cc.Component,
+        m_cardMgr: cc.Component,
     },
 
     onLoad () {
@@ -28,14 +30,12 @@ cc.Class({
 
     initData () {
         Global.Room = this;
-        this.m_playerMgr = new PlayerMgr();
-        this.m_playerMgr.init();
 
-        this.m_cardMgr = new CardMgr();
-        this.m_cardMgr.init();
-
-        this.m_gameNet = this.getComponent("gameNet");
+        this.m_gameNet = this.getComponent("mjGameNet");
         this.m_gameNet.init();
+        this.m_roomInfoMgr.init();
+        this.m_playerMgr.init();
+        this.m_cardMgr.init();
     },
 
     socketMsgGet (data) {

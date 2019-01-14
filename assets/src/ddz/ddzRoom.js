@@ -1,5 +1,3 @@
-const PlayerMgr = require("./playerMgr");
-
 cc.Class({
     extends: cc.Component,
 
@@ -30,8 +28,6 @@ cc.Class({
 
     initData () {
         Global.Room = this;
-        this.m_playerMgr = new PlayerMgr();
-        this.m_playerMgr.init();
     },
 
     btnExitClickEvent () {
