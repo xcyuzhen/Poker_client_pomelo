@@ -36,6 +36,8 @@ cc.Class({
         this.m_roomInfoMgr.init();
         this.m_playerMgr.init();
         this.m_cardMgr.init();
+
+        this.roomInited = false;
     },
 
     socketMsgGet (data) {
@@ -43,8 +45,14 @@ cc.Class({
     },
 
     commonMsgHandler (funcName, res) {
+        this.m_roomInfoMgr[funcName](res);
         this.m_playerMgr[funcName](res);
         this.m_cardMgr[funcName](res);
+
+        //设置房间初始化标记位
+        if (funcName === "enterRoom") {
+            this.roomInited = true;
+        }
     },
 
     btnExitClickEvent () {

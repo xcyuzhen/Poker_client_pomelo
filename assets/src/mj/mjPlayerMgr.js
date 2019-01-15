@@ -1,4 +1,5 @@
 var BaseMgr = require("src/mj/mjBaseMgr");
+var UserItem = require("src/mj/model/mjUserItem");
 
 cc.Class({
     extends: BaseMgr,
