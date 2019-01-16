@@ -37,6 +37,18 @@ Tools.getUdid = function () {
     return "yuzhenudidguest2";
 }
 
+//检测mid是否合法
+Tools.midCheck = function (mid) {
+    mid = Number(mid);
+    return mid || mid > 0;
+}
+
+//检测座位号是否合法
+Tools.seatCheck = function (seatID) {
+    seatID = Number(seatID);
+    return seatID || seatID > 0;
+}
+
 Tools.createClickEventHandler = function (target, component, handler, customEventData) {
     var clickEventHandler = new cc.Component.EventHandler();
     clickEventHandler.target = target;

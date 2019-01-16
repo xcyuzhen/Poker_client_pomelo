@@ -9,5 +9,6 @@ cc.Class({
     	this.seatID = data.seatID;
     	this.ready = data.ready;
     	this.online = data.online;
+        this.localSeatID = data.localSeatID || 0;
     },
 });

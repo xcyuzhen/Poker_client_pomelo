@@ -54,14 +54,4 @@ cc.Class({
             this.roomInited = true;
         }
     },
-
-    btnExitClickEvent () {
-        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.USER_LEAVE, {}, function (data) {
-            if (data.code !== 200) {
-                console.log(data.msg);
-            } else {
-                cc.director.loadScene("HallScene");
-            }
-        })
-    },
 });

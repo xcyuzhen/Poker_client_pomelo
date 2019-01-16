@@ -36,9 +36,6 @@ cc.Class({
     chooseGame (sender, eventData) {
         var self = this;
 
-        self.m_gameListLayer.active = false;
-        self.m_groupListLayer.active = true;
-
         //拿到场次列表数据
         var groupListConfig;
         for (var index in Global.GameList) {
@@ -65,6 +62,7 @@ cc.Class({
                     var itemRes = Global.GroupItemResConfig[i]
 
                     var groupItem = cc.instantiate(prefab);
+                    groupItem.name = "GroupItem" + (i+1);
                     groupItem.x = (i + 0.5) * cellWidth;
                     groupItem.y = cellHeight / 2 + 20;
                     svContent.addChild(groupItem)
@@ -80,6 +78,11 @@ cc.Class({
                     cc.loader.loadRes(Global.GroupItemResConfig[i], cc.SpriteFrame, function (err, spriteFrame) {
                         var groupItem = this;
                         groupItem.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+
+                        if (groupItem.name === "GroupItem" + groupListConfig.length) {
+                            self.m_gameListLayer.active = false;
+                            self.m_groupListLayer.active = true;
+                        }
                     }.bind(groupItem))
                 }
             });
