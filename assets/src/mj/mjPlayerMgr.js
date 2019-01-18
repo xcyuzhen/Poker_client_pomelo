@@ -71,7 +71,6 @@ cc.Class({
                 var playItem = self.m_playerList[mid];
                 playerItem.destroy();
                 delete(self.m_playerList[mid]);
-                
             }
         }
     },
