@@ -1,5 +1,5 @@
-var UserData = require("src/mj/model/mjUserData");
-var UiConfig = require("src/mj/config/mjUiConfig");
+var UserData = require("./mjUserData");
+var UiConfig = require("../config/mjUiConfig");
 
 cc.Class({
     extends: cc.Node,

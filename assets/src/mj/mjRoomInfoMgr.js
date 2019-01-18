@@ -1,4 +1,4 @@
-var BaseMgr = require("src/mj/mjBaseMgr");
+var BaseMgr = require("./mjBaseMgr");
 
 cc.Class({
     extends: BaseMgr,

@@ -1,6 +1,6 @@
-var BaseMgr = require("src/mj/mjBaseMgr");
-var UserItem = require("src/mj/model/mjUserItem");
-var Config = require("src/mj/config/mjConfig");
+var BaseMgr = require("./mjBaseMgr");
+var UserItem = require("./model/mjUserItem");
+var Config = require("./config/mjConfig");
 
 cc.Class({
     extends: BaseMgr,
@@ -74,7 +74,7 @@ cc.Class({
             }
         }
     },
-    
+
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
     enterRoom (res) {
     	this.updatePlayerList(res.userList);

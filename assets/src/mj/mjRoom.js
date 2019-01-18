@@ -1,4 +1,4 @@
-var UiConfig = require("src/mj/config/mjUiConfig");
+var UiConfig = require("./config/mjUiConfig");
 
 cc.Class({
     extends: cc.Component,

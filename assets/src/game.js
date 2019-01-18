@@ -1,8 +1,8 @@
-var pomelo = require('src/pomelo/pomelo-client')
-var GameSettingMgr = require('src/gameSettingMgr')
-var HttpMgr = require('src/net/httpMgr')
-var SocketMgr = require('src/net/socketMgr')
-var UserData = require('src/model/userData')
+var pomelo = require('./pomelo/pomelo-client')
+var GameSettingMgr = require('./gameSettingMgr')
+var HttpMgr = require('./net/httpMgr')
+var SocketMgr = require('./net/socketMgr')
+var UserData = require('./model/userData')
 
 cc.Class({
     extends: cc.Component,
@@ -36,7 +36,7 @@ cc.Class({
     },
 
     initData () {
-        Global.Tools = require('src/tools/tools');
+        Global.Tools = require('./tools/tools');
         Global.Pomelo = pomelo;
         Global.Game = this;
         Global.SelfUserData = new UserData();
