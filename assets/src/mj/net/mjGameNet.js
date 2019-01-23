@@ -79,6 +79,8 @@ cc.Class({
     initMsgCmdMap () {
         this.msgCmdMap = {
             [Global.SocketCmd.ENTER_ROOM]: "enterRoom",
+            [Global.SocketCmd.USER_ENTER]: "userEnter",
+            [Global.SocketCmd.USER_LEAVE]: "userLeave",
         };
     },
 });
