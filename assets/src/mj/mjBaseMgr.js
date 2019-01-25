@@ -16,5 +16,6 @@ cc.Class({
     enterRoom (res) {},
     userEnter (res) {},
     userLeave (res) {},
+    updateUserList (res) {},
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 });

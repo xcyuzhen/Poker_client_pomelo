@@ -68,6 +68,21 @@ cc.Class({
         lbGold.enableWrapText = false;
         lbGold.string = self.m_userData.gold;
         self.m_lbGold = lbGold;
+
+        //准备标记
+        var spReadyNode = new cc.Node("Label");
+        spReadyNode.setAnchorPoint(self.m_uiConfig.Ready.Ap[self.m_seatID]);
+        var readyDiff = self.m_uiConfig.Ready.Diff[self.m_seatID];
+        spReadyNode.setPosition(headPos.x + readyDiff.x, headPos.y + readyDiff.y);
+        spReadyNode.active = false;
+        self.addChild(spReadyNode);
+        self.m_spReadyNode = spReadyNode;
+
+        var spReady = spReadyNode.addComponent(cc.Sprite);
+        cc.loader.loadRes("mj/b4", cc.SpriteFrame, function (err, spriteFrame) {
+            var spReady = this;
+            spReady.spriteFrame = spriteFrame;
+        }.bind(spReady))
     },
 
     getUserData () {

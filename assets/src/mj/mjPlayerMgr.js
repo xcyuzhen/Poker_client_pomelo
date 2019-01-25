@@ -86,41 +86,8 @@ cc.Class({
     	this.updatePlayerList(res.userList);
     },
 
-    userEnter (res) {
-        var userData = res.userData;
-        var selfSeatID = this.m_selfUserData.seatID;
-
-        var localSeatID = userData.seatID - selfSeatID + 1;
-        if (localSeatID < 0) {
-            localSeatID = localSeatID + Config.PLAYER_NUM;
-        }
-        userData.localSeatID = localSeatID;
-
-        var playerItem = this.m_seatPlayerList[localSeatID];
-        if (playerItem) {
-            console.log("PPPPPPPPPPPPPPPPPPPPPPPP 座位 " + localSeatID + " 有人在，直接刷新信息");
-            playerItem.updateUserData(userData);
-        } else {
-            console.log("PPPPPPPPPPPPPPPPPPPPPPPP 座位 " + localSeatID + " 没有人，创建新玩家");
-            var userItem = new UserItem();
-            userItem.init(userData);
-            this.node.addChild(userItem);
-            this.m_playerList[userData.mid] = userItem;
-            this.m_seatPlayerList[localSeatID] = userItem;
-        }
-    },
-
-    userLeave (res) {
-        var mid = res.mid;
-
-        console.log("PPPPPPPPPPPPPPPPPPPPPPPP 玩家 " + mid + " 离开，清除数据");
-        var playerItem = self.m_playerList[mid];
-
-        var userData = playerItem.getUserData()
-        self.m_seatPlayerList[userData.localSeatID] = null;
-
-        playerItem.destroy();
-        delete(self.m_playerList[mid]);
+    updateUserList (res) {
+        this.updatePlayerList(res.userList);
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 });

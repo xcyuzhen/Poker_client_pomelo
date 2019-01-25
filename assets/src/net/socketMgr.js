@@ -15,7 +15,7 @@ cc.Class({
         var self = this;
 
         Global.Pomelo.on('onSocketMsg', function(data) {
-            console.log("SSSSSSSSSSSSSSSSSSSSSSS socketMgr 收到推送消息，cmd = ", data.res.sockeCmd);
+            console.log("SSSSSSSSSSSSSSSSSSSSSSS socketMgr 收到推送消息，cmd = ", data.res.socketCmd);
 
             var groupName = data.groupName;
             switch (groupName) {

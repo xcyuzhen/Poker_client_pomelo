@@ -48,10 +48,10 @@ cc.Class({
             //取出一条消息进行处理
             if (self.msgList.length > 0) {
                 var oneMsg = self.msgList.shift();
-                var sockeCmd = oneMsg.res.sockeCmd;
-                var handler = self.msgCmdMap[sockeCmd];
+                var socketCmd = oneMsg.res.socketCmd;
+                var handler = self.msgCmdMap[socketCmd];
                 if (! handler) {
-                    console.log("没有相应的处理函数 sockeCmd = ", sockeCmd);
+                    console.log("没有相应的处理函数 socketCmd = ", socketCmd);
                 } else {
                     Global.Room.commonMsgHandler(handler, oneMsg.res);
                 }
@@ -71,7 +71,7 @@ cc.Class({
     socketMsgGet (data) {
         var groupName = data.groupName;
         if (groupName === Global.MsgGroupName[Global.GameID.GT_MJ]) {
-            console.log("GGGGGGGGGGGGGGGGG 麻将房间收到推送消息, cmd = ", data.res.sockeCmd)
+            console.log("GGGGGGGGGGGGGGGGG 麻将房间收到推送消息, cmd = ", data.res.socketCmd)
             this.msgList.push(data);
         }
     },
@@ -81,6 +81,7 @@ cc.Class({
             [Global.SocketCmd.ENTER_ROOM]: "enterRoom",
             [Global.SocketCmd.USER_ENTER]: "userEnter",
             [Global.SocketCmd.USER_LEAVE]: "userLeave",
+            [Global.SocketCmd.UPDATE_USER_LIST]: "updateUserList",
         };
     },
 });
