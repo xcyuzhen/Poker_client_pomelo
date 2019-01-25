@@ -115,7 +115,7 @@ cc.Class({
                 var roomSceneName = Global.RoomSceneName[gameID];
                 cc.director.loadScene(roomSceneName);
             }
-        })
+        });
     },
 
     //收到socketMsg

@@ -32,8 +32,6 @@ cc.Class({
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
     enterRoom (res) {
-        Global.Tools._debug(res)
-
         var level = res.roomData.level;
         for (var index in this.gameConfig.groupList) {
             var config = this.gameConfig.groupList[index];

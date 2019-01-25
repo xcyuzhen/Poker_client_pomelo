@@ -74,12 +74,12 @@ cc.Class({
         spReadyNode.setAnchorPoint(self.m_uiConfig.Ready.Ap[self.m_seatID]);
         var readyDiff = self.m_uiConfig.Ready.Diff[self.m_seatID];
         spReadyNode.setPosition(headPos.x + readyDiff.x, headPos.y + readyDiff.y);
-        spReadyNode.active = false;
+        spReadyNode.active = self.m_userData.ready == 1;
         self.addChild(spReadyNode);
         self.m_spReadyNode = spReadyNode;
 
         var spReady = spReadyNode.addComponent(cc.Sprite);
-        cc.loader.loadRes("mj/b4", cc.SpriteFrame, function (err, spriteFrame) {
+        cc.loader.loadRes("mj/b3", cc.SpriteFrame, function (err, spriteFrame) {
             var spReady = this;
             spReady.spriteFrame = spriteFrame;
         }.bind(spReady))

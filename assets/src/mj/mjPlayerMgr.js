@@ -5,6 +5,10 @@ var Config = require("./config/mjConfig");
 cc.Class({
     extends: BaseMgr,
 
+    properties: {
+        m_btnReady: cc.Button,
+    },
+
     initData () {
     	this.m_playerList = {};
         this.m_seatPlayerList = {};
@@ -81,13 +85,19 @@ cc.Class({
         }
     },
 
+    btnReadyClickEvent () {
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.USER_READY);
+    },
+
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
     enterRoom (res) {
     	this.updatePlayerList(res.userList);
+        this.m_btnReady.node.active = (this.m_selfUserData.ready == 0);
     },
 
     updateUserList (res) {
         this.updatePlayerList(res.userList);
+        this.m_btnReady.node.active = (this.m_selfUserData.ready == 0);
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 });
