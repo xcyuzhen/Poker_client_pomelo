@@ -13,9 +13,10 @@ cc.Class({
     },
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
-    enterRoom (res) {},
-    userEnter (res) {},
-    userLeave (res) {},
-    updateUserList (res) {},
+    commonMsgHandler (funcName, res) {
+        if (this[funcName]) {
+            this[funcName](res);
+        }
+    },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 });

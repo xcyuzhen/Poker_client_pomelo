@@ -15,7 +15,8 @@ cc.Class({
         var self = this;
 
         Global.Pomelo.on('onSocketMsg', function(data) {
-            console.log("SSSSSSSSSSSSSSSSSSSSSSS socketMgr 收到推送消息，cmd = ", data.res.socketCmd);
+            console.log("SSSSSSSSSSSSSSSSSSSSSSS socketMgr 收到推送消息");
+            console.log(JSON.stringify(data.res));
 
             var groupName = data.groupName;
             switch (groupName) {
@@ -28,10 +29,8 @@ cc.Class({
                     break;
                 default:
                     if (Global.Room) {
-                        console.log("SSSSSSSSSSSSSSSSSSSSSSS 房间已创建，推送到房间");
                         Global.Room.socketMsgGet(data);
                     } else {
-                        console.log("SSSSSSSSSSSSSSSSSSSSSSS 没有房间，缓存起来");
                         self.msgList[groupName] = self.msgList[groupName] || [];
                         self.msgList[groupName].push(data);
                     }

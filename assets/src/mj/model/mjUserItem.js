@@ -53,7 +53,7 @@ cc.Class({
         self.m_lbName = lbName;
 
         //金币数量
-        var lbGoldNode = new cc.Node("Label");
+        var lbGoldNode = new cc.Node();
         lbGoldNode.setAnchorPoint(self.m_uiConfig.Gold.Ap[self.m_seatID]);
         var goldDiff = self.m_uiConfig.Gold.Diff[self.m_seatID];
         lbGoldNode.setPosition(headPos.x + goldDiff.x, headPos.y + goldDiff.y);
@@ -70,7 +70,7 @@ cc.Class({
         self.m_lbGold = lbGold;
 
         //准备标记
-        var spReadyNode = new cc.Node("Label");
+        var spReadyNode = new cc.Node();
         spReadyNode.setAnchorPoint(self.m_uiConfig.Ready.Ap[self.m_seatID]);
         var readyDiff = self.m_uiConfig.Ready.Diff[self.m_seatID];
         spReadyNode.setPosition(headPos.x + readyDiff.x, headPos.y + readyDiff.y);
@@ -103,6 +103,9 @@ cc.Class({
 
         //更新金币数量
         self.m_lbGold.string = userData.gold;
+
+        //准备标记
+        self.m_spReadyNode.active = (userData.ready === 1);
 
         self.m_userData = userData;
     },

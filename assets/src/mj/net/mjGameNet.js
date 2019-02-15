@@ -82,6 +82,9 @@ cc.Class({
             [Global.SocketCmd.USER_ENTER]: "userEnter",
             [Global.SocketCmd.USER_LEAVE]: "userLeave",
             [Global.SocketCmd.UPDATE_USER_LIST]: "updateUserList",
+            [Global.SocketCmd.WAIT_USER_READY]: "waitUserReady",
+            [Global.SocketCmd.USER_READY]: "userReady",
+            [Global.SocketCmd.USER_KICK]: "userKick",
         };
     },
 });

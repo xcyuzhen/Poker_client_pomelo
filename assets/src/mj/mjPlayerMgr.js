@@ -7,12 +7,14 @@ cc.Class({
 
     properties: {
         m_btnReady: cc.Button,
+        m_lbReadyTip: cc.Label,
     },
 
     initData () {
     	this.m_playerList = {};
         this.m_seatPlayerList = {};
         this.m_selfUserData = null;
+        this.m_waitToStartLeftTime = 0;
     },
 
     initUIView () {
@@ -58,10 +60,8 @@ cc.Class({
 
             var playerItem = self.m_seatPlayerList[localSeatID];
             if (playerItem) {
-                console.log("PPPPPPPPPPPPPPPPPPPPPPPP 座位 " + localSeatID + " 有人在，直接刷新信息");
                 playerItem.updateUserData(userData);
             } else {
-                console.log("PPPPPPPPPPPPPPPPPPPPPPPP 座位 " + localSeatID + " 没有人，创建新玩家");
                 var userItem = new UserItem();
                 userItem.init(userData);
                 self.node.addChild(userItem);
@@ -73,7 +73,6 @@ cc.Class({
         //清除掉已经走了的玩家
         for (var mid in self.m_playerList) {
             if (!midMap[mid]) {
-                console.log("PPPPPPPPPPPPPPPPPPPPPPPP 玩家 " + mid + " 离开，清除数据");
                 var playerItem = self.m_playerList[mid];
 
                 var userData = playerItem.getUserData()
@@ -98,6 +97,56 @@ cc.Class({
     updateUserList (res) {
         this.updatePlayerList(res.userList);
         this.m_btnReady.node.active = (this.m_selfUserData.ready == 0);
+
+        var roomState = Global.Room.roomState;
+        if (roomState === Global.RoomState.WAIT_TO_START) {
+            var actionNode = this.node.getChildByName("WaitStartTipActionNode");
+            if (!actionNode) {
+                this.startWaitUserReadyTimer();
+            }
+            this.m_lbReadyTip.node.active = true;
+        } else {
+            this.stopWaitUserReadyTimer();
+            this.m_lbReadyTip.node.active = false;
+        }
+    },
+
+    //等待玩家准备
+    waitUserReady (res) {
+        this.m_waitToStartLeftTime = res.leftTime;
+        this.startWaitUserReadyTimer();
+    },
+
+    startWaitUserReadyTimer () {
+        var self = this;
+
+        self.stopWaitUserReadyTimer();
+
+        var actionNode = new cc.Node();
+        actionNode.name = "WaitStartTipActionNode";
+        actionNode.parent = self.node;
+        var seqAction = cc.sequence([
+            cc.delayTime(1),
+            cc.callFunc(function () {
+                self.m_waitToStartLeftTime -= 1000;
+                if (self.m_waitToStartLeftTime <= 0) {
+                    self.m_waitToStartLeftTime = 0;
+                    self.stopWaitUserReadyTimer();
+                }
+                self.m_lbReadyTip.string = "准备倒计时: " + (self.m_waitToStartLeftTime / 1000);
+            })
+        ]);
+        actionNode.runAction(cc.repeatForever(seqAction));
+
+        self.m_lbReadyTip.string = "准备倒计时: " + (self.m_waitToStartLeftTime / 1000);
+    },
+
+    stopWaitUserReadyTimer () {
+        var actionNode = this.node.getChildByName("WaitStartTipActionNode");
+        if (!!actionNode) {
+            actionNode.stopAllActions();
+            actionNode.removeFromParent();
+        }
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 });
