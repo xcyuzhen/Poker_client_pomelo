@@ -117,6 +117,18 @@ cc.Class({
         this.startWaitUserReadyTimer();
     },
 
+    //游戏开始
+    gameStart (res) {
+        this.stopWaitUserReadyTimer();
+
+        for (var mid in self.m_playerList) {
+            var playerItem = self.m_playerList[mid];
+            playerItem.gameStart();
+        }
+    },
+    ////////////////////////////////////消息处理函数end////////////////////////////////////
+
+    ////////////////////////////////////功能函数begin////////////////////////////////////
     startWaitUserReadyTimer () {
         var self = this;
 
@@ -148,5 +160,5 @@ cc.Class({
             actionNode.removeFromParent();
         }
     },
-    ////////////////////////////////////消息处理函数end////////////////////////////////////
+    ////////////////////////////////////功能函数end////////////////////////////////////
 });

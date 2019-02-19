@@ -3,15 +3,18 @@ var GameSettingMgr = require('./gameSettingMgr')
 var HttpMgr = require('./net/httpMgr')
 var SocketMgr = require('./net/socketMgr')
 var UserData = require('./model/userData')
+var HallUiConfig = require('./config/hallUiConfig')
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
+        m_msgBoxMgr: cc.Component,
     },
 
     onLoad () {
         cc.game.addPersistRootNode(this.node);
+        cc.game.addPersistRootNode(this.m_msgBoxMgr.node);
         this.init();
     },
 
@@ -33,14 +36,23 @@ cc.Class({
 
         this.m_socketMgr = new SocketMgr();
         this.m_socketMgr.init();
+
+        this.m_msgBoxMgr.node.zIndex = HallUiConfig.ZIndexConfig.MsgBox;
     },
 
     initData () {
         Global.Tools = require('./tools/tools');
+        Global.UiFactory = require('./tools/uiFactory');
         Global.Pomelo = pomelo;
         Global.Game = this;
+        Global.MsgBoxMgr = this.m_msgBoxMgr;
         Global.SelfUserData = new UserData();
         Global.GameList = {};
+    },
+
+    //从游戏返回大厅
+    backHallFromGame () {
+        cc.director.loadScene("HallScene");
     },
 
     //socket连接成功

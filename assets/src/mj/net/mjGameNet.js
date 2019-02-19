@@ -85,6 +85,7 @@ cc.Class({
             [Global.SocketCmd.WAIT_USER_READY]: "waitUserReady",
             [Global.SocketCmd.USER_READY]: "userReady",
             [Global.SocketCmd.USER_KICK]: "userKick",
+            [Global.SocketCmd.GAME_START]: "gameStart",
         };
     },
 });

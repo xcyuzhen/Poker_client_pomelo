@@ -53,36 +53,27 @@ cc.Class({
         self.m_lbName = lbName;
 
         //金币数量
-        var lbGoldNode = new cc.Node();
-        lbGoldNode.setAnchorPoint(self.m_uiConfig.Gold.Ap[self.m_seatID]);
+        var lbGold = Global.UiFactory.createLabel(self.m_userData.gold, self.m_uiConfig.Gold.FontSize);
+        lbGold.node.setAnchorPoint(self.m_uiConfig.Gold.Ap[self.m_seatID]);
         var goldDiff = self.m_uiConfig.Gold.Diff[self.m_seatID];
-        lbGoldNode.setPosition(headPos.x + goldDiff.x, headPos.y + goldDiff.y);
-        lbGoldNode.setContentSize(self.m_uiConfig.Gold.Size);
-        self.addChild(lbGoldNode);
+        lbGold.node.setPosition(headPos.x + goldDiff.x, headPos.y + goldDiff.y);
+        lbGold.node.setContentSize(self.m_uiConfig.Gold.Size);
+        self.addChild(lbGold.node);
 
-        var lbGold = lbGoldNode.addComponent(cc.Label);
-        lbGold.fontSize = self.m_uiConfig.Gold.FontSize;
         lbGold.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
         lbGold.verticalAlign = cc.Label.VerticalAlign.CENTER;
         lbGold.overflow = cc.Label.Overflow.CLAMP;
         lbGold.enableWrapText = false;
-        lbGold.string = self.m_userData.gold;
         self.m_lbGold = lbGold;
 
         //准备标记
-        var spReadyNode = new cc.Node();
-        spReadyNode.setAnchorPoint(self.m_uiConfig.Ready.Ap[self.m_seatID]);
+        var spReady = Global.UiFactory.createSprite("mj/b3");
+        spReady.node.setAnchorPoint(self.m_uiConfig.Ready.Ap[self.m_seatID]);
         var readyDiff = self.m_uiConfig.Ready.Diff[self.m_seatID];
-        spReadyNode.setPosition(headPos.x + readyDiff.x, headPos.y + readyDiff.y);
-        spReadyNode.active = self.m_userData.ready == 1;
-        self.addChild(spReadyNode);
-        self.m_spReadyNode = spReadyNode;
-
-        var spReady = spReadyNode.addComponent(cc.Sprite);
-        cc.loader.loadRes("mj/b3", cc.SpriteFrame, function (err, spriteFrame) {
-            var spReady = this;
-            spReady.spriteFrame = spriteFrame;
-        }.bind(spReady))
+        spReady.node.setPosition(headPos.x + readyDiff.x, headPos.y + readyDiff.y);
+        spReady.node.active = self.m_userData.ready == 1;
+        self.addChild(spReady.node);
+        self.m_spReadyNode = spReady.node;
     },
 
     getUserData () {
@@ -108,5 +99,10 @@ cc.Class({
         self.m_spReadyNode.active = (userData.ready === 1);
 
         self.m_userData = userData;
+    },
+
+    //游戏开始
+    gameStart () {
+        
     },
 });

@@ -1,5 +1,5 @@
 module.exports = {
-    ZOrderConfig: {
+    ZIndexConfig: {
     	RoomInfoNode: 0,
     	PlayerNode: 1,
     	CardNode: 2,
@@ -20,6 +20,12 @@ module.exports = {
     				"3": cc.v2(640, 660),
     				"4": cc.v2(340, 400),
     			},
+                Pos1: {
+                    "1": cc.v2(200, 100),
+                    "2": cc.v2(940, 400),
+                    "3": cc.v2(1080, 660),
+                    "4": cc.v2(340, 400),
+                },
     		},
     		Name: {
     			FontSize: 20,
