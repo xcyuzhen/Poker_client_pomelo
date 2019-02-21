@@ -120,10 +120,11 @@ cc.Class({
     //游戏开始
     gameStart (res) {
         this.stopWaitUserReadyTimer();
+        this.m_lbReadyTip.node.active = false;
 
-        for (var mid in self.m_playerList) {
-            var playerItem = self.m_playerList[mid];
-            playerItem.gameStart();
+        for (var mid in this.m_playerList) {
+            var playerItem = this.m_playerList[mid];
+            playerItem.gameStart(res);
         }
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////

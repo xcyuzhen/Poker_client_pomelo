@@ -79,11 +79,13 @@ cc.Class({
     initMsgCmdMap () {
         this.msgCmdMap = {
             [Global.SocketCmd.ENTER_ROOM]: "enterRoom",
-            [Global.SocketCmd.USER_ENTER]: "userEnter",
             [Global.SocketCmd.USER_LEAVE]: "userLeave",
+
+            [Global.SocketCmd.ROOM_INFO]: "roomInfo",
             [Global.SocketCmd.UPDATE_USER_LIST]: "updateUserList",
+            [Global.SocketCmd.ROUND_INFO]: "roundInfo",
+            [Global.SocketCmd.RESULT_INFO]: "resultInfo",
             [Global.SocketCmd.WAIT_USER_READY]: "waitUserReady",
-            [Global.SocketCmd.USER_READY]: "userReady",
             [Global.SocketCmd.USER_KICK]: "userKick",
             [Global.SocketCmd.GAME_START]: "gameStart",
         };
