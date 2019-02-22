@@ -10,6 +10,10 @@ cc.Class({
     onLoad () {
         var self = this;
 
+        self.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+          return true;
+        }, self);
+
         var clickHandler = Global.Tools.createClickEventHandler(self.node, "msgBoxMgr", "btnSureClickEvent")
         self.m_btnSure.clickEvents.push(clickHandler);
     },
