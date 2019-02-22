@@ -6,7 +6,7 @@ cc.Class({
     properties: {
         m_roomInfoMgr: cc.Component,
         m_playerMgr: cc.Component,
-        m_cardMgr: cc.Component,
+        m_opeMgr: cc.Component,
         m_animMgr: cc.Component,
         m_msgMgr: cc.Component,
     },
@@ -37,7 +37,7 @@ cc.Class({
         this.m_gameNet.init();
         this.m_roomInfoMgr.init();
         this.m_playerMgr.init();
-        this.m_cardMgr.init();
+        this.m_opeMgr.init();
         this.m_animMgr.init();
         this.m_msgMgr.init();
 
@@ -55,7 +55,7 @@ cc.Class({
 
         this.m_roomInfoMgr.commonMsgHandler(funcName, res);
         this.m_playerMgr.commonMsgHandler(funcName, res);
-        this.m_cardMgr.commonMsgHandler(funcName, res);
+        this.m_opeMgr.commonMsgHandler(funcName, res);
         this.m_animMgr.commonMsgHandler(funcName, res);
         this.m_msgMgr.commonMsgHandler(funcName, res);
     },

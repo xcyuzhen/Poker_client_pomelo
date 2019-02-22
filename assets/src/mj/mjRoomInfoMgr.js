@@ -5,6 +5,11 @@ cc.Class({
 
     properties: {
         m_lbGroupName: cc.Label,
+        m_lbLeftTime: cc.Label,
+    },
+
+    onDestroy () {
+        this.stopTimer();
     },
 
     initData () {
@@ -43,5 +48,63 @@ cc.Class({
 
         this.m_lbGroupName.string = this.groupConfig.name;
     },
+
+    updateUserList (res) {
+        var roomState = Global.Room.roomState;
+        if (roomState != Global.RoomState.WAIT_TO_START) {
+            this.stopTimer(true);
+        }
+    },
+
+    //等待玩家准备
+    waitUserReady (res) {
+        var leftTime = res.leftTime;
+        this.startTimer(leftTime);
+    },
+
+    gameStart (res) {
+        this.stopTimer(true);
+    },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
+
+    ////////////////////////////////////功能函数begin////////////////////////////////////
+    //开始计时器
+    startTimer (leftTime) {
+        var self = this;
+        self.stopTimer();
+
+        leftTime = parseInt(leftTime) || 0;
+        var actionNode = new cc.Node();
+        actionNode.name = "TimerActionNode";
+        actionNode.parent = self.node;
+        var seqAction = cc.sequence([
+            cc.delayTime(1),
+            cc.callFunc(function () {
+                leftTime -= 1000;
+                if (leftTime <= 0) {
+                    leftTime = 0;
+                    self.stopTimer();
+                }
+                self.m_lbLeftTime.string = Global.Tools.getFormatNumber((leftTime / 1000), 2);
+            })
+        ]);
+        actionNode.runAction(cc.repeatForever(seqAction));
+
+        self.m_lbLeftTime.string = Global.Tools.getFormatNumber((leftTime / 1000), 2);
+    },
+
+    //停止计时器
+    stopTimer (reset) {
+        var self = this;
+
+        var actionNode = this.node.getChildByName("TimerActionNode");
+        if (!!actionNode) {
+            actionNode.removeFromParent(true);
+        }
+
+        if (reset) {
+            self.m_lbLeftTime.string = Global.Tools.getFormatNumber(0, 2);
+        }
+    },
+    ////////////////////////////////////功能函数end////////////////////////////////////
 });

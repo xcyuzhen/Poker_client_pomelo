@@ -27,27 +27,27 @@ var print_r = function (obj, indent) {
         }
     }
     return result_str;
-}
+};
 
 Tools._debug = function (obj) {
     console.log(print_r(obj));
-}
+};
 
 Tools.getUdid = function () {
     return "yuzhenudidguest2";
-}
+};
 
 //检测mid是否合法
 Tools.midCheck = function (mid) {
     mid = Number(mid);
     return mid || mid > 0;
-}
+};
 
 //检测座位号是否合法
 Tools.seatCheck = function (seatID) {
     seatID = Number(seatID);
     return seatID || seatID > 0;
-}
+};
 
 Tools.createClickEventHandler = function (target, component, handler, customEventData) {
     var clickEventHandler = new cc.Component.EventHandler();
@@ -57,7 +57,7 @@ Tools.createClickEventHandler = function (target, component, handler, customEven
     clickEventHandler.customEventData = customEventData;
 
     return clickEventHandler;
-}
+};
 
 //==============================--
 //desc: 获取格式化的钱币
@@ -92,4 +92,28 @@ Tools.getFormatMoney = function (tnum, isImage) {
     }
 
     return num.toString();
-}
+};
+
+//==============================--
+/*
+desc: 格式化数字
+@minLen: 数字最小位数
+example:
+    输入        minLen          输出
+    12          2               12
+    12          4               0012
+    12          1               12
+    1           2               01
+*/
+//==============================--
+Tools.getFormatNumber = function (num, minLen) {
+    var numStr = '' + num;
+    var zeroNum = minLen - numStr.length;
+
+    if (zeroNum > 0) {
+        var zeroStr = new Array(zeroNum).fill('0');
+        numStr = zeroStr + numStr;
+    }
+
+    return numStr;
+};

@@ -1,13 +1,14 @@
 var BaseMgr = require("./mjBaseMgr");
 var UserItem = require("./model/mjUserItem");
+var CardItem = require("./model/mjCardItem");
 var Config = require("./config/mjConfig");
 
 cc.Class({
     extends: BaseMgr,
 
     properties: {
+        m_cardNode: cc.Node,
         m_btnReady: cc.Button,
-        m_lbReadyTip: cc.Label,
     },
 
     initData () {
@@ -60,13 +61,22 @@ cc.Class({
 
             var playerItem = self.m_seatPlayerList[localSeatID];
             if (playerItem) {
-                playerItem.updateUserData(userData);
+                playerItem.userItem.updateUserData(userData);
             } else {
+                var playerItem = {userData: userData};
+
                 var userItem = new UserItem();
                 userItem.init(userData);
                 self.node.addChild(userItem);
-                self.m_playerList[userData.mid] = userItem;
-                self.m_seatPlayerList[localSeatID] = userItem;
+                playerItem.userItem = userItem;
+
+                var cardItem = new CardItem();
+                cardItem.init(userData);
+                self.m_cardNode.addChild(cardItem);
+                playerItem.cardItem = cardItem;
+
+                self.m_playerList[userData.mid] = playerItem;
+                self.m_seatPlayerList[localSeatID] = playerItem;
             }
         }
 
@@ -75,8 +85,11 @@ cc.Class({
             if (!midMap[mid]) {
                 var playerItem = self.m_playerList[mid];
 
-                var userData = playerItem.getUserData()
+                var userData = playerItem.userData()
                 self.m_seatPlayerList[userData.localSeatID] = null;
+
+                playerItem.userItem.removeFromParent(true);
+                playerItem.cardItem.removeFromParent(true);
 
                 playerItem.destroy();
                 delete(self.m_playerList[mid]);
@@ -97,69 +110,29 @@ cc.Class({
     updateUserList (res) {
         this.updatePlayerList(res.userList);
         this.m_btnReady.node.active = (this.m_selfUserData.ready == 0);
-
-        var roomState = Global.Room.roomState;
-        if (roomState === Global.RoomState.WAIT_TO_START) {
-            var actionNode = this.node.getChildByName("WaitStartTipActionNode");
-            if (!actionNode) {
-                this.startWaitUserReadyTimer();
-            }
-            this.m_lbReadyTip.node.active = true;
-        } else {
-            this.stopWaitUserReadyTimer();
-            this.m_lbReadyTip.node.active = false;
-        }
-    },
-
-    //等待玩家准备
-    waitUserReady (res) {
-        this.m_waitToStartLeftTime = res.leftTime;
-        this.startWaitUserReadyTimer();
     },
 
     //游戏开始
     gameStart (res) {
-        this.stopWaitUserReadyTimer();
-        this.m_lbReadyTip.node.active = false;
-
         for (var mid in this.m_playerList) {
             var playerItem = this.m_playerList[mid];
-            playerItem.gameStart(res);
+            playerItem.userItem.gameStart(res);
         }
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
-    ////////////////////////////////////功能函数begin////////////////////////////////////
-    startWaitUserReadyTimer () {
-        var self = this;
-
-        self.stopWaitUserReadyTimer();
-
-        var actionNode = new cc.Node();
-        actionNode.name = "WaitStartTipActionNode";
-        actionNode.parent = self.node;
-        var seqAction = cc.sequence([
-            cc.delayTime(1),
-            cc.callFunc(function () {
-                self.m_waitToStartLeftTime -= 1000;
-                if (self.m_waitToStartLeftTime <= 0) {
-                    self.m_waitToStartLeftTime = 0;
-                    self.stopWaitUserReadyTimer();
-                }
-                self.m_lbReadyTip.string = "准备倒计时: " + (self.m_waitToStartLeftTime / 1000);
-            })
-        ]);
-        actionNode.runAction(cc.repeatForever(seqAction));
-
-        self.m_lbReadyTip.string = "准备倒计时: " + (self.m_waitToStartLeftTime / 1000);
-    },
-
-    stopWaitUserReadyTimer () {
-        var actionNode = this.node.getChildByName("WaitStartTipActionNode");
-        if (!!actionNode) {
-            actionNode.stopAllActions();
-            actionNode.removeFromParent();
+    ////////////////////////////////////对外接口begin////////////////////////////////////
+    //根据mid返回本地座位
+    getLocalSeatByMid (mid) {
+        var playerItem = this.m_playerList[mid];
+        if (!!playerItem) {
+            return playerItem.userData.localSeatID;
         }
+
+        return 0;
     },
+    ////////////////////////////////////对外接口end////////////////////////////////////
+
+    ////////////////////////////////////功能函数begin////////////////////////////////////
     ////////////////////////////////////功能函数end////////////////////////////////////
 });
