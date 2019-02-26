@@ -107,7 +107,7 @@ module.exports = {
 
     CardNode: {
     	CardItem: {
-
+            
     	},
     },
 };

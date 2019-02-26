@@ -7,9 +7,22 @@ cc.Class({
     	this.m_gameData = new GameData();
     	this.m_gameData.init(data);
     	this.m_seatID = data.localSeatID;
+
+    	this.initData();
+    	this.initUIView();
     },
 
-    updateUserData (userData) {
+    initData () {
+    	this.m_cardsList = [];
+    	this.m_extraCardsList = [];
+    	this.m_outCardsList = [];
+    },
+
+    initUIView () {
+
+    },
+
+    updateGameData (gameData) {
     	
     },
 });
