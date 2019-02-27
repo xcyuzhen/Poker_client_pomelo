@@ -1,9 +1,10 @@
-var pomelo = require('./pomelo/pomelo-client')
-var GameSettingMgr = require('./gameSettingMgr')
-var HttpMgr = require('./net/httpMgr')
-var SocketMgr = require('./net/socketMgr')
-var UserData = require('./model/userData')
-var HallUiConfig = require('./config/hallUiConfig')
+require('./tools/stringExtra');
+var pomelo = require('./pomelo/pomelo-client');
+var GameSettingMgr = require('./gameSettingMgr');
+var HttpMgr = require('./net/httpMgr');
+var SocketMgr = require('./net/socketMgr');
+var UserData = require('./model/userData');
+var HallUiConfig = require('./config/hallUiConfig');
 
 cc.Class({
     extends: cc.Component,

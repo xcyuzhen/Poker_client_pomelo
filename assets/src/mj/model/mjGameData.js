@@ -9,5 +9,9 @@ cc.Class({
     	this.extraCards = data.extraCards || [];
     	this.handCardsNum = data.handCardsNum || 0;
     	this.tingList = data.tingList || [];
+
+    	this.handCardsStr = JSON.stringify(this.handCards);
+    	this.outCardsStr = JSON.stringify(this.outCards);
+    	this.extraCardsStr = JSON.stringify(this.extraCards);
     },
 });

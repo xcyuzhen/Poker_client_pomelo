@@ -1,0 +1,4 @@
+cc.Class({
+	init (param) {
+    },
+});

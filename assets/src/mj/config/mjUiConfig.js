@@ -107,7 +107,30 @@ module.exports = {
 
     CardNode: {
     	CardItem: {
-            
+
     	},
+    },
+
+    CardResConfig: {
+        HandCardRes: {
+            "1": "my_hand_{0}",
+            "2": "right_hand_{0}",
+            "3": "opposite_hand_{0}",
+            "4": "left_hand_{0}",
+        },
+
+        ExtraCardRes: {
+            "1": "my_extra_{0}",
+            "2": "right_extra_{0}",
+            "3": "opposite_extra_{0}",
+            "4": "left_extra_{0}",
+        },
+
+        OutCardRes: {
+            "1": "my_opposite_out_{0}",
+            "2": "right_extra_{0}",
+            "3": "my_opposite_out_{0}",
+            "4": "left_extra_{0}",
+        },
     },
 };
