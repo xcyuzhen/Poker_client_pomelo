@@ -17,6 +17,12 @@ cc.Class({
         cc.game.addPersistRootNode(this.node);
         cc.game.addPersistRootNode(this.m_msgBoxMgr.node);
         this.init();
+
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    },
+
+    onDestroy () {
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
     },
 
     start () {
@@ -43,6 +49,7 @@ cc.Class({
 
     initData () {
         Global.Tools = require('./tools/tools');
+        Global.Debug = require('./tools/debug');
         Global.UiFactory = require('./tools/uiFactory');
         Global.Pomelo = pomelo;
         Global.Game = this;
@@ -63,6 +70,14 @@ cc.Class({
         if (curScene.getName() === "LoginScene") {
             var login = curScene.getChildByName("Canvas").getComponent("login");
             login.socketConnected();
+        }
+    },
+
+    onKeyUp (event) {
+        switch(event.keyCode) {
+            case cc.macro.KEY.l:
+                Global.Debug.doTest();
+                break;
         }
     },
 });

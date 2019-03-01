@@ -106,8 +106,26 @@ module.exports = {
     },
 
     CardNode: {
+        Card: {
+            CardUpDiff: 20,
+        },
     	CardItem: {
-
+            PengGroup: {
+                Container: {
+                    Ap: {
+                        "1": cc.v2(0, 0),
+                        "2": cc.v2(0, 0),
+                        "3": cc.v2(0, 0),
+                        "4": cc.v2(0, 0),
+                    },
+                },
+                CardsPos: {
+                    "1": [cc.v2(0, 0), cc.v2(0, 0), cc.v2(0, 0)],
+                    "2": [cc.v2(0, 0), cc.v2(0, 0), cc.v2(0, 0)],
+                    "3": [cc.v2(0, 0), cc.v2(0, 0), cc.v2(0, 0)],
+                    "4": [cc.v2(0, 0), cc.v2(0, 0), cc.v2(0, 0)],
+                },
+            },
     	},
     },
 
@@ -130,6 +148,13 @@ module.exports = {
             "1": "my_opposite_out_{0}",
             "2": "right_extra_{0}",
             "3": "my_opposite_out_{0}",
+            "4": "left_extra_{0}",
+        },
+
+        ShowCardRes: {
+            "1": "my_extra_{0}",
+            "2": "right_extra_{0}",
+            "3": "opposite_extra_{0}",
             "4": "left_extra_{0}",
         },
     },

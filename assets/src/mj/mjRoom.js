@@ -17,6 +17,8 @@ cc.Class({
 
     onDestroy () {
         Global.Room = null;
+        Global.UserItemList = nil;
+        Global.CardItemList = nil;
     },
 
     start () {
@@ -32,6 +34,8 @@ cc.Class({
 
     initData () {
         Global.Room = this;
+        Global.UserItemList = {};
+        Global.CardItemList = {};
 
         this.m_gameNet = this.getComponent("mjGameNet");
         this.m_gameNet.init();

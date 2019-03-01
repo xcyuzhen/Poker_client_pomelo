@@ -14,6 +14,8 @@ cc.Class({
 
     	this.initData();
     	this.initUIView();
+
+        Global.UserItemList[this.m_seatID] = this;
     },
 
     initData () {
