@@ -23,10 +23,10 @@ cc.Class({
         var self = this;
 
         self.m_spCard = self.addComponent(cc.Sprite);
-        cc.loader.loadRes("mj/zz", cc.SpriteAtlas, function (err, atlas) {
-            var frame = atlas.getSpriteFrame(self.m_imgName);
-            self.m_spCard.spriteFrame = frame;
-        });
+        var frame = Global.ResMgr.CardAtlas.getSpriteFrame(self.m_imgName);
+        self.m_spCard.spriteFrame = frame;
+        var rect = frame.getRect();
+        self.setContentSize(rect.width, rect.height);
     },
 
     //牌变暗

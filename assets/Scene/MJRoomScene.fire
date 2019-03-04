@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.7974175347222222,
-      "y": 0.7974175347222222,
+      "x": 0.836328125,
+      "y": 0.836328125,
       "z": 1
     },
     "_quat": {
@@ -101,6 +101,9 @@
       },
       {
         "__id__": 38
+      },
+      {
+        "__id__": 39
       }
     ],
     "_prefab": null,
@@ -1624,5 +1627,18 @@
     },
     "_enabled": true,
     "_id": "38NcvX8GlBZoXB+Wk+EUrJ"
+  },
+  {
+    "__type__": "8a524sDFqBMdqr1GeqgMMet",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "CardAtlas": {
+      "__uuid__": "a6e8fe88-970a-4783-bb48-c73b90008825"
+    },
+    "_id": "1fduj5bgpD64goJTDlLUnL"
   }
 ]

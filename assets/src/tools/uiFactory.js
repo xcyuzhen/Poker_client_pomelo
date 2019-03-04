@@ -8,6 +8,8 @@ UiFactory.createSprite = function (imgPath) {
     var sprite = node.addComponent(cc.Sprite);
     cc.loader.loadRes(imgPath, cc.SpriteFrame, function (err, spriteFrame) {
         sprite.spriteFrame = spriteFrame;
+        var rect = spriteFrame.getRect();
+        node.setContentSize(rect.width, rect.height);
     });
 
     return sprite;
@@ -22,6 +24,8 @@ UiFactory.createAtlasSprite = function (atlasPath, spriteName) {
     cc.loader.loadRes(atlasPath, cc.SpriteAtlas, function (err, atlas) {
         var frame = atlas.getSpriteFrame(spriteName);
         sprite.spriteFrame = frame;
+        var rect = frame.getRect();
+        node.setContentSize(rect.width, rect.height);
     });
 
     return sprite;

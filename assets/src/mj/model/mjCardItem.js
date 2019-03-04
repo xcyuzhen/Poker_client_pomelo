@@ -1,4 +1,5 @@
 var GameData = require("./mjGameData");
+var Config = require("./../config/mjConfig");
 var UiConfig = require("./../config/mjUiConfig");
 var Card = require("./mjCard");
 
@@ -21,6 +22,10 @@ cc.Class({
     	this.m_cardsList = [];
     	this.m_extraCardsList = [];
     	this.m_outCardsList = [];
+        this.m_showCardsList = [];
+
+        this.m_extraHandCardsPosX = 0;
+        this.m_extraHandCardsPosY = 0;
     },
 
     initUIView () {
@@ -33,14 +38,45 @@ cc.Class({
 
     //重新绘制吃碰杠牌
     redrawExtraCards (extraCardsList) {
-    	extraCardsList = extraCardsList || {};
+        var self = this;
+
+    	extraCardsList = extraCardsList || [];
     	var newStr = JSON.stringify(extraCardsList);
-    	if (newStr == this.m_gameData.extraCardsStr) {
+    	if (newStr == self.m_gameData.extraCardsStr) {
     		return;
     	}
 
-    	this.m_gameData.extraCards = extraCardsList;
-    	this.m_gameData.extraCardsStr = newStr;
+        self.clearExtraCards();
+        self.resetExtraHandCardsPos()
+        for (var i = 0; i < extraCardsList.length; i++) {
+            var extraItemInfo = extraCardsList[i];
+            var opeType = extraItemInfo.opeType;
+            var extraItemNode;
+
+            switch (opeType) {
+                case Config.OPE_TYPE.PENG:
+                    extraItemNode = self.drawOneGroupPengCards(extraItemInfo);
+                    break;
+                case Config.OPE_TYPE.GANG:
+                case Config.OPE_TYPE.BU_GANG:
+                    extraItemNode = self.drawOneGroupGangCards(extraItemInfo);
+                    break;
+                case Config.OPE_TYPE.AN_GANG:
+                    extraItemNode = self.drawOneGroupAnGangCards(extraItemInfo);
+                    break;
+            }
+
+            if (!!extraItemNode) {
+                var posX = 500, posY = 200;
+                extraItemNode.setPosition(posX, posY);
+                self.addChild(extraItemNode);
+
+                self.m_extraCardsList.push(extraItemNode);
+            }
+        }
+
+    	self.m_gameData.extraCards = extraCardsList;
+    	self.m_gameData.extraCardsStr = newStr;
     },
 
     //重新绘制手牌
@@ -64,7 +100,7 @@ cc.Class({
     	var targetMid = pengCardsInfo.targetMid;
 
     	var pengGroupUiData = this.m_uiData.PengGroup;
-    	var cardsUiData = pengGroupUiData.Cards[this.m_seatID];
+    	var cardsPos = pengGroupUiData.CardsPos[this.m_seatID];
 
     	var node = new cc.Node();
     	node.setAnchorPoint(cc.v2(0, 0));
@@ -80,16 +116,17 @@ cc.Class({
     		var card = new Card();
     		card.init(param);
     		card.setAnchorPoint(0, 0);
-    		card.setPosition(cardsUiData.Pos[i]);
-
-    		var leftBottomPosX = ;
-    		var leftBottomPosY = card.position.y + card.height;
+    		card.setPosition(cardsPos[i]);
+            node.addChild(card);
 
     		width = Math.max(width, card.position.x + card.width);
     		height = Math.max(height, card.position.y + card.height);
+            var size = card.getContentSize();
     	}
 
     	node.setContentSize(width, height);
+
+        return node;
     },
 
     //绘制一组明杠牌或补杠牌
@@ -98,7 +135,7 @@ cc.Class({
     },
 
     //绘制一组暗杠牌
-    drawOneGroupGangCards (gangCardsInfo) {
+    drawOneGroupAnGangCards (gangCardsInfo) {
 
     },
 
@@ -106,9 +143,9 @@ cc.Class({
     getExtraCardImgName (cardValue) {
     	var cardPathStr = UiConfig.CardResConfig.ExtraCardRes[this.m_seatID]
     	if (cardValue == -1) {
-    		return String.format.call(cardPathStr, "back")
+    		return cardPathStr.format("back")
     	} else {
-    		return String.format.call(cardPathStr, cardValue)
+    		return cardPathStr.format(cardValue)
     	}
     },
 
@@ -140,5 +177,22 @@ cc.Class({
     	} else {
     		return String.format.call(cardPathStr, cardValue)
     	}
+    },
+
+    //还原吃碰杠和手牌的位置数据
+    resetExtraHandCardsPos () {
+        var extraHandCardStartPos = this.m_uiData.ExtraHandCardStartPos[this.m_seatID];
+        this.m_extraHandCardsPosX = extraHandCardStartPos.x;
+        this.m_extraHandCardsPosY = extraHandCardStartPos.y;
+    },
+
+    //清除吃碰杠牌
+    clearExtraCards () {
+        for (var i = this.m_extraCardsList.length - 1; i >= 0; i--) {
+            var extraCardsNode = this.m_extraCardsList[i];
+            extraCardsNode.removeFromParent(true);
+        }
+
+        this.m_extraCardsList = [];
     },
 });

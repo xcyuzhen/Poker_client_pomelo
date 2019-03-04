@@ -16,9 +16,10 @@ cc.Class({
     },
 
     onDestroy () {
+        Global.UserItemList = null;
+        Global.CardItemList = null;
+        Global.ResMgr = null;
         Global.Room = null;
-        Global.UserItemList = nil;
-        Global.CardItemList = nil;
     },
 
     start () {
@@ -34,6 +35,7 @@ cc.Class({
 
     initData () {
         Global.Room = this;
+        Global.ResMgr = this.getComponent("mjResMgr");
         Global.UserItemList = {};
         Global.CardItemList = {};
 
