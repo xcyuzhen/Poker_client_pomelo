@@ -19,13 +19,22 @@ cc.Class({
 
     initData () {
     	this.m_uiData = UiConfig.CardNode.CardItem;
-    	this.m_cardsList = [];
-    	this.m_extraCardsList = [];
+        this.m_extraCardsList = [];
+    	this.m_handCardsList = [];
     	this.m_outCardsList = [];
         this.m_showCardsList = [];
 
-        this.m_extraHandCardsPosX = 0;
-        this.m_extraHandCardsPosY = 0;
+        //吃碰杠牌的当前位置
+        this.m_extraCardsPosX = this.m_uiData.ExtraCardStartPos[this.m_seatID].x;
+        this.m_extraCardsPosY = this.m_uiData.ExtraCardStartPos[this.m_seatID].y;
+
+        //手牌的起始位置(该位置是根据吃碰杠牌的位置计算得到)
+        this.m_handCardsStartPosX = this.m_uiData.HandCardStartPos[this.m_seatID].x;
+        this.m_handCardsStartPosY = this.m_uiData.HandCardStartPos[this.m_seatID].y;
+
+        //手牌的当前位置
+        this.m_handCardsPosX = this.m_handCardsStartPosX;
+        this.m_handCardsPosY = this.m_handCardsStartPosY;
     },
 
     initUIView () {
@@ -47,7 +56,10 @@ cc.Class({
     	}
 
         self.clearExtraCards();
-        self.resetExtraHandCardsPos()
+        self.resetExtraCardsPos();
+
+        var extraCardsGroupDiff = self.m_uiData.ExtraCardsGroupDiff[self.m_seatID];
+
         for (var i = 0; i < extraCardsList.length; i++) {
             var extraItemInfo = extraCardsList[i];
             var opeType = extraItemInfo.opeType;
@@ -67,11 +79,19 @@ cc.Class({
             }
 
             if (!!extraItemNode) {
-                var posX = 500, posY = 200;
-                extraItemNode.setPosition(posX, posY);
-                self.addChild(extraItemNode);
+                if (i > 0) {
+                    self.m_extraCardsPosX += extraCardsGroupDiff.x;
+                    self.m_extraCardsPosY += extraCardsGroupDiff.y;
+                }
 
+                extraItemNode.setPosition(self.m_extraCardsPosX, self.m_extraCardsPosY);
+                extraItemNode.zIndex = self.getExtraGroupZIndex(i);
+                self.addChild(extraItemNode);
                 self.m_extraCardsList.push(extraItemNode);
+
+                //计算手牌的起始位置
+                self.m_handCardsStartPosX = self.m_extraCardsPosX + self.m_uiData.ExtraHandCardsDiff[self.m_seatID].x;
+                self.m_handCardsStartPosY = self.m_extraCardsPosY + self.m_uiData.ExtraHandCardsDiff[self.m_seatID].y;
             }
         }
 
@@ -81,7 +101,60 @@ cc.Class({
 
     //重新绘制手牌
     redrawHandCards (handCardsList) {
+         var self = this;
 
+        handCardsList = handCardsList || [];
+        if ((handCardsList.length == 0) && (self.m_gameData.handCardsNum > 0)) {
+            handCardsList = new Array(self.m_gameData.handCardsNum).fill((-1));
+        }
+
+        var newStr = JSON.stringify(handCardsList);
+        if (newStr == self.m_gameData.handCardsStr) {
+            return;
+        }
+
+        self.clearHandCards();
+        self.resetHandCardsPos();
+
+        var handCardsDiff = self.m_uiData.HandCardsDiff[self.m_seatID];
+        var addCardDiff = self.m_uiData.AddCardDiff[self.m_seatID];
+        var cardsNum = handCardsList.length;
+
+        Global.Tools._debug(handCardsList);
+        console.log("AAAAAAAAAAAAA cardsNum = ", cardsNum);
+
+        for (var i = 0; i < cardsNum; i++) {
+            var cardValue = handCardsList[i];
+            var cardImgName = this.getHandCardImgName(cardValue);
+
+            console.log("BBBBBBBBBBBBBBB cardImgName = ", cardImgName);
+
+            var param = {
+                imgName: cardImgName,
+                cardValue: cardValue,
+            };
+            var card = new Card();
+            card.init(param);
+            card.setAnchorPoint(0, 0);
+
+            if (i > 0) {
+                self.m_handCardsPosX += handCardsDiff.x;
+                self.m_handCardsPosY += handCardsDiff.y;
+            }
+
+            var isAddCard = (i == (cardsNum - 1) && (cardsNum % 3 == 2))
+            if (isAddCard) {
+                self.m_handCardsPosX += addCardDiff.x;
+                self.m_handCardsPosY += addCardDiff.y;
+            }
+
+            card.setPosition(self.m_handCardsPosX, self.m_handCardsPosY);
+            card.zIndex = self.getHandCardZIndex(i);
+            self.addChild(card);
+        }
+
+        self.m_gameData.handCards = handCardsList;
+        self.m_gameData.handCardsStr = newStr;
     },
 
     //重新绘制出牌
@@ -131,12 +204,76 @@ cc.Class({
 
     //绘制一组明杠牌或补杠牌
     drawOneGroupGangCards (gangCardsInfo) {
+        var cardValue = gangCardsInfo.cardValue;
+        var targetMid = gangCardsInfo.targetMid;
 
+        var gangGroupUiData = this.m_uiData.GangGroup;
+        var cardsPos = gangGroupUiData.CardsPos[this.m_seatID];
+
+        var node = new cc.Node();
+        node.setAnchorPoint(cc.v2(0, 0));
+
+        var width = 0, height = 0;
+
+        for (var i = 0; i < 4; i++) {
+            var cardImgName = this.getExtraCardImgName(cardValue);
+            var param = {
+                imgName: cardImgName,
+                cardValue: cardValue,
+            };
+            var card = new Card();
+            card.init(param);
+            card.setAnchorPoint(0, 0);
+            card.setPosition(cardsPos[i]);
+            node.addChild(card);
+
+            width = Math.max(width, card.position.x + card.width);
+            height = Math.max(height, card.position.y + card.height);
+            var size = card.getContentSize();
+        }
+
+        node.setContentSize(width, height);
+
+        return node;
     },
 
     //绘制一组暗杠牌
     drawOneGroupAnGangCards (gangCardsInfo) {
+        var cardValue = gangCardsInfo.cardValue;
+        var targetMid = gangCardsInfo.targetMid;
 
+        var gangGroupUiData = this.m_uiData.GangGroup;
+        var cardsPos = gangGroupUiData.CardsPos[this.m_seatID];
+
+        var node = new cc.Node();
+        node.setAnchorPoint(cc.v2(0, 0));
+
+        var width = 0, height = 0;
+
+        for (var i = 0; i < 4; i++) {
+            var tmpValue = cardValue;
+            if (i < 3) {
+                tmpValue = -1;
+            }
+            var cardImgName = this.getExtraCardImgName(tmpValue);
+            var param = {
+                imgName: cardImgName,
+                cardValue: cardValue,
+            };
+            var card = new Card();
+            card.init(param);
+            card.setAnchorPoint(0, 0);
+            card.setPosition(cardsPos[i]);
+            node.addChild(card);
+
+            width = Math.max(width, card.position.x + card.width);
+            height = Math.max(height, card.position.y + card.height);
+            var size = card.getContentSize();
+        }
+
+        node.setContentSize(width, height);
+
+        return node;
     },
 
     //获取吃碰杠牌的名字
@@ -153,9 +290,9 @@ cc.Class({
     getHandCardImgName (cardValue) {
     	var cardPathStr = UiConfig.CardResConfig.HandCardRes[this.m_seatID]
     	if (cardValue == -1) {
-    		return String.format.call(cardPathStr, "back")
+    		return cardPathStr.format("back")
     	} else {
-    		return String.format.call(cardPathStr, cardValue)
+    		return cardPathStr.format(cardValue)
     	}
     },
 
@@ -163,9 +300,9 @@ cc.Class({
     getOutCardImgName (cardValue) {
     	var cardPathStr = UiConfig.CardResConfig.OutCardRes[this.m_seatID]
     	if (cardValue == -1) {
-    		return String.format.call(cardPathStr, "back")
+    		return cardPathStr.format("back")
     	} else {
-    		return String.format.call(cardPathStr, cardValue)
+    		return cardPathStr.format(cardValue)
     	}
     },
 
@@ -173,17 +310,67 @@ cc.Class({
     getShowCardImgName (cardValue) {
     	var cardPathStr = UiConfig.CardResConfig.ShowCardRes[this.m_seatID]
     	if (cardValue == -1) {
-    		return String.format.call(cardPathStr, "back")
+    		return cardPathStr.format("back")
     	} else {
-    		return String.format.call(cardPathStr, cardValue)
+    		return cardPathStr.format(cardValue)
     	}
     },
 
-    //还原吃碰杠和手牌的位置数据
-    resetExtraHandCardsPos () {
-        var extraHandCardStartPos = this.m_uiData.ExtraHandCardStartPos[this.m_seatID];
-        this.m_extraHandCardsPosX = extraHandCardStartPos.x;
-        this.m_extraHandCardsPosY = extraHandCardStartPos.y;
+    //获取一组吃碰杠牌的ZIndex
+    getExtraGroupZIndex (index) {
+        switch (this.m_seatID) {
+            case 1:
+                return index;
+                break;
+            case 2:
+                return this.m_uiData.MaxZIndex - index;
+                break;
+            case 3:
+            
+                break;
+            case 4:
+            
+                break;
+            default:
+                return 0;
+        }
+    },
+
+    //获取手牌的ZIndex
+    getHandCardZIndex (index) {
+        switch (this.m_seatID) {
+            case 1:
+                return index + this.m_uiData.MidZIndex;
+                break;
+            case 2:
+                return this.m_uiData.MaxZIndex - this.m_uiData.MidZIndex - index;
+                break;
+            case 3:
+            
+                break;
+            case 4:
+            
+                break;
+            default: 
+                return 0;
+        }
+    },
+
+    //还原吃碰杠牌的位置数据
+    resetExtraCardsPos () {
+        var extraHandCardStartPos = this.m_uiData.ExtraCardStartPos[this.m_seatID];
+        this.m_extraCardsPosX = extraHandCardStartPos.x;
+        this.m_extraCardsPosY = extraHandCardStartPos.y;
+
+        var handCardStartPos = this.m_uiData.HandCardStartPos[this.m_seatID];
+        this.m_handCardsStartPosX = handCardStartPos.x;
+        this.m_handCardsStartPosY = handCardStartPos.y;
+    },
+
+    //还原手牌的位置
+    resetHandCardsPos () {
+        this.m_handCardsPosX = this.m_handCardsStartPosX;
+        this.m_handCardsPosY = this.m_handCardsStartPosY;
     },
 
     //清除吃碰杠牌
@@ -194,5 +381,15 @@ cc.Class({
         }
 
         this.m_extraCardsList = [];
+    },
+
+    //清除手牌
+    clearHandCards () {
+        for (var i = this.m_handCardsList.length - 1; i >= 0; i--) {
+            var extraCardsNode = this.m_handCardsList[i];
+            extraCardsNode.removeFromParent(true);
+        }
+
+        this.m_handCardsLists = [];
     },
 });

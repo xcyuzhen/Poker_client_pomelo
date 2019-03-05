@@ -14,10 +14,22 @@ Debug.doTest = function () {
     		// 	cardValue: 1,
     		// 	targetMid: 10001,
     		// },
+    		// {
+    		// 	opeType: 3,
+    		// 	cardValue: 2,
+    		// 	targetMid: 10001,
+    		// },
     	];
         Global.CardItemList[1].redrawExtraCards(extraCardsList);
+        Global.CardItemList[2].redrawExtraCards(extraCardsList);
 
-        Debug.step = 2;
+        var handCardsList1 = [1,2,3,4,5,6,7,8,9,10,11];
+        Global.CardItemList[1].redrawHandCards(handCardsList1);
+        var handCardsList2 = [];
+        Global.CardItemList[2].m_gameData.handCardsNum = 11;
+        Global.CardItemList[2].redrawHandCards(handCardsList2);
+
+        Debug.step = 1;
     } else if (Debug.step == 2) {
         Debug.step = 1;
     }

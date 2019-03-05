@@ -4,14 +4,28 @@ cc.Class({
     	this.gold = parseInt(data.gold);
     	this.diamond = parseInt(data.diamond);
     	this.localSeatID = data.localSeatID || 0;
-    	this.handCards = data.handCards || [];
-    	this.outCards = data.outCards || [];
     	this.extraCards = data.extraCards || [];
+        this.handCards = data.handCards || [];
+        this.outCards = data.outCards || [];
     	this.handCardsNum = data.handCardsNum || 0;
     	this.tingList = data.tingList || [];
 
-    	this.handCardsStr = JSON.stringify(this.handCards);
-    	this.outCardsStr = JSON.stringify(this.outCards);
+        //如果手牌数量和手牌列表不匹配，填充-1
+        if ((this.handCards.length == 0) && (this.handCardsNum > 0)) {
+            this.handCards = new Array(this.handCardsNum).fill((-1));
+        }
+
     	this.extraCardsStr = JSON.stringify(this.extraCards);
+        this.handCardsStr = JSON.stringify(this.handCards);
+        this.outCardsStr = JSON.stringify(this.outCards);
+    },
+
+    updateGameData (data) {
+        this.mid = data.mid;
+        this.gold = parseInt(data.gold);
+        this.diamond = parseInt(data.diamond);
+        this.localSeatID = data.localSeatID || 0;
+        this.handCardsNum = data.handCardsNum || 0;
+        this.tingList = data.tingList || [];
     },
 });

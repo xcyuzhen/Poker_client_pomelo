@@ -2,6 +2,7 @@ var BaseMgr = require("./mjBaseMgr");
 var UserItem = require("./model/mjUserItem");
 var CardItem = require("./model/mjCardItem");
 var Config = require("./config/mjConfig");
+var UiConfig = require("./config/mjUiConfig");
 
 cc.Class({
     extends: BaseMgr,
@@ -72,6 +73,7 @@ cc.Class({
 
                 var cardItem = new CardItem();
                 cardItem.init(userData);
+                cardItem.zIndex = UiConfig.CardNode.ItemZIndex[localSeatID]
                 self.m_cardNode.addChild(cardItem);
                 playerItem.cardItem = cardItem;
 

@@ -29,6 +29,20 @@ cc.Class({
         self.setContentSize(rect.width, rect.height);
     },
 
+    //切换图片
+    changeSpriteFrame (frameName) {
+        if (this.m_imgName == frameName) {
+            return;
+        }
+
+        var frame = Global.ResMgr.CardAtlas.getSpriteFrame(frameName);
+        this.m_spCard.spriteFrame = frame;
+        var rect = frame.getRect();
+        this.setContentSize(rect.width, rect.height);
+
+        this.m_imgName = frameName;
+    },
+
     //牌变暗
     setDark () {
         this.color = cc.Color.GRAY;
