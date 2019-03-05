@@ -129,7 +129,7 @@ module.exports = {
 
             //手牌的起始位置
             HandCardStartPos: {
-                "1": cc.v2(150, 5),
+                "1": cc.v2(165, 5),
                 "2": cc.v2(1100, 150),
                 "3": cc.v2(0, 0),
                 "4": cc.v2(0, 0),
@@ -146,7 +146,7 @@ module.exports = {
             //吃碰杠和手牌的间距
             ExtraHandCardsDiff: {
                 "1": cc.v2(210, 0),
-                "2": cc.v2(0, 100),
+                "2": cc.v2(15, 100),
                 "3": cc.v2(0, 0),
                 "4": cc.v2(0, 0),
             },
