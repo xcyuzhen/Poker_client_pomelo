@@ -2708,7 +2708,7 @@
 			<key>sourceSize</key>
 			<string>{44,64}</string>
 		</dict>
-		<key>opposite_hand.png</key>
+		<key>opposite_hand_back.png</key>
 		<dict>
 			<key>frame</key>
 			<string>{{704,524},{44,64}}</string>

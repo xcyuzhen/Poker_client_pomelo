@@ -4584,9 +4584,9 @@
       "spriteType": "normal",
       "subMetas": {}
     },
-    "opposite_hand.png": {
+    "opposite_hand_back.png": {
       "ver": "1.0.3",
-      "uuid": "b5e4c928-b119-4b6c-9128-eadeee62632c",
+      "uuid": "21a0d4d2-8dea-47eb-aa51-d8703ab72722",
       "rawTextureUuid": "b2ea6c28-a4c2-45b2-ab14-b59b6ed08bde",
       "trimType": "auto",
       "trimThreshold": 1,

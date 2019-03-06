@@ -35,6 +35,11 @@ cc.Class({
         //手牌的当前位置
         this.m_handCardsPosX = this.m_handCardsStartPosX;
         this.m_handCardsPosY = this.m_handCardsStartPosY;
+
+        //出牌的当前位置
+        this.m_outCardsPosX = this.m_uiData.OutCardStartPos[this.m_seatID].x;
+        this.m_outCardsPosY = this.m_uiData.OutCardStartPos[this.m_seatID].y;
+
     },
 
     initUIView () {
@@ -101,7 +106,7 @@ cc.Class({
 
     //重新绘制手牌
     redrawHandCards (handCardsList) {
-         var self = this;
+        var self = this;
 
         handCardsList = handCardsList || [];
         if ((handCardsList.length == 0) && (self.m_gameData.handCardsNum > 0)) {
@@ -120,14 +125,9 @@ cc.Class({
         var addCardDiff = self.m_uiData.AddCardDiff[self.m_seatID];
         var cardsNum = handCardsList.length;
 
-        Global.Tools._debug(handCardsList);
-        console.log("AAAAAAAAAAAAA cardsNum = ", cardsNum);
-
         for (var i = 0; i < cardsNum; i++) {
             var cardValue = handCardsList[i];
             var cardImgName = this.getHandCardImgName(cardValue);
-
-            console.log("BBBBBBBBBBBBBBB cardImgName = ", cardImgName);
 
             var param = {
                 imgName: cardImgName,
@@ -159,7 +159,50 @@ cc.Class({
 
     //重新绘制出牌
     redrawOutCards (outCardsList) {
+        var self = this;
 
+        outCardsList = outCardsList || [];
+        var newStr = JSON.stringify(outCardsList);
+        if (newStr == self.m_gameData.outCardsStr) {
+            return;
+        }
+
+        self.clearOutCards();
+        self.resetOutCardsPos();
+
+        var outCardsDiff = self.m_uiData.OutCardsDiff[self.m_seatID];
+        var cardsNum = handCardsList.length;
+
+        for (var i = 0; i < cardsNum; i++) {
+            var cardValue = handCardsList[i];
+            var cardImgName = this.getHandCardImgName(cardValue);
+
+            var param = {
+                imgName: cardImgName,
+                cardValue: cardValue,
+            };
+            var card = new Card();
+            card.init(param);
+            card.setAnchorPoint(0, 0);
+
+            if (i > 0) {
+                self.m_handCardsPosX += handCardsDiff.x;
+                self.m_handCardsPosY += handCardsDiff.y;
+            }
+
+            var isAddCard = (i == (cardsNum - 1) && (cardsNum % 3 == 2))
+            if (isAddCard) {
+                self.m_handCardsPosX += addCardDiff.x;
+                self.m_handCardsPosY += addCardDiff.y;
+            }
+
+            card.setPosition(self.m_handCardsPosX, self.m_handCardsPosY);
+            card.zIndex = self.getHandCardZIndex(i);
+            self.addChild(card);
+        }
+
+        self.m_gameData.handCards = handCardsList;
+        self.m_gameData.handCardsStr = newStr;
     },
 
     //重新绘制名牌
@@ -326,10 +369,10 @@ cc.Class({
                 return this.m_uiData.MaxZIndex - index;
                 break;
             case 3:
-            
+                return index;
                 break;
             case 4:
-            
+                return index;
                 break;
             default:
                 return 0;
@@ -346,10 +389,10 @@ cc.Class({
                 return this.m_uiData.MaxZIndex - this.m_uiData.MidZIndex - index;
                 break;
             case 3:
-            
+                return index + this.m_uiData.MidZIndex;
                 break;
             case 4:
-            
+                return index + this.m_uiData.MidZIndex;
                 break;
             default: 
                 return 0;
@@ -373,6 +416,13 @@ cc.Class({
         this.m_handCardsPosY = this.m_handCardsStartPosY;
     },
 
+    //还原出牌的位置
+    resetOutCardsPos () {
+        var outCardStartPos = this.m_uiData.OutCardStartPos[this.m_seatID];
+        this.m_outCardsPosX = outCardStartPos.x;
+        this.m_outCardsPosY = outCardStartPos.y;
+    },
+
     //清除吃碰杠牌
     clearExtraCards () {
         for (var i = this.m_extraCardsList.length - 1; i >= 0; i--) {
@@ -386,10 +436,20 @@ cc.Class({
     //清除手牌
     clearHandCards () {
         for (var i = this.m_handCardsList.length - 1; i >= 0; i--) {
-            var extraCardsNode = this.m_handCardsList[i];
-            extraCardsNode.removeFromParent(true);
+            var handCard = this.m_handCardsList[i];
+            handCard.removeFromParent(true);
         }
 
-        this.m_handCardsLists = [];
+        this.m_handCardsList = [];
+    },
+
+    //清除出牌
+    clearOutCards () {
+        for (var i = this.m_outCardsList.length - 1; i >= 0; i--) {
+            var outCard = this.m_outCardsList[i];
+            outCard.removeFromParent(true);
+        }
+
+        this.m_outCardsList = [];
     },
 });
