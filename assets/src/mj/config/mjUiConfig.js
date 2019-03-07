@@ -5,6 +5,17 @@ module.exports = {
     	CardNode: 2,
     },
 
+    RoomInfoNode: {
+        Turnplate: {
+            RotateAngle: {
+                "1": 0,
+                "2": 270,
+                "3": 180,
+                "4": 90,
+            },
+        },
+    },
+
     PlayerNode: {
     	UserItem: {
             Container: {
@@ -116,44 +127,36 @@ module.exports = {
             CardUpDiff: 20,
         },
     	CardItem: {
-            MaxZIndex: 18,
-            MidZIndex: 4,
+            HandExtraMaxZIndex: 18,
+            HandExtraMidZIndex: 4,
 
             //吃碰杠牌的起始位置
-            ExtraCardStartPos: {
+            ExtraCardsStartPos: {
                 "1": cc.v2(150, 0),
                 "2": cc.v2(1100, 150),
                 "3": cc.v2(850, 630),
-                "4": cc.v2(136, 550),
-            },
-
-            //手牌的起始位置
-            HandCardStartPos: {
-                "1": cc.v2(165, 0),
-                "2": cc.v2(1100, 200),
-                "3": cc.v2(850, 630),
-                "4": cc.v2(136, 550),
-            },
-
-            //出牌的起始位置
-            OutCardStartPos: {
-                "1": cc.v2(165, 0),
-                "2": cc.v2(1100, 200),
-                "3": cc.v2(900, 630),
-                "4": cc.v2(136, 550),
+                "4": cc.v2(136, 520),
             },
 
             //两组吃碰杠牌之间的间距(注: 第一组末尾和第二组开始之间的间距)
             ExtraCardsGroupDiff: {
-                "1": cc.v2(210, 0),
+                "1": cc.v2(215, 0),
                 "2": cc.v2(0, 90),
                 "3": cc.v2(-138, 0),
                 "4": cc.v2(0, -90),
             },
 
+            //手牌的起始位置
+            HandCardsStartPos: {
+                "1": cc.v2(165, 0),
+                "2": cc.v2(1100, 200),
+                "3": cc.v2(850, 630),
+                "4": cc.v2(136, 520),
+            },
+
             //吃碰杠和手牌的间距
             ExtraHandCardsDiff: {
-                "1": cc.v2(210, 0),
+                "1": cc.v2(215, 0),
                 "2": cc.v2(15, 90),
                 "3": cc.v2(-54, 0),
                 "4": cc.v2(0, -60),
@@ -167,20 +170,40 @@ module.exports = {
                 "4": cc.v2(0, -21),
             },
 
-            //出牌间距
-            OutCardsDiff: {
-                "1": cc.v2(68, 0),
-                "2": cc.v2(0, 21),
-                "3": cc.v2(-43, 0),
-                "4": cc.v2(0, -21),
-            },
-
             //摸牌的间距
             AddCardDiff: {
                 "1": cc.v2(10, 0),
                 "2": cc.v2(0, 45),
                 "3": cc.v2(-10, 0),
                 "4": cc.v2(0, -45),
+            },
+
+            //一排出牌的张数
+            OutCardsNumPerRow: 10,
+            OutCardsMaxZIndex: 30,
+
+            //出牌的起始位置
+            OutCardsStartPos: {
+                "1": cc.v2(454, 150),
+                "2": cc.v2(1030, 227),
+                "3": cc.v2(787, 550),
+                "4": cc.v2(206, 452),
+            },
+
+            //同一排出牌间距
+            OutCardsSameRowDiff: {
+                "1": cc.v2(37, 0),
+                "2": cc.v2(0, 25),
+                "3": cc.v2(-37, 0),
+                "4": cc.v2(0, -25),
+            },
+
+            //同一列出牌间距
+            OutCardsSameColumnDiff: {
+                "1": cc.v2(0, 40),
+                "2": cc.v2(-42, 0),
+                "3": cc.v2(0, -40),
+                "4": cc.v2(42, 0),
             },
 
             //一组碰牌

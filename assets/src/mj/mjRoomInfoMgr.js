@@ -1,4 +1,5 @@
 var BaseMgr = require("./mjBaseMgr");
+var UiConfig = require("./config/mjUiConfig");
 
 cc.Class({
     extends: BaseMgr,
@@ -6,6 +7,9 @@ cc.Class({
     properties: {
         m_lbGroupName: cc.Label,
         m_lbLeftTime: cc.Label,
+        m_lbLeftCardsNum: cc.Label,
+        m_turnplate: cc.Node,
+        m_turnplate1: cc.Node,
     },
 
     onDestroy () {
@@ -13,6 +17,8 @@ cc.Class({
     },
 
     initData () {
+        this.m_uiData = UiConfig.RoomInfoNode;
+
     	for (var index in Global.GameList) {
             var config = Global.GameList[index];
             if (config.id === Global.GameID.GT_MJ) {
@@ -65,6 +71,11 @@ cc.Class({
     gameStart (res) {
         this.stopTimer(true);
     },
+
+    roundInfo (res) {
+        this.updateRoundLeftCardsNum(res);
+        this.udpateRoundTurnplate(res);
+    },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
     ////////////////////////////////////功能函数begin////////////////////////////////////
@@ -104,6 +115,32 @@ cc.Class({
 
         if (reset) {
             self.m_lbLeftTime.string = Global.Tools.getFormatNumber(0, 2);
+        }
+    },
+
+    //刷新剩余牌张数
+    updateRoundLeftCardsNum (res) {
+        var leftCardsNum = parseInt(res.leftCardsNum);
+        if (leftCardsNum <= 0) {
+            this.m_lbLeftCardsNum.string = "";
+        } else {
+            var str = "剩余{0}张";
+            this.m_lbLeftCardsNum.string = str.format(leftCardsNum);
+        }
+    },
+
+    //刷新转盘
+    udpateRoundTurnplate (res) {
+        var curOpeLocalSeatID = Global.Room.m_playerMgr.getLocalSeatByMid(res.curOpeMid);
+        var rotateAngle = this.m_uiData.Turnplate.RotateAngle[curOpeLocalSeatID];
+        if (rotateAngle) {
+            this.m_turnplate.rotation = rotateAngle;
+
+            this.m_turnplate.active = true;
+            this.m_turnplate1.active = false;
+        } else {
+            this.m_turnplate.active = false;
+            this.m_turnplate1.active = true;
         }
     },
     ////////////////////////////////////功能函数end////////////////////////////////////

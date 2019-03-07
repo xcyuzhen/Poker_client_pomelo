@@ -35,6 +35,12 @@ Debug.doTest = function () {
         Global.CardItemList[4].m_gameData.handCardsNum = 11;
         Global.CardItemList[4].redrawHandCards(handCardsList2);
 
+        var outCardsList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+        Global.CardItemList[1].redrawOutCards(outCardsList);
+        Global.CardItemList[2].redrawOutCards(outCardsList);
+        Global.CardItemList[3].redrawOutCards(outCardsList);
+        Global.CardItemList[4].redrawOutCards(outCardsList);
+
         Debug.step = 1;
     } else if (Debug.step == 2) {
         Debug.step = 1;
