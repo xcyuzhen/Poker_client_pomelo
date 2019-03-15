@@ -13,6 +13,8 @@ cc.Class({
     },
 
     initData () {
+    	this.m_curOpeMid = 0; 										//当前操作人
+    	this.m_curOutCardMid = 0; 									//当前轮到的出牌人
     },
 
     initUIView () {
@@ -22,8 +24,8 @@ cc.Class({
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
     roundInfo (res) {
-        var curOpeMid = res.curOpeMid;
-        var curOpeList = res.curOpeList;
+        this.m_curOpeMid = res.curOpeMid;
+        this.m_curOutCardMid = res.curOutCardMid;
 
         //当前操作人不是自己，隐藏操作面板
         if (!Global.Tools.isSelf(curOpeMid)) {
@@ -31,9 +33,17 @@ cc.Class({
             return
         }
 
+        var curOpeList = res.curOpeList;
         var hasPengOpe = false;
         var hasGangOpe = false;
         var hasHuOpe = false;
+
+        var opeNum = curOpeList.length;
+        for (var i = 0; i < opeNum - 1; i++) {
+        	var opeObj = curOpeList[i];
+        	var opeType = opeObj.opeType;
+        	var opeData = opeObj.opeData;
+        }
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 });

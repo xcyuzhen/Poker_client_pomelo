@@ -33,6 +33,20 @@ Tools._debug = function (obj) {
     console.log(print_r(obj));
 };
 
+Tools.clone = function(origin) {
+    var result = Array.isArray(origin) ? [] : {};
+    for (var key in origin) {
+        if (origin.hasOwnProperty(key)) {
+            if (typeof origin[key] === 'object') {
+                result[key] = utils.clone(origin[key]);
+            } else {
+                result[key] = origin[key];
+            }
+        }
+    }
+    return result;
+};
+
 Tools.getUdid = function () {
     return "yuzhenudidguest2";
 };
