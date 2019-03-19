@@ -12,11 +12,11 @@ Debug.doTest = function () {
                     opeData: 0,
                 },
                 {
-                    opeType: 2,
+                    opeType: 3,
                     opeData: 1,
                 },
                 {
-                    opeType: 2,
+                    opeType: 4,
                     opeData: 2,
                 },
             ],
