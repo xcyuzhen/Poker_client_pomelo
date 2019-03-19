@@ -51,6 +51,15 @@ Tools.getUdid = function () {
     return "yuzhenudidguest2";
 };
 
+//判断是否是自己
+Tools.isSelf = function (mid) {
+    if (!mid) {
+        return false;
+    }
+
+    return Global.SelfUserData.mid == mid;
+}
+
 //检测mid是否合法
 Tools.midCheck = function (mid) {
     mid = Number(mid);

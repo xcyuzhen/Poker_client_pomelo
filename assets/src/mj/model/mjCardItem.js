@@ -309,7 +309,7 @@ cc.Class({
 
     //获取吃碰杠牌的名字
     getExtraCardImgName (cardValue) {
-    	var cardPathStr = UiConfig.CardResConfig.ExtraCardRes[this.m_seatID]
+    	var cardPathStr = UiConfig.CardResConfig.ExtraCardRes[this.m_seatID];
     	if (cardValue == -1) {
     		return cardPathStr.format("back")
     	} else {
@@ -319,7 +319,7 @@ cc.Class({
 
     //获取手牌图片名字
     getHandCardImgName (cardValue) {
-    	var cardPathStr = UiConfig.CardResConfig.HandCardRes[this.m_seatID]
+    	var cardPathStr = UiConfig.CardResConfig.HandCardRes[this.m_seatID];
     	if (cardValue == -1) {
     		return cardPathStr.format("back")
     	} else {
@@ -329,7 +329,7 @@ cc.Class({
 
     //获取出牌的名字
     getOutCardImgName (cardValue) {
-    	var cardPathStr = UiConfig.CardResConfig.OutCardRes[this.m_seatID]
+    	var cardPathStr = UiConfig.CardResConfig.OutCardRes[this.m_seatID];
     	if (cardValue == -1) {
     		return cardPathStr.format("back")
     	} else {
@@ -339,7 +339,7 @@ cc.Class({
 
     //获取明牌的名字
     getShowCardImgName (cardValue) {
-    	var cardPathStr = UiConfig.CardResConfig.ShowCardRes[this.m_seatID]
+    	var cardPathStr = UiConfig.CardResConfig.ShowCardRes[this.m_seatID];
     	if (cardValue == -1) {
     		return cardPathStr.format("back")
     	} else {
