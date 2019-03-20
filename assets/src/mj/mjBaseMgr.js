@@ -12,6 +12,9 @@ cc.Class({
     initUIView () {
     },
 
+    touchEvent (event) {
+    },
+
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
     commonMsgHandler (funcName, res) {
         if (this[funcName]) {

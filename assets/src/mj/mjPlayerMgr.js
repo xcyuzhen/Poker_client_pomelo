@@ -22,6 +22,13 @@ cc.Class({
     initUIView () {
     },
 
+    touchEvent (event) {
+        var selfPlayerItem = this.m_seatPlayerList[1];
+        if (selfPlayerItem) {
+            return selfPlayerItem.cardItem.touchEvent(event);
+        }
+    },
+
     //更新玩家
     updatePlayerList (userList) {
         var self = this;

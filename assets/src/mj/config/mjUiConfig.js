@@ -125,10 +125,12 @@ module.exports = {
         },
         Card: {
             CardUpDiff: 20,
+            CardOutDiff: 106,
         },
     	CardItem: {
             HandExtraMaxZIndex: 18,
             HandExtraMidZIndex: 4,
+            DargCardZIndex: 40,
 
             //吃碰杠牌的起始位置
             ExtraCardsStartPos: {

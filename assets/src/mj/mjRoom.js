@@ -16,6 +16,7 @@ cc.Class({
     },
 
     onDestroy () {
+        this.node.targetOff(this);
         Global.UserItemList = null;
         Global.CardItemList = null;
         Global.ResMgr = null;
@@ -23,6 +24,19 @@ cc.Class({
     },
 
     start () {
+        var self = this;
+
+        self.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+            self.touchEvent(event);
+        }, self);
+
+        self.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
+            self.touchEvent(event);
+        }, self);
+
+        self.node.on(cc.Node.EventType.TOUCH_END, function (event) {
+            self.touchEvent(event);
+        }, self);
     },
 
     update (dt) {
@@ -48,6 +62,10 @@ cc.Class({
         this.m_msgMgr.init();
 
         this.roomState = Global.RoomState.UN_INITED;
+    },
+
+    touchEvent (event) {
+        this.m_playerMgr.touchEvent(event);
     },
 
     socketMsgGet (data) {

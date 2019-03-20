@@ -16,7 +16,7 @@ cc.Class({
 
         this.m_originX = 0;
         this.m_originY = 0;
-        this.m_isUp = false;
+        this.m_originZIndex = 0;
     },
 
     initUIView () {
@@ -27,6 +27,10 @@ cc.Class({
         self.m_spCard.spriteFrame = frame;
         var rect = frame.getRect();
         self.setContentSize(rect.width, rect.height);
+    },
+
+    getCardValue () {
+        return this.m_cardValue;
     },
 
     //切换图片
@@ -53,11 +57,6 @@ cc.Class({
         this.color = cc.Color.WHITE;
     },
 
-    //获取原始位置
-    getOriginPos() {
-        return cc.v2(this.m_originX, this.m_originY);
-    },
-
     //设置原始位置
     setOriginPos (x, y) {
         this.m_originX = x;
@@ -66,17 +65,46 @@ cc.Class({
         return this;
     },
 
+    //获取原始位置
+    getOriginPos() {
+        return cc.v2(this.m_originX, this.m_originY);
+    },
+
+    //设置原始zIndex
+    setOriginZIndex (zIndex) {
+        this.m_originZIndex = zIndex;
+    },
+
+    //获取原始zIndex
+    getOriginZIndex () {
+        return this.m_originZIndex;
+    },
+
+    //是否包含世界坐标
+    containsWorldPoint(point) {
+        var rect = this.getBoundingBoxToWorld();
+        return rect.contains(point);
+    },
+
+    //是否包含世界坐标(缩小自己的rect)
+    containsWorldPointSmall(point) {
+        var rect = this.getBoundingBoxToWorld();
+        var newRect = cc.rect(rect.x + rect.width/5, rect.y + rect.height/5, rect.width*3/5, rect.height*3/5);
+        return newRect.contains(point);
+    },
+
     //牌起立
     setUp () {
-        if (this.m_isUp) {
-            return;
-        }
-        this.m_isUp = true;
         this.setPosition(this.m_originX, this.m_originY + this.m_uiData.CardUpDiff);
     },
 
     //牌放倒
     setDown () {
         this.setPosition(this.m_originX, this.m_originY);
+    },
+
+    //获取牌起立时的posy
+    getUpPosY () {
+        return this.m_originY + this.m_uiData.CardUpDiff;
     },
 });

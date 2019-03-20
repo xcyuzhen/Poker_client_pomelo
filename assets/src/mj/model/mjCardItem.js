@@ -35,10 +35,124 @@ cc.Class({
         //出牌的起始位置
         this.m_outCardsStartPosX = this.m_uiData.OutCardsStartPos[this.m_seatID].x;
         this.m_outCardsStartPosY = this.m_uiData.OutCardsStartPos[this.m_seatID].y;
+
+        //触摸事件相关
+        this.m_touchEventData = {};
     },
 
     initUIView () {
 
+    },
+
+    //点击事件处理
+    touchEvent (event) {
+        var self = this;
+
+        var eventType = event.getType();
+        var target = event.target;
+        var location = event.getLocation();
+        var worldLocation = target.convertToWorldSpace(location);
+
+        //是否轮到自己出牌
+        // var isSelfOutCard = Global.Room.m_opeMgr.isSelfOutCard();
+        var isSelfOutCard = true;
+
+        if (eventType == cc.Node.EventType.TOUCH_START) {
+            if (!isSelfOutCard) {
+                for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
+                    var card = self.m_handCardsList[i];
+                    if (card.containsWorldPoint(worldLocation)) {
+                        card.setUp();
+                        self.m_touchEventData.upCard = card;
+                    } else {
+                        card.setDown();
+                    }
+                }
+            } else {
+                for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
+                    var card = self.m_handCardsList[i];
+                    if (card.containsWorldPoint(worldLocation)) {
+                        self.m_touchEventData.dragCard = card;
+                        self.m_touchEventData.touchStartPosX = worldLocation.x;
+                        self.m_touchEventData.touchStartPosY = worldLocation.y;
+                        self.m_touchEventData.cardStartPosX = card.x;
+                        self.m_touchEventData.cardStartPosY = card.y;
+                        card.zIndex = self.m_uiData.DargCardZIndex;
+
+                    } else {
+                        card.setDown();
+                    }
+                }
+            }
+        } else if (eventType == cc.Node.EventType.TOUCH_MOVE) {
+            if (!isSelfOutCard) {
+                var newUpCard;
+                for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
+                    var card = self.m_handCardsList[i];
+                    if (card.containsWorldPoint(worldLocation) && (card != self.m_touchEventData.upCard)) {
+                        newUpCard = card;
+                        break;
+                    }
+                }
+
+                if (newUpCard) {
+                    for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
+                        var card = self.m_handCardsList[i];
+                        if (card == newUpCard) {
+                            card.setUp();
+                        } else {
+                            card.setDown();
+                        }
+                    }
+                    self.m_touchEventData.upCard = newUpCard;
+                }
+            } else {
+                //当前拖拽的有牌，设置牌的位置
+                if (self.m_touchEventData.dragCard) {
+                    self.m_touchEventData.dragCard.x = self.m_touchEventData.cardStartPosX + (worldLocation.x - self.m_touchEventData.touchStartPosX);
+                    self.m_touchEventData.dragCard.y = self.m_touchEventData.cardStartPosY + (worldLocation.y - self.m_touchEventData.touchStartPosY);
+                }
+
+                //检测是否换了新的拖拽的牌
+                var newDragCard;
+                for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
+                    var card = self.m_handCardsList[i];
+                    if (card.containsWorldPointSmall(worldLocation) && (card != self.m_touchEventData.dragCard)) {
+                        newDragCard = card;
+                        break;
+                    }
+                }
+
+                //有新的拖拽的牌
+                if (newDragCard) {
+                    //还原旧的拖拽的牌
+                    if (self.m_touchEventData.dragCard) {
+                        self.m_touchEventData.dragCard.setPosition(self.m_touchEventData.dragCard.getOriginPos());
+                        self.m_touchEventData.dragCard.zIndex = self.m_touchEventData.dragCard.getOriginZIndex();
+                    }
+
+                    self.m_touchEventData.dragCard = newDragCard;
+                    self.m_touchEventData.touchStartPosX = worldLocation.x;
+                    self.m_touchEventData.touchStartPosY = worldLocation.y;
+                    self.m_touchEventData.cardStartPosX = self.m_touchEventData.dragCard.x;
+                    self.m_touchEventData.cardStartPosY = self.m_touchEventData.dragCard.y;
+                    self.m_touchEventData.dragCard.zIndex = self.m_uiData.DargCardZIndex;
+                }
+            }
+        } else if (eventType == cc.Node.EventType.TOUCH_END) {
+            if (isSelfOutCard && self.m_touchEventData.dragCard) {
+                //判断拖拽牌的y坐标是否达到出牌的标准
+                var originPos = self.m_touchEventData.dragCard.getOriginPos();
+                if (self.m_touchEventData.dragCard.y > originPos.y + UiConfig.CardNode.Card.CardOutDiff) {
+                    Global.Room.m_opeMgr.requestOutCard(self.m_touchEventData.dragCard.getCardValue());
+                } else {
+                    self.m_touchEventData.dragCard.setUp();
+                    self.m_touchEventData.dragCard.zIndex = self.m_touchEventData.dragCard.getOriginZIndex();
+                }
+            }
+
+            self.m_touchEventData = {};
+        }
     },
 
     updateGameData (gameData) {
@@ -139,8 +253,12 @@ cc.Class({
             }
 
             card.setPosition(posX, posY);
+            card.setOriginPos(posX, posY);
             card.zIndex = self.getHandCardZIndex(i);
+            card.setOriginZIndex(card.zIndex);
             self.addChild(card);
+
+            self.m_handCardsList.push(card);
         }
 
         self.m_gameData.handCards = handCardsList;
@@ -182,11 +300,11 @@ cc.Class({
             var posX = self.m_outCardsStartPosX + rowIndex * outCardsSameColumnDiff.x + columnIndex * outCardsSameRowDiff.x;
             var posY = self.m_outCardsStartPosY + rowIndex * outCardsSameColumnDiff.y + columnIndex * outCardsSameRowDiff.y;
 
-            console.log(i, rowIndex, columnIndex, posX, posY);
-
             card.setPosition(posX, posY);
             card.zIndex = self.getOutCardZIndex(rowIndex, columnIndex);
             self.addChild(card);
+
+            self.m_outCardsList.push(card);
         }
 
         self.m_gameData.outCards = outCardsList;

@@ -90,7 +90,28 @@ cc.Class({
         self.m_btnPeng.node.active = hasPengOpe;
         self.m_btnGang.node.active = hasGangOpe;
 
-        //杠牌列表
+        //添加过按钮点击事件
+        if (opeNum > 0) {
+            var handler = Global.Tools.createClickEventHandler(self.node, "mjOpeMgr", "opeBtnClickEvent", {opeType: Config.OPE_TYPE.GUO, opeData: -1});
+            self.m_btnGuo.clickEvents = [];
+            self.m_btnGuo.clickEvents.push(handler);
+        }
+
+        //添加胡牌按钮点击事件
+        if (hasHuOpe) {
+            var handler = Global.Tools.createClickEventHandler(self.node, "mjOpeMgr", "opeBtnClickEvent", {opeType: Config.OPE_TYPE.HU, opeData: huData});
+            self.m_btnHu.clickEvents = [];
+            self.m_btnHu.clickEvents.push(handler);
+        }
+
+        //添加碰牌按钮点击事件
+        if (hasPengOpe) {
+            var handler = Global.Tools.createClickEventHandler(self.node, "mjOpeMgr", "opeBtnClickEvent", {opeType: Config.OPE_TYPE.PENG, opeData: huData});
+            self.m_btnPeng.clickEvents = [];
+            self.m_btnPeng.clickEvents.push(handler);
+        }
+
+        //杠牌列表和杠牌按钮点击事件
         if (gangOpeList.length > 1) {
             self.m_btnGang.interactable = false;
 
@@ -141,12 +162,25 @@ cc.Class({
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
+    ////////////////////////////////////对外接口begin////////////////////////////////////
+    //是否轮到自己出牌
+    isSelfOutCard () {
+        return Global.Tools.isSelf(this.m_curOutCardMid);
+    },
+    ////////////////////////////////////对外接口end////////////////////////////////////
+
+    ////////////////////////////////////功能函数begin////////////////////////////////////
     //操作按钮点击事件
     opeBtnClickEvent (sender, opeObj) {
         var opeType = opeObj.opeType;
         var opeData = opeObj.opeData;
 
         console.log("OOOOOOOOOOOOOOOOOOO 请求操作 ", opeType, opeData);
+    },
+
+    //请求出牌
+    requestOutCard (cardValue) {
+        console.log("OOOOOOOOOOOOOOOOOOO 请求出牌 ", cardValue);
     },
 
     //获取杠牌和碰牌的资源
@@ -158,4 +192,5 @@ cc.Class({
             return cardPathStr.format(cardValue)
         }
     },
+    ////////////////////////////////////功能函数end////////////////////////////////////
 });
