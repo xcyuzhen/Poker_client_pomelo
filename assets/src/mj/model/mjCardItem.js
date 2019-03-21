@@ -58,6 +58,8 @@ cc.Class({
         var isSelfOutCard = true;
 
         if (eventType == cc.Node.EventType.TOUCH_START) {
+            self.m_touchEventData.touchBegin = true;
+
             if (!isSelfOutCard) {
                 for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
                     var card = self.m_handCardsList[i];
@@ -72,19 +74,28 @@ cc.Class({
                 for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
                     var card = self.m_handCardsList[i];
                     if (card.containsWorldPoint(worldLocation)) {
-                        self.m_touchEventData.dragCard = card;
-                        self.m_touchEventData.touchStartPosX = worldLocation.x;
-                        self.m_touchEventData.touchStartPosY = worldLocation.y;
-                        self.m_touchEventData.cardStartPosX = card.x;
-                        self.m_touchEventData.cardStartPosY = card.y;
-                        card.zIndex = self.m_uiData.DargCardZIndex;
-
+                        if (card.isUp()) {
+                            //点击的牌是已经起立的牌，出牌
+                            self.m_touchEventData.touchBegin = false;
+                            Global.Room.m_opeMgr.requestOutCard(card.getCardValue());
+                        } else {
+                            self.m_touchEventData.dragCard = card;
+                            self.m_touchEventData.touchStartPosX = worldLocation.x;
+                            self.m_touchEventData.touchStartPosY = worldLocation.y;
+                            self.m_touchEventData.cardStartPosX = card.x;
+                            self.m_touchEventData.cardStartPosY = card.y;
+                            card.zIndex = self.m_uiData.DargCardZIndex;
+                        }
                     } else {
                         card.setDown();
                     }
                 }
             }
         } else if (eventType == cc.Node.EventType.TOUCH_MOVE) {
+            if (!self.m_touchEventData.touchBegin) {
+                return;
+            }
+
             if (!isSelfOutCard) {
                 var newUpCard;
                 for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
@@ -127,7 +138,7 @@ cc.Class({
                 if (newDragCard) {
                     //还原旧的拖拽的牌
                     if (self.m_touchEventData.dragCard) {
-                        self.m_touchEventData.dragCard.setPosition(self.m_touchEventData.dragCard.getOriginPos());
+                        self.m_touchEventData.dragCard.setDown();
                         self.m_touchEventData.dragCard.zIndex = self.m_touchEventData.dragCard.getOriginZIndex();
                     }
 
@@ -140,6 +151,11 @@ cc.Class({
                 }
             }
         } else if (eventType == cc.Node.EventType.TOUCH_END) {
+            if (!self.m_touchEventData.touchBegin) {
+                self.m_touchEventData = {};
+                return;
+            }
+
             if (isSelfOutCard && self.m_touchEventData.dragCard) {
                 //判断拖拽牌的y坐标是否达到出牌的标准
                 var originPos = self.m_touchEventData.dragCard.getOriginPos();

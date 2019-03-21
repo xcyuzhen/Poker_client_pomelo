@@ -17,6 +17,8 @@ cc.Class({
         this.m_originX = 0;
         this.m_originY = 0;
         this.m_originZIndex = 0;
+
+        this.m_isUp = false;
     },
 
     initUIView () {
@@ -93,14 +95,21 @@ cc.Class({
         return newRect.contains(point);
     },
 
+    //牌是否是起立状态
+    isUp () {
+        return this.m_isUp();
+    },
+
     //牌起立
     setUp () {
         this.setPosition(this.m_originX, this.m_originY + this.m_uiData.CardUpDiff);
+        this.m_isUp = true;
     },
 
     //牌放倒
     setDown () {
         this.setPosition(this.m_originX, this.m_originY);
+        this.m_isUp = false;
     },
 
     //获取牌起立时的posy
