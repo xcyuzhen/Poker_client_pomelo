@@ -39,7 +39,7 @@ Tools.clone = function(origin) {
     for (var key in origin) {
         if (origin.hasOwnProperty(key)) {
             if (typeof origin[key] === 'object') {
-                result[key] = utils.clone(origin[key]);
+                result[key] = Tools.clone(origin[key]);
             } else {
                 result[key] = origin[key];
             }

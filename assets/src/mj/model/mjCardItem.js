@@ -192,8 +192,10 @@ cc.Class({
         }
 
         //删除手牌
+        var outIndex;
         for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
             if (card == self.m_handCardsList[i]) {
+                outIndex = i;
                 self.m_handCardsList.splice(i, 1);
                 card.removeFromParent(true);
                 self.m_gameData.delOneHandCard(i);
@@ -303,9 +305,24 @@ cc.Class({
             handCardsList = new Array(self.m_gameData.handCardsNum).fill((-1));
         }
 
-        var newStr = JSON.stringify(handCardsList);
-        if (newStr == self.m_gameData.handCardsStr) {
+        if (!self.m_gameData.checkHandCardsModify(handCardsList)) {
             return;
+        }
+
+        //将抓的牌提取出来
+        var addCard;
+        if (self.m_gameData.hasAddCard) {
+            addCard = handCardsList.splice(handCardsList.length - 1, 1);
+        }
+
+        //排序
+        handCardsList.sort(function (a, b) {
+            return a <= b;
+        });
+
+        //将抓牌添加进列表
+        if (addCard) {
+            handCardsList.push(addCard);
         }
 
         self.clearHandCards();
@@ -345,7 +362,7 @@ cc.Class({
         }
 
         self.m_gameData.handCards = handCardsList;
-        self.m_gameData.handCardsStr = newStr;
+        self.m_gameData.handCardsStr = JSON.stringify(handCardsList);
     },
 
     //重新绘制出牌
@@ -618,7 +635,25 @@ cc.Class({
             return;
         }
 
-        
+        var lastCard = self.m_handCardsList.splice(self.m_handCardsList.length - 1, 1);
+        var lastCardValue = lastCard.getCardValue();
+
+        //计算最后一张牌应该插入到哪个位置
+        var i = 0;
+        var j = self.m_handCardsList.length - 1;
+        while (j > i) {
+            var frontCard = self.m_handCardsList[i];
+            var frontCardValue = frontCard.getCardValue();
+            if (lastCardValue > frontCardValue) {
+                i++;
+            }
+
+            var endCard = self.m_handCardsList[j];
+            var endCardValue = endCard.getCardValue();
+            if (lastCardValue < endCardValue) {
+                j--;
+            }
+        }
     },
 
     //还原手牌的位置数据(手牌位置跟吃碰杠有关，所以重新绘制吃碰杠要先还原手牌起始位置)
