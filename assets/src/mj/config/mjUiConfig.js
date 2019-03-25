@@ -131,6 +131,7 @@ module.exports = {
             HandExtraMaxZIndex: 18,
             HandExtraMidZIndex: 4,
             DargCardZIndex: 40,
+            OutCardFlyZIndex: 40,
 
             //吃碰杠牌的起始位置
             ExtraCardsStartPos: {
@@ -166,15 +167,15 @@ module.exports = {
 
             //手牌间距
             HandCardsDiff: {
-                "1": cc.v2(68, 0),
+                "1": cc.v2(66, 0),
                 "2": cc.v2(0, 21),
-                "3": cc.v2(-43, 0),
+                "3": cc.v2(-42, 0),
                 "4": cc.v2(0, -21),
             },
 
             //摸牌的间距
             AddCardDiff: {
-                "1": cc.v2(10, 0),
+                "1": cc.v2(14, 0),
                 "2": cc.v2(0, 45),
                 "3": cc.v2(-10, 0),
                 "4": cc.v2(0, -45),
@@ -194,17 +195,17 @@ module.exports = {
 
             //同一排出牌间距
             OutCardsSameRowDiff: {
-                "1": cc.v2(37, 0),
+                "1": cc.v2(36, 0),
                 "2": cc.v2(0, 25),
-                "3": cc.v2(-37, 0),
+                "3": cc.v2(-36, 0),
                 "4": cc.v2(0, -25),
             },
 
             //同一列出牌间距
             OutCardsSameColumnDiff: {
-                "1": cc.v2(0, 40),
+                "1": cc.v2(0, 38),
                 "2": cc.v2(-42, 0),
-                "3": cc.v2(0, -40),
+                "3": cc.v2(0, -38),
                 "4": cc.v2(42, 0),
             },
 
@@ -212,9 +213,9 @@ module.exports = {
             PengGroup: {
                 //锚点必须全部为(0,0)，否则显示会有问题
                 CardsPos: {
-                    "1": [cc.v2(0, 0), cc.v2(68, 0), cc.v2(136, 0)],
+                    "1": [cc.v2(0, 0), cc.v2(66, 0), cc.v2(132, 0)],
                     "2": [cc.v2(0, 50), cc.v2(0, 25), cc.v2(0, 0)],
-                    "3": [cc.v2(88, 0), cc.v2(44, 0), cc.v2(0, 0)],
+                    "3": [cc.v2(84, 0), cc.v2(42, 0), cc.v2(0, 0)],
                     "4": [cc.v2(0, 50), cc.v2(0, 25), cc.v2(0, 0)],
                 },
             },
@@ -228,6 +229,10 @@ module.exports = {
                     "3": [cc.v2(88, 0), cc.v2(44, 0), cc.v2(0, 0), cc.v2(44, 10)],
                     "4": [cc.v2(0, 50), cc.v2(0, 25), cc.v2(0, 0), cc.v2(0, 38)],
                 },
+            },
+
+            OutCardAnim: {
+                MoveTime: 0.1,
             },
     	},
     },

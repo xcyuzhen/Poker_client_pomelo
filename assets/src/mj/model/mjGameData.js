@@ -28,4 +28,21 @@ cc.Class({
         this.handCardsNum = data.handCardsNum || 0;
         this.tingList = data.tingList || [];
     },
+
+    //添加一张出牌
+    addOneOutCard (cardValue) {
+        this.outCards.push(cardValue);
+        this.outCardsStr = JSON.stringify(this.outCards);
+    },
+
+    //删除一张手牌
+    delOneHandCard (cardIndex) {
+        if (cardIndex >= this.handCards.length) {
+            return;
+        }
+
+        this.handCards.splice(cardIndex, 1);
+        this.handCardsNum --;
+        this.handCardsStr = JSON.stringify(this.handCards);
+    },
 });

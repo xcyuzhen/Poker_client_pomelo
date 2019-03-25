@@ -1,4 +1,5 @@
 var Tools = module.exports = {};
+
 var print_r = function (obj, indent) {
     if (typeof(obj) === "function") {
         return "Function";

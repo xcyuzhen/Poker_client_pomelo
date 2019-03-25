@@ -77,7 +77,11 @@ cc.Class({
                         if (card.isUp()) {
                             //点击的牌是已经起立的牌，出牌
                             self.m_touchEventData.touchBegin = false;
-                            Global.Room.m_opeMgr.requestOutCard(card.getCardValue());
+                            card.setOut(true);
+                            var cardValue = card.getCardValue();
+                            self.playOutCardAnim(card, cardValue, function () {
+                                Global.Room.m_opeMgr.requestOutCard(cardValue);
+                            })
                         } else {
                             self.m_touchEventData.dragCard = card;
                             self.m_touchEventData.touchStartPosX = worldLocation.x;
@@ -160,7 +164,10 @@ cc.Class({
                 //判断拖拽牌的y坐标是否达到出牌的标准
                 var originPos = self.m_touchEventData.dragCard.getOriginPos();
                 if (self.m_touchEventData.dragCard.y > originPos.y + UiConfig.CardNode.Card.CardOutDiff) {
-                    Global.Room.m_opeMgr.requestOutCard(self.m_touchEventData.dragCard.getCardValue());
+                    var cardValue = self.m_touchEventData.dragCard.getCardValue();
+                    self.playOutCardAnim(self.m_touchEventData.dragCard, cardValue, function () {
+                        Global.Room.m_opeMgr.requestOutCard(cardValue);
+                    })
                 } else {
                     self.m_touchEventData.dragCard.setUp();
                     self.m_touchEventData.dragCard.zIndex = self.m_touchEventData.dragCard.getOriginZIndex();
@@ -172,7 +179,67 @@ cc.Class({
     },
 
     updateGameData (gameData) {
-    	
+        	
+    },
+
+    //播放出牌动画
+    playOutCardAnim (card, cardValue, cb) {
+        var self = this;
+
+        if (!cc.isValid(card)) {
+            console.error("CCCCCCCCCCCCCCCCCCCCCCC CardItem.playOutCardAnim card is invalid.");
+            return;
+        }
+
+        //删除手牌
+        for (var i = self.m_handCardsList.length - 1; i >= 0; i--) {
+            if (card == self.m_handCardsList[i]) {
+                self.m_handCardsList.splice(i, 1);
+                card.removeFromParent(true);
+                self.m_gameData.delOneHandCard(i);
+                break;
+            }
+        }
+
+        //绘制出牌
+        var cardImgName = this.getOutCardImgName(cardValue);
+        var param = {
+            imgName: cardImgName,
+            cardValue: cardValue,
+        };
+        var outCard = new Card();
+        outCard.init(param);
+        outCard.setAnchorPoint(0, 0);
+        outCard.x = card.x;
+        outCard.y = card.y;
+        outCard.zIndex = self.m_uiData.OutCardFlyZIndex;
+        self.addChild(outCard);
+        self.m_outCardsList.push(outCard);
+        self.m_gameData.addOneOutCard(cardValue);
+
+        //计算最终位置和zIndex
+        var outCardIndex = self.m_outCardsList.length - 1;
+        var outCardsSameRowDiff = self.m_uiData.OutCardsSameRowDiff[self.m_seatID];
+        var outCardsSameColumnDiff = self.m_uiData.OutCardsSameColumnDiff[self.m_seatID];
+        var rowIndex = Math.floor(outCardIndex / self.m_uiData.OutCardsNumPerRow);
+        var columnIndex = outCardIndex % self.m_uiData.OutCardsNumPerRow;
+        var posX = self.m_outCardsStartPosX + rowIndex * outCardsSameColumnDiff.x + columnIndex * outCardsSameRowDiff.x;
+        var posY = self.m_outCardsStartPosY + rowIndex * outCardsSameColumnDiff.y + columnIndex * outCardsSameRowDiff.y;
+        var endZIndex = self.getOutCardZIndex(rowIndex, columnIndex);
+
+        //开始动画
+        outCard.runAction(
+            cc.sequence(
+                cc.moveTo(self.m_uiData.OutCardAnim.MoveTime, cc.v2(posX, posY)),
+                cc.callFunc(function () {
+                    outCard.zIndex = endZIndex;
+
+                    if (!!cb) {
+                        cb();
+                    }
+                })
+            ),
+        );
     },
 
     //重新绘制吃碰杠牌
@@ -541,6 +608,17 @@ cc.Class({
             default: 
                 return 0;
         }
+    },
+
+    //出牌后校正手牌位置
+    revHandCardsAfterOutCard (outIndex) {
+        var self = this;
+
+        if (outIndex >= self.m_handCardsList.length) {
+            return;
+        }
+
+        
     },
 
     //还原手牌的位置数据(手牌位置跟吃碰杠有关，所以重新绘制吃碰杠要先还原手牌起始位置)
