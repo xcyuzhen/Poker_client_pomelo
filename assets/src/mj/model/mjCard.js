@@ -64,7 +64,6 @@ cc.Class({
     setOriginPos (x, y) {
         this.m_originX = x;
         this.m_originY = y;
-        this.setPosition(x, y);
         return this;
     },
 

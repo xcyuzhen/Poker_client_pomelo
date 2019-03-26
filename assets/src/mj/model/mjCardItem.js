@@ -82,6 +82,7 @@ cc.Class({
                             self.playOutCardAnim(card, cardValue, function () {
                                 Global.Room.m_opeMgr.requestOutCard(cardValue);
                             })
+                            break;
                         } else {
                             self.m_touchEventData.dragCard = card;
                             self.m_touchEventData.touchStartPosX = worldLocation.x;
@@ -182,6 +183,8 @@ cc.Class({
         	
     },
 
+    //服务端通知出牌
+
     //播放出牌动画
     playOutCardAnim (card, cardValue, cb) {
         var self = this;
@@ -202,6 +205,8 @@ cc.Class({
                 break;
             }
         }
+
+        self.revHandCardsAfterOutCard(outIndex);
 
         //绘制出牌
         var cardImgName = this.getOutCardImgName(cardValue);
@@ -312,12 +317,12 @@ cc.Class({
         //将抓的牌提取出来
         var addCard;
         if (self.m_gameData.hasAddCard) {
-            addCard = handCardsList.splice(handCardsList.length - 1, 1);
+            addCard = handCardsList.splice(handCardsList.length - 1, 1)[0];
         }
 
         //排序
         handCardsList.sort(function (a, b) {
-            return a <= b;
+            return a - b;
         });
 
         //将抓牌添加进列表
@@ -569,16 +574,16 @@ cc.Class({
     getExtraGroupZIndex (index) {
         switch (this.m_seatID) {
             case 1:
-                return index;
+                return this.m_uiData.HandExtraMinZIndex + index;
                 break;
             case 2:
                 return this.m_uiData.HandExtraMaxZIndex - index;
                 break;
             case 3:
-                return index;
+                return this.m_uiData.HandExtraMinZIndex + index;
                 break;
             case 4:
-                return index;
+                return this.m_uiData.HandExtraMinZIndex + index;
                 break;
             default:
                 return 0;
@@ -592,7 +597,7 @@ cc.Class({
                 return index + this.m_uiData.HandExtraMidZIndex;
                 break;
             case 2:
-                return this.m_uiData.HandExtraMaxZIndex - this.m_uiData.HandExtraMidZIndex - index;
+                return this.m_uiData.HandExtraMaxZIndex - this.m_uiData.HandExtraMidZIndex - index + this.m_uiData.HandExtraMinZIndex;
                 break;
             case 3:
                 return index + this.m_uiData.HandExtraMidZIndex;
@@ -635,23 +640,60 @@ cc.Class({
             return;
         }
 
-        var lastCard = self.m_handCardsList.splice(self.m_handCardsList.length - 1, 1);
+        var lastCard = self.m_handCardsList.splice(self.m_handCardsList.length - 1, 1)[0];
         var lastCardValue = lastCard.getCardValue();
 
         //计算最后一张牌应该插入到哪个位置
-        var i = 0;
-        var j = self.m_handCardsList.length - 1;
-        while (j > i) {
-            var frontCard = self.m_handCardsList[i];
-            var frontCardValue = frontCard.getCardValue();
-            if (lastCardValue > frontCardValue) {
-                i++;
-            }
+        var insertIndex = 0;
+        for (var i = 0; i < self.m_handCardsList.length; i++) {
+            var tmpCard = self.m_handCardsList[i];
 
-            var endCard = self.m_handCardsList[j];
-            var endCardValue = endCard.getCardValue();
-            if (lastCardValue < endCardValue) {
-                j--;
+            if (lastCardValue > tmpCard.getCardValue()) {
+                insertIndex = i + 1;
+            } else {
+                break;
+            }
+        }
+
+        //如果不是自己出牌，随机一个插入位置
+        if (self.m_seatID != 1) {
+            
+        }
+
+        self.m_handCardsList.splice(insertIndex, 0, lastCard);
+
+        // //修改gameData中手牌数据
+        var handcardsData = self.m_gameData.handCards;
+        var lastCardData = handcardsData.splice(handcardsData.length - 1, 1)[0];
+        handcardsData.splice(insertIndex, 0, lastCardData);
+        self.m_gameData.handCardsStr = JSON.stringify(handcardsData);
+
+        //开始播放动画
+        var handCardsDiff = self.m_uiData.HandCardsDiff[self.m_seatID];
+        var revHandCardsAnimUiData = self.m_uiData.RevHandCardsAnim;
+
+        for (var i = 0; i < self.m_handCardsList.length; i++) {
+            var card = self.m_handCardsList[i];
+            var posX = self.m_handCardsStartPosX + i * handCardsDiff.x;
+            var posY = self.m_handCardsStartPosY + i * handCardsDiff.y;
+            card.setOriginPos(posX, posY);
+            card.setOriginZIndex(self.getHandCardZIndex(i));
+            card.zIndex = self.m_uiData.DargCardZIndex;
+
+            if (card != lastCard || insertIndex == self.m_handCardsList.length - 1) {
+                card.runAction(cc.moveTo(revHandCardsAnimUiData.MoveTime, cc.v2(posX, posY)));
+            } else {
+                var upDiff = revHandCardsAnimUiData.UpDiff[self.m_seatID]
+                card.runAction(cc.sequence(
+                    cc.moveBy(revHandCardsAnimUiData.UpTime, upDiff),
+                    cc.delayTime(revHandCardsAnimUiData.DelayTime),
+                    cc.moveTo(revHandCardsAnimUiData.MoveTime1, cc.v2(posX + upDiff.x, posY + upDiff.y)),
+                    cc.delayTime(revHandCardsAnimUiData.DelayTime1),
+                    cc.callFunc(function () {
+                        card.zIndex = card.getOriginZIndex();
+                    }),
+                    cc.moveTo(revHandCardsAnimUiData.UpTime, cc.v2(posX, posY))
+                ));
             }
         }
     },

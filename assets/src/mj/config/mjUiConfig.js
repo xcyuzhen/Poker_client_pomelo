@@ -128,10 +128,12 @@ module.exports = {
             CardOutDiff: 106,
         },
     	CardItem: {
-            HandExtraMaxZIndex: 18,
-            HandExtraMidZIndex: 4,
-            DargCardZIndex: 40,
-            OutCardFlyZIndex: 40,
+            HandExtraMaxZIndex: 58,
+            HandExtraMidZIndex: 44,
+            HandExtraMinZIndex: 40,
+            DargCardZIndex: 60,
+            OutCardsMaxZIndex: 30,
+            OutCardFlyZIndex: 60,
 
             //吃碰杠牌的起始位置
             ExtraCardsStartPos: {
@@ -183,7 +185,6 @@ module.exports = {
 
             //一排出牌的张数
             OutCardsNumPerRow: 10,
-            OutCardsMaxZIndex: 30,
 
             //出牌的起始位置
             OutCardsStartPos: {
@@ -231,8 +232,24 @@ module.exports = {
                 },
             },
 
+            //出牌动画
             OutCardAnim: {
                 MoveTime: 0.1,
+            },
+
+            //出牌后校正手牌位置动画
+            RevHandCardsAnim: {
+                MoveTime: 0.2,
+                UpDiff: {
+                    "1": cc.v2(0, 110),
+                    "2": cc.v2(0, 0),
+                    "3": cc.v2(0, 0),
+                    "4": cc.v2(0, 0),
+                },
+                UpTime: 0.1,
+                DelayTime: 0.1,
+                MoveTime1: 0.1,
+                DelayTime1: 0.1,
             },
     	},
     },
