@@ -19,7 +19,6 @@ cc.Class({
         this.m_originZIndex = 0;
 
         this.m_isUp = false;
-        this.m_isOut = false;
     },
 
     initUIView () {
@@ -115,16 +114,5 @@ cc.Class({
     //获取牌起立时的posy
     getUpPosY () {
         return this.m_originY + this.m_uiData.CardUpDiff;
-    },
-
-    //设置牌的出牌状态
-    setOut (outFlag) {
-        outFlag = !!outFlag;
-        this.m_isOut = outFlag;
-    },
-
-    //获取牌的出牌状态
-    isOut () {
-        return this.m_isOut;
     },
 });

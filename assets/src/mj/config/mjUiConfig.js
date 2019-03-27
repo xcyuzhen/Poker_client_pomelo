@@ -242,9 +242,9 @@ module.exports = {
                 MoveTime: 0.2,
                 UpDiff: {
                     "1": cc.v2(0, 110),
-                    "2": cc.v2(0, 0),
-                    "3": cc.v2(0, 0),
-                    "4": cc.v2(0, 0),
+                    "2": cc.v2(0, 66),
+                    "3": cc.v2(0, 66),
+                    "4": cc.v2(0, 66),
                 },
                 UpTime: 0.1,
                 DelayTime: 0.1,

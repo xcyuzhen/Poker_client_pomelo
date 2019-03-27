@@ -77,7 +77,6 @@ cc.Class({
                         if (card.isUp()) {
                             //点击的牌是已经起立的牌，出牌
                             self.m_touchEventData.touchBegin = false;
-                            card.setOut(true);
                             var cardValue = card.getCardValue();
                             self.playOutCardAnim(card, cardValue, function () {
                                 Global.Room.m_opeMgr.requestOutCard(cardValue);
@@ -183,7 +182,35 @@ cc.Class({
         	
     },
 
-    //服务端通知出牌
+    //服务端通知出牌(其他玩家打牌或者自己ai打牌)
+    serverOutCard (res) {
+        var self = this;
+
+        var cardValue = res.cardValue;
+        var outCard;
+        if (self.m_seatID == 1) {
+            //自己 根据牌值找到要出的牌
+            for (var i = self.m_handCardsList.length-1; i >= 0; i--) {
+                var card = self.m_handCardsList[i];
+                if (card.getCardValue() == cardValue) {
+                    outCard = card;
+                } else {
+                    card.setDown();
+                }
+            }
+        } else {
+            //其他 随机一个要出的牌
+            var outIndex = Global.Tools.random(0, (self.m_handCardsList.length - 1));
+            outCard = self.m_handCardsList[outIndex];
+        }
+
+        self.playOutCardAnim(outCard, cardValue);
+    },
+
+    //服务端返回出牌失败(自己出牌返回)
+    serverOutCardFaild (res) {
+
+    },
 
     //播放出牌动画
     playOutCardAnim (card, cardValue, cb) {
@@ -655,9 +682,9 @@ cc.Class({
             }
         }
 
-        //如果不是自己出牌，随机一个插入位置
+        //如果不是自己出牌，固定放在最后
         if (self.m_seatID != 1) {
-            
+            insertIndex = self.m_handCardsList.length;
         }
 
         self.m_handCardsList.splice(insertIndex, 0, lastCard);
@@ -678,11 +705,12 @@ cc.Class({
             var posY = self.m_handCardsStartPosY + i * handCardsDiff.y;
             card.setOriginPos(posX, posY);
             card.setOriginZIndex(self.getHandCardZIndex(i));
-            card.zIndex = self.m_uiData.DargCardZIndex;
 
             if (card != lastCard || insertIndex == self.m_handCardsList.length - 1) {
+                card.zIndex = card.getOriginZIndex();
                 card.runAction(cc.moveTo(revHandCardsAnimUiData.MoveTime, cc.v2(posX, posY)));
             } else {
+                card.zIndex = self.m_uiData.DargCardZIndex;
                 var upDiff = revHandCardsAnimUiData.UpDiff[self.m_seatID]
                 card.runAction(cc.sequence(
                     cc.moveBy(revHandCardsAnimUiData.UpTime, upDiff),
@@ -690,8 +718,9 @@ cc.Class({
                     cc.moveTo(revHandCardsAnimUiData.MoveTime1, cc.v2(posX + upDiff.x, posY + upDiff.y)),
                     cc.delayTime(revHandCardsAnimUiData.DelayTime1),
                     cc.callFunc(function () {
+                        var card = this;
                         card.zIndex = card.getOriginZIndex();
-                    }),
+                    }.bind(card)),
                     cc.moveTo(revHandCardsAnimUiData.UpTime, cc.v2(posX, posY))
                 ));
             }

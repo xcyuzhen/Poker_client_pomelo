@@ -19,5 +19,6 @@ module.exports = {
 		AN_GANG: 3,																//暗杠
 		BU_GANG: 4,																//补杠
 		HU: 5,																	//胡
+		OUT_CARD: 6, 															//打牌
 	},
 };

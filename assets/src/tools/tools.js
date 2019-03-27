@@ -141,3 +141,19 @@ Tools.getFormatNumber = function (num, minLen) {
 
     return numStr;
 };
+
+//==============================--
+/*
+desc: 获取随机数
+@min: 最小数 默认0
+@max: 最大数 默认10
+*/
+//==============================--
+Tools.random = function (min, max) {
+    min = min || 0;
+    max = max || 10;
+
+    var delta = max + 1 - min;
+
+    return Math.floor(Math.random() * delta) + min;
+};
