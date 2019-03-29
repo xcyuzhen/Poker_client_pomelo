@@ -131,8 +131,8 @@ cc.Class({
 
     //刷新转盘
     udpateRoundTurnplate (res) {
-        var curOpeLocalSeatID = Global.Room.m_playerMgr.getLocalSeatByMid(res.curOpeMid);
-        var rotateAngle = this.m_uiData.Turnplate.RotateAngle[curOpeLocalSeatID];
+        var curOutCardLocalSeatID = Global.Room.m_playerMgr.getLocalSeatByMid(res.curOutCardMid);
+        var rotateAngle = this.m_uiData.Turnplate.RotateAngle[curOutCardLocalSeatID];
         if (rotateAngle) {
             this.m_turnplate.rotation = rotateAngle;
 
