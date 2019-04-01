@@ -24,7 +24,6 @@ cc.Class({
 
     initData () {
     	this.m_curOpeMid = 0; 										//当前操作人
-    	this.m_curOutCardMid = 0; 									//当前轮到的出牌人
     },
 
     initUIView () {
@@ -37,7 +36,6 @@ cc.Class({
         var self = this;
 
         self.m_curOpeMid = res.curOpeMid;
-        self.m_curOutCardMid = res.curOutCardMid;
 
         //当前操作人不是自己，隐藏操作面板
         if (!Global.Tools.isSelf(self.m_curOpeMid)) {
@@ -165,7 +163,7 @@ cc.Class({
     ////////////////////////////////////对外接口begin////////////////////////////////////
     //是否轮到自己出牌
     isSelfOutCard () {
-        return Global.Tools.isSelf(this.m_curOutCardMid);
+        return Global.Tools.isSelf(this.m_curOpeMid);
     },
     ////////////////////////////////////对外接口end////////////////////////////////////
 
