@@ -49,6 +49,7 @@ cc.Class({
             if (self.msgList.length > 0) {
                 var oneMsg = self.msgList.shift();
                 var socketCmd = oneMsg.res.socketCmd;
+                console.log("GGGGGGGGGGGGGGGGG 处理消息, cmd = ", socketCmd)
                 var handler = self.msgCmdMap[socketCmd];
                 if (! handler) {
                     console.log("没有相应的处理函数 socketCmd = ", socketCmd);
@@ -88,6 +89,7 @@ cc.Class({
             [Global.SocketCmd.WAIT_USER_READY]: "waitUserReady",
             [Global.SocketCmd.USER_KICK]: "userKick",
             [Global.SocketCmd.GAME_START]: "gameStart",
+            [Global.SocketCmd.OPE_RSP]: "opeResponse",
         };
     },
 });

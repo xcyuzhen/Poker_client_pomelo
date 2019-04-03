@@ -79,7 +79,7 @@ cc.Class({
                             self.m_touchEventData.touchBegin = false;
                             var cardValue = card.getCardValue();
                             self.playOutCardAnim(card, cardValue, function () {
-                                Global.Room.m_opeMgr.requestOutCard(cardValue);
+                                Global.Room.m_opeMgr.opeRequest(Config.OPE_TYPE.OUT_CARD, cardValue);
                             })
                             break;
                         } else {
@@ -166,7 +166,7 @@ cc.Class({
                 if (self.m_touchEventData.dragCard.y > originPos.y + UiConfig.CardNode.Card.CardOutDiff) {
                     var cardValue = self.m_touchEventData.dragCard.getCardValue();
                     self.playOutCardAnim(self.m_touchEventData.dragCard, cardValue, function () {
-                        Global.Room.m_opeMgr.requestOutCard(cardValue);
+                        Global.Room.m_opeMgr.opeRequest(Config.OPE_TYPE.OUT_CARD, cardValue);;
                     })
                 } else {
                     self.m_touchEventData.dragCard.setUp();
@@ -178,8 +178,14 @@ cc.Class({
         }
     },
 
+    //更新玩家数据
     updateGameData (gameData) {
-        	
+        var self = this;
+
+        self.m_gameData.updateGameData(gameData);
+        self.redrawExtraCards(gameData.extraCards);
+        self.redrawHandCards(gameData.handCards);
+        self.redrawOutCards(gameData.outCards);
     },
 
     //服务端通知出牌(其他玩家打牌或者自己ai打牌)
@@ -233,7 +239,7 @@ cc.Class({
             }
         }
 
-        self.revHandCardsAfterOutCard(outIndex);
+        self.revHandCardsAfterOutCard(outIndex, cb);
 
         //绘制出牌
         var cardImgName = this.getOutCardImgName(cardValue);
@@ -332,6 +338,10 @@ cc.Class({
     redrawHandCards (handCardsList) {
         var self = this;
 
+        if (self.m_seatID != 1) {
+            handCardsList = [];
+        }
+
         handCardsList = handCardsList || [];
         if ((handCardsList.length == 0) && (self.m_gameData.handCardsNum > 0)) {
             handCardsList = new Array(self.m_gameData.handCardsNum).fill((-1));
@@ -343,8 +353,8 @@ cc.Class({
 
         //将抓的牌提取出来
         var addCard;
-        if (self.m_gameData.hasAddCard) {
-            addCard = handCardsList.splice(handCardsList.length - 1, 1)[0];
+        if (self.m_gameData.hasAddCard(handCardsList)) {
+            addCard = handCardsList.splice(-1, 1)[0];
         }
 
         //排序
@@ -475,7 +485,6 @@ cc.Class({
 
     		width = Math.max(width, card.position.x + card.width);
     		height = Math.max(height, card.position.y + card.height);
-            var size = card.getContentSize();
     	}
 
     	node.setContentSize(width, height);
@@ -660,14 +669,14 @@ cc.Class({
     },
 
     //出牌后校正手牌位置
-    revHandCardsAfterOutCard (outIndex) {
+    revHandCardsAfterOutCard (outIndex, cb) {
         var self = this;
 
         if (outIndex >= self.m_handCardsList.length) {
             return;
         }
 
-        var lastCard = self.m_handCardsList.splice(self.m_handCardsList.length - 1, 1)[0];
+        var lastCard = self.m_handCardsList.splice(-1, 1)[0];
         var lastCardValue = lastCard.getCardValue();
 
         //计算最后一张牌应该插入到哪个位置

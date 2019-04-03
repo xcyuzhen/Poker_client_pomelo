@@ -123,6 +123,17 @@ cc.Class({
         self.m_userData = userData;
     },
 
+    //刷新游戏数据
+    updateGameData (gameData) {
+        var self = this;
+
+        if (self.m_userData.mid == gameData.mid) {
+            //更新金币数量
+            self.m_lbGold.string = gameData.gold;
+            self.m_userData.gold = gameData.gold;
+        }
+    },
+
     //游戏开始
     gameStart (res) {
         var self = this;

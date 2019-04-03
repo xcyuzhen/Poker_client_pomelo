@@ -26,7 +26,7 @@ Debug.doTest = function () {
     	var extraCardsList = [
     		{
     			opeType: 1,
-    			cardValue: 0,
+    			cardValue: 17,
     			targetMid: 10001,
     		},
     		// {

@@ -60,7 +60,7 @@ cc.Class({
         }
 
         Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.LOGIN, params, function (data) {
-            if (data.code !== 200) {
+            if (data.code !== Global.Code.OK) {
                 console.log("登录失败，code = " + data.code);
             } else {
                 Global.SelfUserData.setUserData(data.userData);

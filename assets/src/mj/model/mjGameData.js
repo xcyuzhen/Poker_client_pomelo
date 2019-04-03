@@ -24,7 +24,6 @@ cc.Class({
         this.mid = data.mid;
         this.gold = parseInt(data.gold);
         this.diamond = parseInt(data.diamond);
-        this.localSeatID = data.localSeatID || 0;
         this.handCardsNum = data.handCardsNum || 0;
         this.tingList = data.tingList || [];
     },
@@ -40,13 +39,13 @@ cc.Class({
 
         var selfCloneList = Global.Tools.clone(self.handCards);
         selfCloneList.sort(function (a, b) {
-            return a <= b;
+            return a - b;
         });
         var selfStr = JSON.stringify(selfCloneList);
 
         var newCloneList = Global.Tools.clone(checkList);
         newCloneList.sort(function (a, b) {
-            return a <= b;
+            return a - b;
         });
         var newStr = JSON.stringify(newCloneList);
 

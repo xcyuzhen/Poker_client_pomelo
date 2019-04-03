@@ -70,7 +70,7 @@ cc.Class({
 
                 Global.Pomelo.disconnect();
 
-                if (data.code !== 200) {
+                if (data.code !== Global.Code.OK) {
                     cc.log(data.error);
                     return
                 }

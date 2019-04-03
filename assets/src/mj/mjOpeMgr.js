@@ -104,7 +104,7 @@ cc.Class({
 
         //添加碰牌按钮点击事件
         if (hasPengOpe) {
-            var handler = Global.Tools.createClickEventHandler(self.node, "mjOpeMgr", "opeBtnClickEvent", {opeType: Config.OPE_TYPE.PENG, opeData: huData});
+            var handler = Global.Tools.createClickEventHandler(self.node, "mjOpeMgr", "opeBtnClickEvent", {opeType: Config.OPE_TYPE.PENG, opeData: pengData});
             self.m_btnPeng.clickEvents = [];
             self.m_btnPeng.clickEvents.push(handler);
         }
@@ -170,15 +170,13 @@ cc.Class({
     ////////////////////////////////////功能函数begin////////////////////////////////////
     //操作按钮点击事件
     opeBtnClickEvent (sender, opeObj) {
-        var opeType = opeObj.opeType;
-        var opeData = opeObj.opeData;
-
-        console.log("OOOOOOOOOOOOOOOOOOO 请求操作 ", opeType, opeData);
+        this.opeRequest(opeObj.opeType, opeObj.opeData);
     },
 
-    //请求出牌
-    requestOutCard (cardValue) {
-        console.log("OOOOOOOOOOOOOOOOOOO 请求出牌 ", cardValue);
+    //请求操作
+    opeRequest (opeType, opeData) {
+        console.log("OOOOOOOOOOOOOOOOOOOOOOOOOO 请求操作: ", opeType, opeData);
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.OPE_REQ, {opeType: opeType, opeData: opeData});
     },
 
     //获取杠牌和碰牌的资源

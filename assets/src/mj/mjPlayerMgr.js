@@ -94,7 +94,7 @@ cc.Class({
             if (!midMap[mid]) {
                 var playerItem = self.m_playerList[mid];
 
-                var userData = playerItem.userData()
+                var userData = playerItem.userData;
                 self.m_seatPlayerList[userData.localSeatID] = null;
 
                 playerItem.userItem.removeFromParent(true);
@@ -129,7 +129,13 @@ cc.Class({
         }
     },
 
+    //回合消息
     roundInfo (res) {
+        this.udpateUserGameData(res.userList);
+    },
+
+    //玩家操作返回
+    opeResponse (res) {
 
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
@@ -147,5 +153,18 @@ cc.Class({
     ////////////////////////////////////对外接口end////////////////////////////////////
 
     ////////////////////////////////////功能函数begin////////////////////////////////////
+    //刷新玩家游戏数据
+    udpateUserGameData (gameUserList) {
+        var self = this;
+
+        gameUserList = gameUserList || [];
+        for (var tMid in gameUserList) {
+            var gameData = gameUserList[tMid];
+            var playerItem = self.m_playerList[tMid];
+
+            playerItem.userItem.updateGameData(gameData);
+            playerItem.cardItem.updateGameData(gameData);
+        }
+    },
     ////////////////////////////////////功能函数end////////////////////////////////////
 });

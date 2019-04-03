@@ -33,7 +33,7 @@ cc.Class({
 
     btnExitClickEvent () {
         Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.USER_LEAVE, {}, function (data) {
-            if (data.code !== 200) {
+            if (data.code !== Global.Code.OK) {
                 console.log(data.msg);
             } else {
                 cc.director.loadScene("HallScene");
@@ -75,6 +75,9 @@ cc.Class({
     roundInfo (res) {
         this.updateRoundLeftCardsNum(res);
         this.udpateRoundTurnplate(res);
+
+        var leftTime = res.leftTime;
+        this.startTimer(leftTime);
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
@@ -121,6 +124,7 @@ cc.Class({
     //刷新剩余牌张数
     updateRoundLeftCardsNum (res) {
         var leftCardsNum = parseInt(res.leftCardsNum);
+        console.log("AAAAAAAA BBBBBBBB ", leftCardsNum);
         if (leftCardsNum <= 0) {
             this.m_lbLeftCardsNum.string = "";
         } else {
@@ -133,7 +137,7 @@ cc.Class({
     udpateRoundTurnplate (res) {
         var curOutCardLocalSeatID = Global.Room.m_playerMgr.getLocalSeatByMid(res.curOpeMid);
         var rotateAngle = this.m_uiData.Turnplate.RotateAngle[curOutCardLocalSeatID];
-        if (rotateAngle) {
+        if (rotateAngle != undefined && rotateAngle != null) {
             this.m_turnplate.rotation = rotateAngle;
 
             this.m_turnplate.active = true;

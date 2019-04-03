@@ -26,6 +26,9 @@ cc.Class({
 
         self.m_spCard = self.addComponent(cc.Sprite);
         var frame = Global.ResMgr.CardAtlas.getSpriteFrame(self.m_imgName);
+        if (!frame) {
+            console.error("AAAAAAAAAA BBBBBBBBBBBBBB CCCCCCCCCCCCCC ", self.m_imgName);
+        }
         self.m_spCard.spriteFrame = frame;
         var rect = frame.getRect();
         self.setContentSize(rect.width, rect.height);
