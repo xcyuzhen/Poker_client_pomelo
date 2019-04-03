@@ -150,8 +150,13 @@ desc: 获取随机数
 */
 //==============================--
 Tools.random = function (min, max) {
-    min = min || 0;
-    max = max || 10;
+    if (minNum == undefined || minNum == null) {
+        minNum = 0;
+    }
+
+    if (maxNum == undefined || maxNum == null) {
+        maxNum = 10;
+    }
 
     var delta = max + 1 - min;
 

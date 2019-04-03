@@ -54,8 +54,7 @@ cc.Class({
         var worldLocation = target.convertToWorldSpace(location);
 
         //是否轮到自己出牌
-        // var isSelfOutCard = Global.Room.m_opeMgr.isSelfOutCard();
-        var isSelfOutCard = true;
+        var isSelfOutCard = Global.Room.m_opeMgr.isSelfOutCard();
 
         if (eventType == cc.Node.EventType.TOUCH_START) {
             self.m_touchEventData.touchBegin = true;
