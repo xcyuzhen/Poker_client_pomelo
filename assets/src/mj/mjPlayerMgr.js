@@ -136,7 +136,31 @@ cc.Class({
 
     //玩家操作返回
     opeResponse (res) {
+        var self = this;
 
+        var code = res.code;
+        var opeType = res.opeType;
+        if (code == Global.Code.OK) {
+            if (opeType == Config.OPE_TYPE.OUT_CARD) {
+                var outCardPlayerItem = self.m_playerList[res.opeMid];
+                if (!!outCardPlayerItem) {
+                    Global.Room.m_gameNet.pauseMsgHandle();
+                    outCardPlayerItem.cardItem.serverOutCard(res.opeData, function () {
+                        Global.Room.m_gameNet.resumeMsgHandle();
+                    });
+                }
+            }
+        } else {
+            //自己操作失败
+            if (opeType == Config.OPE_TYPE.OUT_CARD) {
+                var selfPlayerItem = self.m_playerList[self.m_selfUserData.mid];
+                if (!!selfPlayerItem) {
+                    selfPlayerItem.cardItem.redrawExtraCards(res.extraCards);
+                    selfPlayerItem.cardItem.redrawHandCards(res.handCards);
+                    selfPlayerItem.cardItem.redrawOutCards(res.outCards);
+                }
+            }
+        }
     },
 
     resultInfo (res) {

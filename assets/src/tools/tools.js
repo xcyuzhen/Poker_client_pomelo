@@ -64,13 +64,13 @@ Tools.isSelf = function (mid) {
 //检测mid是否合法
 Tools.midCheck = function (mid) {
     mid = Number(mid);
-    return mid || mid > 0;
+    return mid && mid > 0;
 };
 
 //检测座位号是否合法
 Tools.seatCheck = function (seatID) {
     seatID = Number(seatID);
-    return seatID || seatID > 0;
+    return seatID && seatID > 0;
 };
 
 Tools.createClickEventHandler = function (target, component, handler, customEventData) {
@@ -149,7 +149,7 @@ desc: 获取随机数
 @max: 最大数 默认10
 */
 //==============================--
-Tools.random = function (min, max) {
+Tools.random = function (minNum, maxNum) {
     if (minNum == undefined || minNum == null) {
         minNum = 0;
     }
@@ -158,7 +158,7 @@ Tools.random = function (min, max) {
         maxNum = 10;
     }
 
-    var delta = max + 1 - min;
+    var delta = maxNum + 1 - minNum;
 
-    return Math.floor(Math.random() * delta) + min;
+    return Math.floor(Math.random() * delta) + minNum;
 };

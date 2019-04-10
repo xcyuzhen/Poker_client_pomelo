@@ -195,10 +195,9 @@ cc.Class({
     },
 
     //服务端通知出牌(其他玩家打牌或者自己ai打牌)
-    serverOutCard (res) {
+    serverOutCard (cardValue, cb) {
         var self = this;
 
-        var cardValue = res.cardValue;
         var outCard;
         if (self.m_seatID == 1) {
             //自己 根据牌值找到要出的牌
@@ -216,12 +215,7 @@ cc.Class({
             outCard = self.m_handCardsList[outIndex];
         }
 
-        self.playOutCardAnim(outCard, cardValue);
-    },
-
-    //服务端返回出牌失败(自己出牌返回)
-    serverOutCardFaild (res) {
-
+        self.playOutCardAnim(outCard, cardValue, cb);
     },
 
     //播放出牌动画
