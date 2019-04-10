@@ -12,7 +12,7 @@ cc.Class({
     gameStart () {
     	var self = this;
 
-        Global.Room.m_gameNet.parseMsgHandle();
+        Global.Room.m_gameNet.pauseMsgHandle();
 
     	self.m_spGameStart.node.active = true;
     	self.m_spGameStart.node.scale = 3.0;

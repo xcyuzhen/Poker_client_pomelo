@@ -178,12 +178,19 @@ cc.Class({
     },
 
     //更新玩家数据
-    updateGameData (gameData) {
+    updateGameData (gameData, lastOpeMid, lastOpeItem) {
         var self = this;
+
+        var handCardAllSort = false;
+        if (lastOpeMid == self.m_gameData.mid) {
+            if (!!lastOpeItem && lastOpeItem.opeType == Config.OPE_TYPE.PENG) {
+                handCardAllSort = true;
+            }
+        }
 
         self.m_gameData.updateGameData(gameData);
         self.redrawExtraCards(gameData.extraCards);
-        self.redrawHandCards(gameData.handCards);
+        self.redrawHandCards(gameData.handCards, handCardAllSort);
         self.redrawOutCards(gameData.outCards);
     },
 
@@ -334,7 +341,7 @@ cc.Class({
     },
 
     //重新绘制手牌
-    redrawHandCards (handCardsList) {
+    redrawHandCards (handCardsList, allSort) {
         var self = this;
 
         if (self.m_seatID != 1) {
@@ -352,7 +359,7 @@ cc.Class({
 
         //将抓的牌提取出来
         var addCard;
-        if (self.m_gameData.hasAddCard(handCardsList)) {
+        if (self.m_gameData.hasAddCard(handCardsList) && !allSort) {
             addCard = handCardsList.splice(-1, 1)[0];
         }
 

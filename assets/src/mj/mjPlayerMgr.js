@@ -131,7 +131,7 @@ cc.Class({
 
     //回合消息
     roundInfo (res) {
-        this.udpateUserGameData(res.userList);
+        this.udpateUserGameData(res.userList, res.lastOpeMid, res.lastOpeItem);
     },
 
     //玩家操作返回
@@ -169,7 +169,7 @@ cc.Class({
 
     ////////////////////////////////////功能函数begin////////////////////////////////////
     //刷新玩家游戏数据
-    udpateUserGameData (gameUserList) {
+    udpateUserGameData (gameUserList, lastOpeMid, lastOpeItem) {
         var self = this;
 
         gameUserList = gameUserList || [];
@@ -178,7 +178,7 @@ cc.Class({
             var playerItem = self.m_playerList[tMid];
 
             playerItem.userItem.updateGameData(gameData);
-            playerItem.cardItem.updateGameData(gameData);
+            playerItem.cardItem.updateGameData(gameData, lastOpeMid, lastOpeItem);
         }
     },
     ////////////////////////////////////功能函数end////////////////////////////////////

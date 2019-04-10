@@ -60,7 +60,7 @@ cc.Class({
         }
     },
 
-    parseMsgHandle () {
+    pauseMsgHandle () {
         this.msgPause = true;
     },
 
