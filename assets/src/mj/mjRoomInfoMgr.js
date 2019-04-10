@@ -79,6 +79,13 @@ cc.Class({
         var leftTime = res.leftTime;
         this.startTimer(leftTime);
     },
+
+    resultInfo (res) {
+        this.m_turnplate.active = false;
+        this.m_turnplate1.active = true;
+
+        this.stopTimer(true);
+    },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
     ////////////////////////////////////功能函数begin////////////////////////////////////

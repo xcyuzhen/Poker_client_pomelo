@@ -138,6 +138,21 @@ cc.Class({
     opeResponse (res) {
 
     },
+
+    resultInfo (res) {
+        var self = this;
+
+        var userList = res.userList;
+        for (var tMid in userList) {
+            var resultData = userList[tMid];
+            var playerItem = self.m_playerList[tMid];
+            if (!!playerItem) {
+                playerItem.cardItem.redrawShowCards();
+            }
+        }
+
+        var huMid = res.huMid;
+    },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
     ////////////////////////////////////对外接口begin////////////////////////////////////
