@@ -32,6 +32,10 @@ cc.Class({
         this.m_handCardsStartPosX = this.m_uiData.HandCardsStartPos[this.m_seatID].x;
         this.m_handCardsStartPosY = this.m_uiData.HandCardsStartPos[this.m_seatID].y;
 
+        //亮牌的起始位置(有吃碰杠时该位置是根据吃碰杠牌的位置计算得到)
+        this.m_showCardsStartPosX = this.m_uiData.HandCardsStartPos[this.m_seatID].x;
+        this.m_showCardsStartPosY = this.m_uiData.HandCardsStartPos[this.m_seatID].y;
+
         //出牌的起始位置
         this.m_outCardsStartPosX = this.m_uiData.OutCardsStartPos[this.m_seatID].x;
         this.m_outCardsStartPosY = this.m_uiData.OutCardsStartPos[this.m_seatID].y;
@@ -294,6 +298,7 @@ cc.Class({
 
         self.clearExtraCards();
         self.resetHandCardsPos();
+        self.resetShowCardsPos();
 
         var extraCardsGroupDiff = self.m_uiData.ExtraCardsGroupDiff[self.m_seatID];
 
@@ -327,6 +332,10 @@ cc.Class({
                 //计算手牌的起始位置
                 self.m_handCardsStartPosX = posX + self.m_uiData.ExtraHandCardsDiff[self.m_seatID].x;
                 self.m_handCardsStartPosY = posY + self.m_uiData.ExtraHandCardsDiff[self.m_seatID].y;
+
+                //计算亮牌的起始位置
+                self.m_showCardsStartPosX = posX + self.m_uiData.ExtraShowCardsDiff[self.m_seatID].x;
+                self.m_showCardsStartPosY = posY + self.m_uiData.ExtraShowCardsDiff[self.m_seatID].y;
             }
         }
 
@@ -455,7 +464,64 @@ cc.Class({
 
     //重新绘制名牌
     redrawShowCards (showCardsList) {
+        var self = this;
 
+        showCardsList = showCardsList || [];
+
+        //将抓的牌提取出来
+        var addCard;
+        if (self.m_gameData.hasAddCard(showCardsList)) {
+            addCard = showCardsList.splice(-1, 1)[0];
+        }
+
+        //排序
+        showCardsList.sort(function (a, b) {
+            return a - b;
+        });
+
+        //将抓牌添加进列表
+        if (addCard) {
+            showCardsList.push(addCard);
+        }
+
+        self.clearHandCards();
+
+        var showCardsDiff = self.m_uiData.ShowCardsDiff[self.m_seatID];
+        var addCardDiff = self.m_uiData.ShowAddCardDiff[self.m_seatID];
+        var cardsNum = showCardsList.length;
+
+        for (var i = 0; i < cardsNum; i++) {
+            var cardValue = showCardsList[i];
+            var cardImgName = this.getShowCardImgName(cardValue);
+
+            var param = {
+                imgName: cardImgName,
+                cardValue: cardValue,
+            };
+            var card = new Card();
+            card.init(param);
+            card.setAnchorPoint(0, 0);
+
+            var posX = self.m_showCardsStartPosX + i * showCardsDiff.x;
+            var posY = self.m_showCardsStartPosY + i * showCardsDiff.y;
+
+            var isAddCard = (i == (cardsNum - 1) && (cardsNum % 3 == 2))
+            if (isAddCard) {
+                posX += addCardDiff.x;
+                posY += addCardDiff.y;
+            }
+
+            card.setPosition(posX, posY);
+            card.setOriginPos(posX, posY);
+            card.zIndex = self.getHandCardZIndex(i);
+            card.setOriginZIndex(card.zIndex);
+            self.addChild(card);
+
+            self.m_handCardsList.push(card);
+        }
+
+        self.m_gameData.handCards = showCardsList;
+        self.m_gameData.handCardsStr = JSON.stringify(showCardsList);
     },
 
     //绘制一组碰牌
@@ -741,6 +807,13 @@ cc.Class({
         var handCardsStartPos = this.m_uiData.HandCardsStartPos[this.m_seatID];
         this.m_handCardsStartPosX = handCardsStartPos.x;
         this.m_handCardsStartPosY = handCardsStartPos.y;
+    },
+
+    //还原亮牌的位置数据(亮牌位置跟吃碰杠有关，所以重新绘制吃碰杠要先还原亮牌起始位置)
+    resetShowCardsPos () {
+        var handCardsStartPos = this.m_uiData.HandCardsStartPos[this.m_seatID];
+        this.m_showCardsStartPosX = handCardsStartPos.x;
+        this.m_showCardsStartPosY = handCardsStartPos.y;
     },
 
     //清除吃碰杠牌
