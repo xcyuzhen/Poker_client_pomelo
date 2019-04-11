@@ -177,6 +177,9 @@ cc.Class({
     opeRequest (opeType, opeData) {
         console.log("OOOOOOOOOOOOOOOOOOOOOOOOOO 请求操作: ", opeType, opeData);
         Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.OPE_REQ, {opeType: opeType, opeData: opeData});
+
+        //隐藏操作面板
+        this.m_container.active = false;
     },
 
     //获取杠牌和碰牌的资源

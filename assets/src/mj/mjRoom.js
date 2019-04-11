@@ -8,6 +8,7 @@ cc.Class({
         m_playerMgr: cc.Component,
         m_opeMgr: cc.Component,
         m_animMgr: cc.Component,
+        m_resultMgr: cc.Component,
         m_msgMgr: cc.Component,
     },
 

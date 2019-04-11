@@ -174,8 +174,6 @@ cc.Class({
                 playerItem.cardItem.redrawShowCards();
             }
         }
-
-        var huMid = res.huMid;
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 

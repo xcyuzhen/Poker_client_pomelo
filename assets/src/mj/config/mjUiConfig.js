@@ -3,6 +3,9 @@ module.exports = {
     	RoomInfoNode: 0,
     	PlayerNode: 1,
     	CardNode: 2,
+        AnimNode: 3,
+        OpeNode: 4,
+        ResultNode: 5,
     },
 
     RoomInfoNode: {
@@ -252,6 +255,67 @@ module.exports = {
                 DelayTime1: 0.1,
             },
     	},
+    },
+
+    AnimNode: {
+        PengGangAnim: {
+            Sp: {
+                Ap: cc.v2(0.5, 0.5),
+                Pos: {
+                    "1": cc.v2(640, 60),
+                    "2": cc.v2(1110, 360),
+                    "3": cc.v2(640, 660),
+                    "4": cc.v2(170, 360),
+                },
+            },
+            Anim: {
+                StartScale: 2.0,
+                endScale: 1.0,
+                ScaleTime: 0.1,
+                StayTime: 1.5,
+                FadeOutTime: 0.3,
+                FadeScale: 1.2,
+            },
+        },
+
+        HuAnim: {
+            Sp: {
+                Ap: cc.v2(0.5, 0.5),
+                Pos: {
+                    "1": cc.v2(640, 100),
+                    "2": cc.v2(1070, 360),
+                    "3": cc.v2(640, 620),
+                    "4": cc.v2(210, 360),
+                },
+            },
+            Anim: {
+                StartScale: 2.0,
+                endScale: 1.0,
+                ScaleTime: 0.1,
+                StayTime: 2.0,
+                FadeOutTime: 0.3,
+                FadeScale: 1.2,
+            },
+        },
+
+        LiuJuAnim: {
+            Sp: {
+                Ap: cc.v2(0.5, 0.5),
+                Pos: cc.v2(640, 360),
+            },
+            Anim: {
+                StartScale: 2.0,
+                endScale: 1.0,
+                ScaleTime: 0.1,
+                StayTime: 3.0,
+                FadeOutTime: 0.3,
+                FadeScale: 1.2,
+            },
+        },
+    },
+
+    ResultNode: {
+
     },
 
     CardResConfig: {

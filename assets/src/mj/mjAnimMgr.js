@@ -1,10 +1,20 @@
 var BaseMgr = require("./mjBaseMgr");
+var Config = require("./config/mjConfig");
+var UiConfig = require("./config/mjUiConfig");
 
 cc.Class({
     extends: BaseMgr,
 
     properties: {
         m_spGameStart: cc.Sprite,
+        m_spPeng: cc.Sprite,
+        m_spGang: cc.Sprite,
+        m_spHu: cc.Sprite,
+        m_spLiuJu: cc.Sprite,
+    },
+
+    initData () {
+        this.m_uiData = UiConfig.AnimNode;
     },
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
@@ -38,26 +48,160 @@ cc.Class({
 
     //玩家操作返回
     opeResponse (res) {
-        if (res.code == Global.Code.OK) {
+        var self = this;
 
+        if (res.code == Global.Code.OK) {
+            var startCb = function () {
+                Global.Room.m_gameNet.pauseMsgHandle();
+            }
+
+            var endCb = function () {
+                Global.Room.m_gameNet.resumeMsgHandle();
+            }
+
+            var opeLocalSeatID = Global.Room.m_playerMgr.getLocalSeatByMid(res.opeMid);
+
+            switch (res.opeType) {
+                case Config.OPE_TYPE.PENG:
+                    startCb();
+                    self.playPengAnim(opeLocalSeatID, endCb);
+                    break;
+                case Config.OPE_TYPE.GANG:
+                case Config.OPE_TYPE.AN_GANG:
+                case Config.OPE_TYPE.BU_GANG:
+                    startCb();
+                    self.playGangAnim(opeLocalSeatID, endCb);
+                    break;
+                case Config.OPE_TYPE.HU:
+                    startCb();
+                    self.playHuAnim(opeLocalSeatID, endCb);
+                    break;
+            }
         }
     },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
     ////////////////////////////////////功能函数begin////////////////////////////////////
     //碰牌动画
-    playPengAnim () {
+    playPengAnim (localSeatID, cb) {
+        var self = this;
 
+        if (Global.Tools.seatCheck(localSeatID)) {
+            var uiData = self.m_uiData.PengGangAnim;
+            self.m_spPeng.node.setAnchorPoint(uiData.Sp.Ap);
+            self.m_spPeng.node.setPosition(uiData.Sp.Pos[localSeatID]);
+            self.m_spPeng.node.setScale(uiData.Anim.StartScale);
+            self.m_spPeng.node.opacity = 255,
+            self.m_spPeng.node.active = true;
+
+            self.m_spPeng.node.runAction(cc.sequence(
+                cc.scaleTo(uiData.Anim.ScaleTime, uiData.Anim.endScale),
+                cc.delayTime(uiData.Anim.StayTime),
+                cc.callFunc(function () {
+                    if (!!cb) {
+                        cb();
+                    }
+                }),
+                cc.spawn(
+                    cc.fadeOut(uiData.Anim.FadeOutTime),
+                    cc.scaleTo(uiData.Anim.FadeOutTime, uiData.Anim.FadeScale)
+                )
+            ));
+        } else {
+            if (!!cb) {
+                cb();
+            }
+        }
     },
 
     //杠牌动画
-    playGangAnim () {
+    playGangAnim (localSeatID, cb) {
+        var self = this;
 
+        if (Global.Tools.seatCheck(localSeatID)) {
+            var uiData = self.m_uiData.PengGangAnim;
+            self.m_spGang.node.setAnchorPoint(uiData.Sp.Ap);
+            self.m_spGang.node.setPosition(uiData.Sp.Pos[localSeatID]);
+            self.m_spGang.node.setScale(uiData.Anim.StartScale);
+            self.m_spGang.node.opacity = 255,
+            self.m_spGang.node.active = true;
+
+            self.m_spGang.node.runAction(cc.sequence(
+                cc.scaleTo(uiData.Anim.ScaleTime, uiData.Anim.endScale),
+                cc.delayTime(uiData.Anim.StayTime),
+                cc.callFunc(function () {
+                    if (!!cb) {
+                        cb();
+                    }
+                }),
+                cc.spawn(
+                    cc.fadeOut(uiData.Anim.FadeOutTime),
+                    cc.scaleTo(uiData.Anim.FadeOutTime, uiData.Anim.FadeScale)
+                )
+            ));
+        } else {
+            if (!!cb) {
+                cb();
+            }
+        }
     },
 
     //胡牌动画
-    playHuAnim () {
+    playHuAnim (localSeatID, cb) {
+        var self = this;
 
+        if (Global.Tools.seatCheck(localSeatID)) {
+            var uiData = self.m_uiData.HuAnim;
+            self.m_spHu.node.setAnchorPoint(uiData.Sp.Ap);
+            self.m_spHu.node.setPosition(uiData.Sp.Pos[localSeatID]);
+            self.m_spHu.node.setScale(uiData.Anim.StartScale);
+            self.m_spHu.node.opacity = 255,
+            self.m_spHu.node.active = true;
+
+            self.m_spHu.node.runAction(cc.sequence(
+                cc.scaleTo(uiData.Anim.ScaleTime, uiData.Anim.endScale),
+                cc.delayTime(uiData.Anim.StayTime),
+                cc.callFunc(function () {
+                    if (!!cb) {
+                        cb();
+                    }
+                }),
+                cc.spawn(
+                    cc.fadeOut(uiData.Anim.FadeOutTime),
+                    cc.scaleTo(uiData.Anim.FadeOutTime, uiData.Anim.FadeScale)
+                )
+            ));
+        } else {
+            if (!!cb) {
+                cb();
+            }
+        }
+    },
+
+    //流局动画
+    playLiuJuAnim (cb) {
+        var self = this;
+
+        var uiData = self.m_uiData.LiuJuAnim;
+        self.m_spLiuJu.node.setAnchorPoint(uiData.Sp.Ap);
+        self.m_spLiuJu.node.setPosition(uiData.Sp.Pos);
+        self.m_spLiuJu.node.setScale(uiData.Anim.StartScale);
+        self.m_spLiuJu.node.opacity = 255,
+        self.m_spLiuJu.node.active = true;
+
+        self.m_spLiuJu.node.runAction(cc.sequence(
+            cc.scaleTo(uiData.Anim.ScaleTime, uiData.Anim.endScale),
+            cc.delayTime(uiData.Anim.StayTime),
+            cc.callFunc(function () {
+                if (!!cb) {
+                    cb();
+                }
+            }),
+            cc.spawn(
+                cc.fadeOut(uiData.Anim.FadeOutTime),
+                cc.scaleTo(uiData.Anim.FadeOutTime, uiData.Anim.FadeScale)
+            )
+        ));
     },
     ////////////////////////////////////功能函数end////////////////////////////////////
 });
