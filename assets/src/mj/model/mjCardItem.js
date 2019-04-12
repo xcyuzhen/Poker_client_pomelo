@@ -228,6 +228,9 @@ cc.Class({
 
         if (!cc.isValid(card)) {
             console.error("CCCCCCCCCCCCCCCCCCCCCCC CardItem.playOutCardAnim card is invalid.");
+            if (!!cb) {
+                cb();
+            }
             return;
         }
 
@@ -480,7 +483,7 @@ cc.Class({
         });
 
         //将抓牌添加进列表
-        if (addCard) {
+        if (addCard != undefined && addCard != null) {
             showCardsList.push(addCard);
         }
 

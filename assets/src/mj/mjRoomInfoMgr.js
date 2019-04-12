@@ -131,8 +131,7 @@ cc.Class({
     //刷新剩余牌张数
     updateRoundLeftCardsNum (res) {
         var leftCardsNum = parseInt(res.leftCardsNum);
-        console.log("AAAAAAAA BBBBBBBB ", leftCardsNum);
-        if (leftCardsNum <= 0) {
+        if (leftCardsNum < 0) {
             this.m_lbLeftCardsNum.string = "";
         } else {
             var str = "剩余{0}张";

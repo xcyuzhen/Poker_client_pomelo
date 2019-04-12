@@ -11,10 +11,20 @@ cc.Class({
         m_spGang: cc.Sprite,
         m_spHu: cc.Sprite,
         m_spLiuJu: cc.Sprite,
+        m_moMaNode: cc.Node,
+        m_maCardList: [cc.Sprite],
+        m_maNumNode: cc.Node,
+        m_lbMaNum: cc.Label,
     },
 
     initData () {
         this.m_uiData = UiConfig.AnimNode;
+    },
+
+    initUIView () {
+        var self = this;
+
+        self.m_moMaNode.on(cc.Node.EventType.TOUCH_START, function () {});
     },
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
@@ -72,10 +82,6 @@ cc.Class({
                     startCb();
                     self.playGangAnim(opeLocalSeatID, endCb);
                     break;
-                case Config.OPE_TYPE.HU:
-                    startCb();
-                    self.playHuAnim(opeLocalSeatID, endCb);
-                    break;
             }
         }
     },
@@ -96,12 +102,12 @@ cc.Class({
 
             self.m_spPeng.node.runAction(cc.sequence(
                 cc.scaleTo(uiData.Anim.ScaleTime, uiData.Anim.endScale),
-                cc.delayTime(uiData.Anim.StayTime),
                 cc.callFunc(function () {
                     if (!!cb) {
                         cb();
                     }
                 }),
+                cc.delayTime(uiData.Anim.StayTime),
                 cc.spawn(
                     cc.fadeOut(uiData.Anim.FadeOutTime),
                     cc.scaleTo(uiData.Anim.FadeOutTime, uiData.Anim.FadeScale)
@@ -128,12 +134,12 @@ cc.Class({
 
             self.m_spGang.node.runAction(cc.sequence(
                 cc.scaleTo(uiData.Anim.ScaleTime, uiData.Anim.endScale),
-                cc.delayTime(uiData.Anim.StayTime),
                 cc.callFunc(function () {
                     if (!!cb) {
                         cb();
                     }
                 }),
+                cc.delayTime(uiData.Anim.StayTime),
                 cc.spawn(
                     cc.fadeOut(uiData.Anim.FadeOutTime),
                     cc.scaleTo(uiData.Anim.FadeOutTime, uiData.Anim.FadeScale)
@@ -202,6 +208,73 @@ cc.Class({
                 cc.scaleTo(uiData.Anim.FadeOutTime, uiData.Anim.FadeScale)
             )
         ));
+    },
+
+    //摸马动画
+    playMoMaAnim (maList, cb) {
+        var self = this;
+
+        //还原界面显示
+        self.m_maNumNode.active = false;
+        for (var i = 0; i < self.m_maCardList.length; i++) {
+            var cardImgName = UiConfig.CardResConfig.MaCardRes.format("back");
+            self.m_maCardList[i].spriteFrame = Global.ResMgr.CardAtlas.getSpriteFrame(cardImgName);
+            self.m_maCardList[i].node.color = cc.Color.WHITE;
+        }
+
+        self.m_moMaNode.active = true;
+
+        var uiData = self.m_uiData.MoMaAnim;
+
+        maList = maList || [];
+        var zhongNum = 0;
+
+        var showMaNumCB = function () {
+            for (var i = 0; i < maList.length; i++) {
+                var maItem = maList[i];
+                if (maItem.result == 1) {
+                    zhongNum ++;
+                    var maCard = self.m_maCardList[i];
+                    maCard.node.color = new cc.Color(230, 130, 130);
+                }
+            }
+
+            self.m_lbMaNum.string = ("x" + zhongNum);
+            self.m_maNumNode.active = true;
+        }
+
+        var maCardAnim = function (index) {
+            var maCard = self.m_maCardList[index];
+            var maItem = maList[index];
+
+            var delayTime = (index + 1) * uiData.MaCardShowDelayTime;
+            var cardImgName = UiConfig.CardResConfig.MaCardRes.format(maItem.cardValue);
+            maCard.node.runAction(cc.sequence(
+                cc.delayTime(delayTime),
+                cc.callFunc(function () {
+                    maCard.spriteFrame = Global.ResMgr.CardAtlas.getSpriteFrame(cardImgName);
+                    if (index == maList.length - 1) {
+                        maCard.node.runAction(cc.sequence(
+                            cc.delayTime(uiData.MaNumNodeDelayTime),
+                            cc.callFunc(function () {
+                                showMaNumCB();
+                            }),
+                            cc.delayTime(uiData.NodeDelayTime),
+                            cc.callFunc(function () {
+                                self.m_moMaNode.active = false;
+                                if (!!cb) {
+                                    cb();
+                                }
+                            })
+                        ));
+                    }
+                })
+            ));
+        }
+
+        for (var i = 0; i < maList.length; i++) {
+            maCardAnim(i);
+        }
     },
     ////////////////////////////////////功能函数end////////////////////////////////////
 });

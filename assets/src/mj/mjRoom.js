@@ -60,6 +60,7 @@ cc.Class({
         this.m_playerMgr.init();
         this.m_opeMgr.init();
         this.m_animMgr.init();
+        this.m_resultMgr.init();
         this.m_msgMgr.init();
 
         this.roomState = Global.RoomState.UN_INITED;
@@ -82,6 +83,7 @@ cc.Class({
         this.m_playerMgr.commonMsgHandler(funcName, res);
         this.m_opeMgr.commonMsgHandler(funcName, res);
         this.m_animMgr.commonMsgHandler(funcName, res);
+        this.m_resultMgr.commonMsgHandler(funcName, res);
         this.m_msgMgr.commonMsgHandler(funcName, res);
     },
 });

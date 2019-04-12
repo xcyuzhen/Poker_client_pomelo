@@ -295,9 +295,9 @@ module.exports = {
             Anim: {
                 StartScale: 2.0,
                 endScale: 1.0,
-                ScaleTime: 0.1,
-                StayTime: 1.5,
-                FadeOutTime: 0.3,
+                ScaleTime: 0.2,
+                StayTime: 1.0,
+                FadeOutTime: 0.5,
                 FadeScale: 1.2,
             },
         },
@@ -315,9 +315,9 @@ module.exports = {
             Anim: {
                 StartScale: 2.0,
                 endScale: 1.0,
-                ScaleTime: 0.1,
-                StayTime: 2.0,
-                FadeOutTime: 0.3,
+                ScaleTime: 0.2,
+                StayTime: 1.5,
+                FadeOutTime: 0.5,
                 FadeScale: 1.2,
             },
         },
@@ -335,6 +335,12 @@ module.exports = {
                 FadeOutTime: 0.3,
                 FadeScale: 1.2,
             },
+        },
+
+        MoMaAnim: {
+            MaCardShowDelayTime: 0.5,
+            MaNumNodeDelayTime: 0.5,
+            NodeDelayTime: 3,
         },
     },
 
@@ -370,5 +376,7 @@ module.exports = {
             "3": "opposite_extra_{0}",
             "4": "left_extra_{0}",
         },
+
+        MaCardRes: "my_extra_{0}",
     },
 };

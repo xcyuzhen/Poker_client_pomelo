@@ -162,19 +162,6 @@ cc.Class({
             }
         }
     },
-
-    resultInfo (res) {
-        var self = this;
-
-        var userList = res.userList;
-        for (var tMid in userList) {
-            var resultData = userList[tMid];
-            var playerItem = self.m_playerList[tMid];
-            if (!!playerItem) {
-                playerItem.cardItem.redrawShowCards();
-            }
-        }
-    },
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
     ////////////////////////////////////对外接口begin////////////////////////////////////
@@ -186,6 +173,19 @@ cc.Class({
         }
 
         return 0;
+    },
+
+    //绘制所有亮牌
+    redrawAllShowCards (userList) {
+        var self = this;
+
+        for (var tMid in userList) {
+            var resultData = userList[tMid];
+            var playerItem = self.m_playerList[tMid];
+            if (!!playerItem) {
+                playerItem.cardItem.redrawShowCards(resultData.handCards);
+            }
+        }
     },
     ////////////////////////////////////对外接口end////////////////////////////////////
 
