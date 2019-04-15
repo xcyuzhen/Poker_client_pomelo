@@ -588,7 +588,6 @@ cc.Class({
 
             width = Math.max(width, card.position.x + card.width);
             height = Math.max(height, card.position.y + card.height);
-            var size = card.getContentSize();
         }
 
         node.setContentSize(width, height);
@@ -627,7 +626,6 @@ cc.Class({
 
             width = Math.max(width, card.position.x + card.width);
             height = Math.max(height, card.position.y + card.height);
-            var size = card.getContentSize();
         }
 
         node.setContentSize(width, height);

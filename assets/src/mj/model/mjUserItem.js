@@ -45,20 +45,17 @@ cc.Class({
         });
 
         //昵称
-        var lbNameNode = new cc.Node("Label");
-        lbNameNode.setAnchorPoint(self.m_uiConfig.Name.Ap[self.m_seatID]);
+        var lbName = Global.UiFactory.createLabel(self.m_userData.nick, self.m_uiConfig.Name.FontSize);
+        lbName.node.setAnchorPoint(self.m_uiConfig.Name.Ap[self.m_seatID]);
         var nameDiff = self.m_uiConfig.Name.Diff[self.m_seatID];
-		lbNameNode.setPosition(headPos.x + nameDiff.x, headPos.y + nameDiff.y);
-		lbNameNode.setContentSize(self.m_uiConfig.Name.Size);
-		self.m_containerNode.addChild(lbNameNode, 1);
+        lbName.node.setPosition(headPos.x + nameDiff.x, headPos.y + nameDiff.y);
+        lbName.node.setContentSize(self.m_uiConfig.Name.Size);
+        self.m_containerNode.addChild(lbName.node, 1);
 
-        var lbName = lbNameNode.addComponent(cc.Label);
-		lbName.fontSize = self.m_uiConfig.Name.FontSize;
-		lbName.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
-		lbName.verticalAlign = cc.Label.VerticalAlign.CENTER;
-		lbName.overflow = cc.Label.Overflow.CLAMP;
-		lbName.enableWrapText = false;
-		lbName.string = self.m_userData.nick;
+        lbName.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
+        lbName.verticalAlign = cc.Label.VerticalAlign.CENTER;
+        lbName.overflow = cc.Label.Overflow.CLAMP;
+        lbName.enableWrapText = false;
         self.m_lbName = lbName;
 
         //金币数量

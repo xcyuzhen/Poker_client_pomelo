@@ -146,7 +146,7 @@ module.exports = {
                 "4": cc.v2(136, 520),
             },
 
-            //两组吃碰杠牌之间的间距(注: 第一组末尾和第二组开始之间的间距)
+            //两组吃碰杠牌之间的间距(注: 第一组开始和第二组开始之间的间距)
             ExtraCardsGroupDiff: {
                 "1": cc.v2(215, 0),
                 "2": cc.v2(0, 90),
@@ -162,7 +162,7 @@ module.exports = {
                 "4": cc.v2(136, 520),
             },
 
-            //吃碰杠和手牌的间距
+            //吃碰杠和手牌的间距(注: 最后一组吃碰杠开始和第一张手牌的间距)
             ExtraHandCardsDiff: {
                 "1": cc.v2(215, 0),
                 "2": cc.v2(15, 90),
@@ -345,7 +345,68 @@ module.exports = {
     },
 
     ResultNode: {
-
+        LbEndTime: {
+            Ap: cc.v2(0, 1.0),
+            Pos: cc.v2(20, 700),
+            Txt: "结束时间:{0}",
+        },
+        LbGroupName: {
+            Ap: cc.v2(0, 1.0),
+            Diff: cc.v2(20, 0),
+            Txt: "场次:{0}",
+        },
+        LbBase: {
+            Ap: cc.v2(0, 1.0),
+            Diff: cc.v2(20, 0),
+            Txt: "底分:{0}",
+        },
+        ResultItem: {
+            Ap: cc.v2(0, 0),
+            StartPos: cc.v2(0, 600),
+            Diff: cc.v2(0, -150),
+            Size: cc.size(1280, 150),
+            Head: {
+                Ap: cc.v2(0.5, 0.5),
+                Pos: cc.v2(50, 90),
+            },
+            Name: {
+                FontSize: 20,
+                Size: cc.size(100, 20),
+                Ap: cc.v2(0.5, 0.5),
+                Diff: cc.v2(0, -45),
+            },
+            Rate: {
+                FontSize: 20,
+                Size: cc.size(1000, 20),
+                Ap: cc.v2(0, 0),
+                Pos: cc.v2(100, 120),
+            },
+            Score: {
+                FontSize: 20,
+                Ap: cc.v2(0, 0.5),
+                Pos: cc.v2(1100, 750),
+            },
+            CardNode: {
+                Ap: cc.v2(0, 0),
+                Pos: cc.v2(100, 0),
+                PengGroup: {
+                    Ap: cc.v2(0, 0),
+                    Pos: [cc.v2(0, 0), cc.v2(42, 0), cc.v2(84, 0)],
+                },
+                GangGroup: {
+                    Ap: cc.v2(0, 0),
+                    Pos: [cc.v2(0, 0), cc.v2(42, 0), cc.v2(84, 0), cc.v2(42, 10)],
+                },
+                ExtraStartPos: cc.v2(0, 0),
+                ExtraGroupDiff: cc.v2(138, 0),
+                ExtraHandDiff: cc.v2(10, 0),
+                HandCard: {
+                    Ap: cc.v2(0, 0),
+                    Diff: cc.v2(42, 0),
+                    AddDiff: cc.v2(10, 0),
+                },
+            },
+        },
     },
 
     CardResConfig: {
@@ -378,5 +439,7 @@ module.exports = {
         },
 
         MaCardRes: "my_extra_{0}",
+
+        resultShowCardRes: "opposite_extra_{0}",
     },
 };
