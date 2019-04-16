@@ -119,6 +119,14 @@ cc.Class({
     updateUserList (res) {
         this.updatePlayerList(res.userList);
         this.m_btnReady.node.active = (this.m_selfUserData.ready == 0);
+
+        //牌局没有开始，自己已经准备，清理桌子上的各种牌
+        if (this.m_selfUserData.ready == 1 && Global.Room.roomState != Global.RoomState.PLAYING) {
+            for (var tMid in this.m_playerList) {
+                var playerItem = this.m_playerList[tMid];
+                playerItem.cardItem.clearTable();
+            }
+        }
     },
 
     //游戏开始
@@ -183,6 +191,7 @@ cc.Class({
             var resultData = userList[tMid];
             var playerItem = self.m_playerList[tMid];
             if (!!playerItem) {
+                playerItem.cardItem.redrawExtraCards(resultData.extraCards);
                 playerItem.cardItem.redrawShowCards(resultData.handCards);
             }
         }

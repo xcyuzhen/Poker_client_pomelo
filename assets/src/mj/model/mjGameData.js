@@ -75,4 +75,22 @@ cc.Class({
         this.handCardsNum --;
         this.handCardsStr = JSON.stringify(this.handCards);
     },
+
+    //清除吃碰杠牌
+    clearExtraCards () {
+        this.extraCards = [];
+        this.extraCardsStr = "";
+    },
+
+    //清除手牌
+    clearHandCards () {
+        this.handCards = [];
+        this.handCardsStr = "";
+    },
+
+    //清除出的牌
+    clearOutCards () {
+        this.outCards = [];
+        this.outCardsStr = "";
+    },
 });

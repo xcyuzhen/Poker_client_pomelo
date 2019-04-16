@@ -375,7 +375,7 @@ cc.Class({
         });
 
         //将抓牌添加进列表
-        if (addCard) {
+        if (addCard != undefined && addCard != null) {
             handCardsList.push(addCard);
         }
 
@@ -825,6 +825,7 @@ cc.Class({
         }
 
         this.m_extraCardsList = [];
+        this.m_gameData.clearExtraCards();
     },
 
     //清除手牌
@@ -835,6 +836,7 @@ cc.Class({
         }
 
         this.m_handCardsList = [];
+        this.m_gameData.clearHandCards();
     },
 
     //清除出牌
@@ -845,5 +847,13 @@ cc.Class({
         }
 
         this.m_outCardsList = [];
+        this.m_gameData.clearOutCards();
+    },
+
+    //清除桌子
+    clearTable () {
+        this.clearExtraCards();
+        this.clearHandCards();
+        this.clearOutCards();
     },
 });

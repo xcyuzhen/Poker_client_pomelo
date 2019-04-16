@@ -68,7 +68,6 @@ cc.Class({
 
         lbGold.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
         lbGold.verticalAlign = cc.Label.VerticalAlign.CENTER;
-        lbGold.overflow = cc.Label.Overflow.CLAMP;
         lbGold.enableWrapText = false;
         self.m_lbGold = lbGold;
 

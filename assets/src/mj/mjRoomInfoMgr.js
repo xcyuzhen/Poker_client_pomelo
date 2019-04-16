@@ -56,9 +56,12 @@ cc.Class({
     },
 
     updateUserList (res) {
-        var roomState = Global.Room.roomState;
-        if (roomState != Global.RoomState.WAIT_TO_START) {
+        if (Global.Room.roomState != Global.RoomState.WAIT_TO_START) {
             this.stopTimer(true);
+        }
+
+        if (Global.Room.roomState != Global.RoomState.PLAYING) {
+            this.updateRoundLeftCardsNum(-1);
         }
     },
 
@@ -73,8 +76,8 @@ cc.Class({
     },
 
     roundInfo (res) {
-        this.updateRoundLeftCardsNum(res);
-        this.udpateRoundTurnplate(res);
+        this.updateRoundLeftCardsNum(res.leftCardsNum);
+        this.udpateRoundTurnplate(res.curOpeMid);
 
         var leftTime = res.leftTime;
         this.startTimer(leftTime);
@@ -89,9 +92,9 @@ cc.Class({
     ////////////////////////////////////消息处理函数end////////////////////////////////////
 
     ////////////////////////////////////对内接口begin////////////////////////////////////
-    //获取游戏配置
-    getGameConfig () {
-        return this.gameConfig;
+    //获取场次配置
+    getGroupConfig () {
+        return this.groupConfig;
     },
     ////////////////////////////////////对内接口end////////////////////////////////////
 
@@ -136,8 +139,8 @@ cc.Class({
     },
 
     //刷新剩余牌张数
-    updateRoundLeftCardsNum (res) {
-        var leftCardsNum = parseInt(res.leftCardsNum);
+    updateRoundLeftCardsNum (leftCardsNum) {
+        var leftCardsNum = parseInt(leftCardsNum);
         if (leftCardsNum < 0) {
             this.m_lbLeftCardsNum.string = "";
         } else {
@@ -147,8 +150,8 @@ cc.Class({
     },
 
     //刷新转盘
-    udpateRoundTurnplate (res) {
-        var curOutCardLocalSeatID = Global.Room.m_playerMgr.getLocalSeatByMid(res.curOpeMid);
+    udpateRoundTurnplate (opeMid) {
+        var curOutCardLocalSeatID = Global.Room.m_playerMgr.getLocalSeatByMid(opeMid);
         var rotateAngle = this.m_uiData.Turnplate.RotateAngle[curOutCardLocalSeatID];
         if (rotateAngle != undefined && rotateAngle != null) {
             this.m_turnplate.rotation = rotateAngle;

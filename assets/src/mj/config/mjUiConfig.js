@@ -58,7 +58,7 @@ module.exports = {
     		},
     		Name: {
     			FontSize: 20,
-    			Size: cc.size(100, 20),
+    			Size: cc.size(150, 20),
     			Ap: {
     				"1": cc.v2(0.5, 0.5),
     				"2": cc.v2(0.5, 0.5),
@@ -340,7 +340,7 @@ module.exports = {
         MoMaAnim: {
             MaCardShowDelayTime: 0.5,
             MaNumNodeDelayTime: 0.5,
-            NodeDelayTime: 3,
+            NodeDelayTime: 1,
         },
     },
 
@@ -362,16 +362,16 @@ module.exports = {
         },
         ResultItem: {
             Ap: cc.v2(0, 0),
-            StartPos: cc.v2(0, 600),
-            Diff: cc.v2(0, -150),
-            Size: cc.size(1280, 150),
+            StartPos: cc.v2(0, 500),
+            Diff: cc.v2(0, -120),
+            Size: cc.size(1280, 120),
             Head: {
                 Ap: cc.v2(0.5, 0.5),
-                Pos: cc.v2(50, 90),
+                Pos: cc.v2(100, 70),
             },
             Name: {
                 FontSize: 20,
-                Size: cc.size(100, 20),
+                Size: cc.size(150, 20),
                 Ap: cc.v2(0.5, 0.5),
                 Diff: cc.v2(0, -45),
             },
@@ -379,16 +379,16 @@ module.exports = {
                 FontSize: 20,
                 Size: cc.size(1000, 20),
                 Ap: cc.v2(0, 0),
-                Pos: cc.v2(100, 120),
+                Pos: cc.v2(200, 95),
             },
             Score: {
                 FontSize: 20,
                 Ap: cc.v2(0, 0.5),
-                Pos: cc.v2(1100, 750),
+                Pos: cc.v2(1100, 60),
             },
             CardNode: {
                 Ap: cc.v2(0, 0),
-                Pos: cc.v2(100, 0),
+                Pos: cc.v2(200, 20),
                 PengGroup: {
                     Ap: cc.v2(0, 0),
                     Pos: [cc.v2(0, 0), cc.v2(42, 0), cc.v2(84, 0)],

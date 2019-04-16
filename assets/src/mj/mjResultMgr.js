@@ -1,6 +1,7 @@
 var BaseMgr = require("./mjBaseMgr");
 var Config = require("./config/mjConfig");
 var UiConfig = require("./config/mjUiConfig");
+var Card = require("./model/mjCard");
 
 cc.Class({
     extends: BaseMgr,
@@ -39,7 +40,7 @@ cc.Class({
                 Global.Room.m_animMgr.playMoMaAnim(maList, function () {
                     console.log("RRRRRRRRRRRRRRRRRRRRRRRR 2.播放摸马动画完毕");
                     console.log("RRRRRRRRRRRRRRRRRRRRRRRR 3.开始显示结算界面");
-                    self.showResultPanel();
+                    self.showResultPanel(res);
                 });
             });
         } else {
@@ -57,10 +58,11 @@ cc.Class({
         var self = this;
 
         //顶部信息
-        var gameConfig = Global.Room.m_roomInfoMgr.getGameConfig();
+        var groupConfig = Global.Room.m_roomInfoMgr.getGroupConfig();
+
         self.m_lbEndTime.string = self.m_uiData.LbEndTime.Txt.format(resultData.roundEndTime);
-        self.m_lbGroupName.string = self.m_uiData.LbGroupName.Txt.format(gameConfig.name);
-        self.m_lbScore.string = self.m_uiData.LbBase.Txt.format(gameConfig.base);
+        self.m_lbGroupName.string = self.m_uiData.LbGroupName.Txt.format(groupConfig.name);
+        self.m_lbBase.string = self.m_uiData.LbBase.Txt.format(groupConfig.base);
 
         //创建中部
         var resultUserList = resultData.userList;
@@ -100,32 +102,33 @@ cc.Class({
 
         //昵称
         var lbName = Global.UiFactory.createLabel(itemData.nick, uiData.Name.FontSize);
+        lbName.node.setContentSize(uiData.Name.Size);
         lbName.node.setAnchorPoint(uiData.Name.Ap);
         var nameDiff = uiData.Name.Diff;
         lbName.node.setPosition(headPos.x + nameDiff.x, headPos.y + nameDiff.y);
-        lbName.node.setContentSize(uiData.Name.Size);
         lbName.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
         lbName.verticalAlign = cc.Label.VerticalAlign.CENTER;
-        lbName.overflow = cc.Label.Overflow.CLAMP;
+        // lbName.overflow = cc.Label.Overflow.CLAMP;
         lbName.enableWrapText = false;
         node.addChild(lbName.node, 1);
 
         //牌型
         var cardNode = self.createShowCardsNode(itemData);
+        cardNode.setPosition(uiData.CardNode.Pos);
         node.addChild(cardNode);
 
         //倍数
         var rateStrList = [];
         for (var i = 0; i < itemData.rateList.length; i++) {
             var rateItem = itemData.rateList[i];
-            rateStrList.push((Config.RATE_NAME[rateItem.rateType] + "x" + rateItem.rateValue));
+            rateStrList.push((Config.RATE_NAME[rateItem.rateType] + ": " + rateItem.rateValue));
         }
         var rateStr = rateStrList.join(" ");
         var lbRate = Global.UiFactory.createLabel(rateStr, uiData.Rate.FontSize);
         lbRate.node.setAnchorPoint(uiData.Rate.Ap);
         lbRate.node.setPosition(uiData.Rate.Pos);
         lbRate.node.setContentSize(uiData.Rate.Size);
-        lbRate.horizontalAlign = cc.Label.HorizontalAlign.CENTER;
+        lbRate.horizontalAlign = cc.Label.HorizontalAlign.LEFT;
         lbRate.verticalAlign = cc.Label.VerticalAlign.CENTER;
         lbRate.overflow = cc.Label.Overflow.CLAMP;
         lbRate.enableWrapText = false;
@@ -150,7 +153,6 @@ cc.Class({
         var uiData = self.m_uiData.ResultItem.CardNode;
         var node = new cc.Node();
         node.setAnchorPoint(uiData.Ap);
-        node.setPosition(uiData.Pos);
 
         var posX = 0, posY = 0;
         var width = 0, height = 0;
@@ -162,7 +164,6 @@ cc.Class({
             node.addChild(extraNode);
 
             posX += extraNode.width;
-            posY += extraNode.height;
 
             posX += uiData.ExtraHandDiff.x;
             posY += uiData.ExtraHandDiff.y;
@@ -246,7 +247,7 @@ cc.Class({
         });
 
         //将抓牌添加进列表
-        if (addCard) {
+        if (addCard != undefined && addCard != null) {
             handCards.push(addCard);
         }
 
