@@ -112,9 +112,15 @@ cc.Class({
         self.m_lbGold.string = userData.gold;
 
         //准备标记
-        var isPlaying = Global.Room.roomState === Global.RoomState.PLAYING;
-        var showReady = (!isPlaying) && (userData.ready === 1);
+        var isPlaying = Global.Room.roomState == Global.RoomState.PLAYING;
+        var isReady = userData.ready == 1;
+        var showReady = (!isPlaying) && isReady;
         self.m_spReadyNode.active = showReady;
+
+        //已经准备并且没有开局，设定初始位置
+        if (showReady) {
+            self.m_containerNode.setPosition(self.m_uiConfig.Container.Pos[self.m_seatID]);
+        }
 
         self.m_userData = userData;
     },

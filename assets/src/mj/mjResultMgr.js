@@ -26,6 +26,9 @@ cc.Class({
         var maList = res.maList;
         var userList = res.userList;
 
+        //暂停消息处理
+        Global.Room.m_gameNet.pauseMsgHandle();
+
         //亮牌
         Global.Room.m_playerMgr.redrawAllShowCards(userList);
 
@@ -41,6 +44,9 @@ cc.Class({
                     console.log("RRRRRRRRRRRRRRRRRRRRRRRR 2.播放摸马动画完毕");
                     console.log("RRRRRRRRRRRRRRRRRRRRRRRR 3.开始显示结算界面");
                     self.showResultPanel(res);
+
+                    //恢复消息处理
+                    Global.Room.m_gameNet.resumeMsgHandle();
                 });
             });
         } else {
@@ -48,6 +54,9 @@ cc.Class({
             //播放流局动画
             Global.Room.m_animMgr.playLiuJuAnim(maList, function () {
                 console.log("RRRRRRRRRRRRRRRRRRRRRRRR 1.播放流局动画完毕");
+
+                //恢复消息处理
+                Global.Room.m_gameNet.resumeMsgHandle();
             });
         }
     },
