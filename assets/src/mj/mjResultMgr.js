@@ -52,7 +52,7 @@ cc.Class({
         } else {
             console.log("RRRRRRRRRRRRRRRRRRRRRRRR 1.开始播放流局动画");
             //播放流局动画
-            Global.Room.m_animMgr.playLiuJuAnim(maList, function () {
+            Global.Room.m_animMgr.playLiuJuAnim(function () {
                 console.log("RRRRRRRRRRRRRRRRRRRRRRRR 1.播放流局动画完毕");
 
                 //恢复消息处理
