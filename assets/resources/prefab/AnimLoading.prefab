@@ -13,7 +13,7 @@
   {
     "__type__": "cc.Node",
     "_name": "AnimLoading",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": null,
     "_children": [],
     "_active": true,
@@ -143,7 +143,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "5fe3ccee-a622-48d9-a31e-4dc090e6b94e"
     },
     "fileId": "44vRPBAz9HR75ptBHiPvoH",
     "sync": false
