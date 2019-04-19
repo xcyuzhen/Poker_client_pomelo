@@ -118,4 +118,12 @@ cc.Class({
     getUpPosY () {
         return this.m_originY + this.m_uiData.CardUpDiff;
     },
+
+    //获取中间位置坐标
+    getCenterPos () {
+        var cPosX = this.x + (0.5 - this.anchorX) * this.width * this.scaleX;
+        var cPosY = this.y + (0.5 - this.anchorY) * this.height * this.scaleY;
+
+        return cc.v2(cPosX, cPosY);
+    },
 });

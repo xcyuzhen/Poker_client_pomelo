@@ -45,7 +45,29 @@ cc.Class({
     },
 
     initUIView () {
+        this.initOutCardArrow();
+    },
 
+    //初始化最后出牌的箭头
+    initOutCardArrow () {
+        var uiData = this.m_uiData.OutCardArrow;
+
+        var spArrow = Global.UiFactory.createSprite("mj/c1.png");
+        spArrow.node.setAnchorPoint(uiData.Ap);
+        spArrow.node.zIndex = this.m_uiData.OutCardArrowZIndex;
+        // spArrow.node.active = false;
+        this.addChild(spArrow.node);
+
+        spArrow.node.runAction(cc.repeatForever(
+            cc.sequence(
+                cc.moveBy(uiData.Anim.AnimTime, uiData.Anim.UpDiff),
+                cc.delayTime(uiData.Anim.DelayTime),
+                cc.moveBy(uiData.Anim.AnimTime, uiData.Anim.DownDiff),
+                cc.delayTime(uiData.Anim.DelayTime)
+            )
+        ));
+
+        this.m_spOutCardArrow = spArrow;
     },
 
     //点击事件处理
@@ -181,6 +203,11 @@ cc.Class({
         }
     },
 
+    //设置出牌箭头是否显示
+    setOutCardArrowVisible (visible) {
+        this.m_spOutCardArrow.node.active = !!visible;
+    },
+
     //更新玩家数据
     updateGameData (gameData, lastOpeMid, lastOpeItem) {
         var self = this;
@@ -280,6 +307,13 @@ cc.Class({
                 cc.moveTo(self.m_uiData.OutCardAnim.MoveTime, cc.v2(posX, posY)),
                 cc.callFunc(function () {
                     outCard.zIndex = endZIndex;
+
+                    //设置箭头的位置
+                    var centerPos = outCard.getCenterPos();
+                    var diff = self.m_uiData.OutCardArrow.Diff[self.m_seatID];
+                    self.m_spOutCardArrow.node.x = centerPos.x + diff.x;
+                    self.m_spOutCardArrow.node.y = centerPos.y + diff.y;
+                    Global.Room.m_playerMgr.showOutCardArrow(self.m_gameData.mid);
 
                     if (!!cb) {
                         cb();
@@ -848,6 +882,7 @@ cc.Class({
 
         this.m_outCardsList = [];
         this.m_gameData.clearOutCards();
+        this.m_spOutCardArrow.node.active = false;
     },
 
     //清除桌子

@@ -134,9 +134,10 @@ module.exports = {
             HandExtraMaxZIndex: 58,
             HandExtraMidZIndex: 44,
             HandExtraMinZIndex: 40,
-            DargCardZIndex: 60,
+            DargCardZIndex: 70,
             OutCardsMaxZIndex: 30,
-            OutCardFlyZIndex: 60,
+            OutCardFlyZIndex: 70,
+            OutCardArrowZIndex: 60,
 
             //吃碰杠牌的起始位置
             ExtraCardsStartPos: {
@@ -277,6 +278,23 @@ module.exports = {
                 DelayTime: 0.1,
                 MoveTime1: 0.1,
                 DelayTime1: 0.1,
+            },
+
+            //最后出牌箭头
+            OutCardArrow: {
+                Ap: cc.v2(0.5, 0),
+                Diff: {
+                    "1": cc.v2(0, 20),
+                    "2": cc.v2(0, 20),
+                    "3": cc.v2(0, 20),
+                    "4": cc.v2(0, 20),
+                },
+                Anim: {
+                    AnimTime: 1.0,
+                    UpDiff: cc.v2(0, 10),
+                    DownDiff: cc.v2(0, -10),
+                    DelayTime: 0.02,
+                },
             },
     	},
     },

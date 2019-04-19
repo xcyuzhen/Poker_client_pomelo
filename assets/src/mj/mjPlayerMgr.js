@@ -140,6 +140,13 @@ cc.Class({
     //回合消息
     roundInfo (res) {
         this.udpateUserGameData(res.userList, res.lastOpeMid, res.lastOpeItem);
+
+        //判断是否显示出牌箭头
+        if (!!res.lastOpeItem && (res.lastOpeItem.opeType == Config.OPE_TYPE.OUT_CARD)) {
+            this.showOutCardArrow(res.lastOpeMid);
+        } else {
+            this.showOutCardArrow();
+        }
     },
 
     //玩家操作返回
@@ -194,6 +201,15 @@ cc.Class({
                 playerItem.cardItem.redrawExtraCards(resultData.extraCards);
                 playerItem.cardItem.redrawShowCards(resultData.handCards);
             }
+        }
+    },
+
+    //显示出牌箭头
+    showOutCardArrow (mid) {
+        for (var tMid in this.m_playerList) {
+
+            var playerItem = this.m_playerList[tMid];
+            playerItem.cardItem.setOutCardArrowVisible(tMid == mid)
         }
     },
     ////////////////////////////////////对外接口end////////////////////////////////////
