@@ -55,7 +55,7 @@ cc.Class({
         var spArrow = Global.UiFactory.createSprite("mj/c1.png");
         spArrow.node.setAnchorPoint(uiData.Ap);
         spArrow.node.zIndex = this.m_uiData.OutCardArrowZIndex;
-        // spArrow.node.active = false;
+        spArrow.node.active = false;
         this.addChild(spArrow.node);
 
         spArrow.node.runAction(cc.repeatForever(
