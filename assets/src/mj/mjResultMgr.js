@@ -70,8 +70,13 @@ cc.Class({
         var groupConfig = Global.Room.m_roomInfoMgr.getGroupConfig();
 
         self.m_lbEndTime.string = self.m_uiData.LbEndTime.Txt.format(resultData.roundEndTime);
-        self.m_lbGroupName.string = self.m_uiData.LbGroupName.Txt.format(groupConfig.name);
-        self.m_lbBase.string = self.m_uiData.LbBase.Txt.format(groupConfig.base);
+        if (groupConfig) {
+            self.m_lbGroupName.string = self.m_uiData.LbGroupName.Txt.format(groupConfig.name);
+            self.m_lbBase.string = self.m_uiData.LbBase.Txt.format(groupConfig.base);
+        } else {
+            self.m_lbGroupName.string = "";
+            self.m_lbBase.string = "";
+        }
 
         //创建中部
         var resultUserList = resultData.userList;

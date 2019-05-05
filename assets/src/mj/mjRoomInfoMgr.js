@@ -52,7 +52,11 @@ cc.Class({
             }
         }
 
-        this.m_lbGroupName.string = this.groupConfig.name;
+        if (this.groupConfig) {
+            this.m_lbGroupName.string = this.groupConfig.name;
+        } else {
+            this.m_lbGroupName.string = "好友房";
+        }
     },
 
     updateUserList (res) {
