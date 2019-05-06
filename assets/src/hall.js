@@ -97,7 +97,6 @@ cc.Class({
 
     //请求加入某场次
     enterGroupLevel (sender, groupData) {
-        Global.Tools._debug(groupData);
         var gameID = groupData.id;
         //删除冗余的数据
         Global.Game.m_socketMgr.delMsgDataByGroup(Global.MsgGroupName[gameID]);
@@ -107,8 +106,6 @@ cc.Class({
         }
 
         Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.ENTER_GROUP_LEVEL, params, function (data) {
-            Global.Tools._debug(data);
-
             if (data.code !== Global.Code.OK) {
                 console.log(data.msg);
             } else {
