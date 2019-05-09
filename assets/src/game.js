@@ -26,7 +26,11 @@ cc.Class({
     },
 
     start () {
-        cc.director.loadScene("LoginScene");
+        var self = this;
+
+        cc.director.loadScene("LoginScene", function () {
+            self.m_socketMgr.requestServerConfig();
+        });
     },
 
     update (dt) {
@@ -67,7 +71,8 @@ cc.Class({
     socketConnected () {
         //如果是登录界面
         var curScene = cc.director.getScene();
-        if (curScene.getName() === "LoginScene") {
+        console.log("GGGGGGGGGG ", curScene.getName());
+        if (curScene.getName() == "LoginScene") {
             var login = curScene.getChildByName("Canvas").getComponent("login");
             login.socketConnected();
         }

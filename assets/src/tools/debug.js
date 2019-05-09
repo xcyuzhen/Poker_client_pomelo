@@ -3,14 +3,14 @@ Debug.step = 1;
 
 Debug.doTest = function () {
     if (Debug.step == 1) {
-        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.CREATE_FRIEND_ROOM, {gameType: Global.GameID.GT_MJ}, function (data) {
-            if (data.code == Global.Code.OK) {
-                var roomSceneName = Global.RoomSceneName[Global.GameID.GT_MJ];
-                cc.director.loadScene(roomSceneName);
-            } else {
-                console.log(data.msg);
-            }
-        });
+        // Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.CREATE_FRIEND_ROOM, {gameType: Global.GameID.GT_MJ}, function (data) {
+        //     if (data.code == Global.Code.OK) {
+        //         var roomSceneName = Global.RoomSceneName[Global.GameID.GT_MJ];
+        //         cc.director.loadScene(roomSceneName);
+        //     } else {
+        //         console.log(data.msg);
+        //     }
+        // });
 
         // var res = {
         //     curOpeMid: 10008,
@@ -87,9 +87,9 @@ Debug.doTest = function () {
         //     {cardValue: 4, result: 0},
         //     {cardValue: 5, result: 1},
         // ];
-        // // Global.Room.m_animMgr.playMoMaAnim(maList, function () {
-        // //     console.log("摸马结束");
-        // // });
+        // Global.Room.m_animMgr.playMoMaAnim(maList, function () {
+        //     console.log("摸马结束");
+        // });
 
         // var res = {
         //     "socketCmd":20203,

@@ -49,7 +49,7 @@ Tools.clone = function(origin) {
 };
 
 Tools.getUdid = function () {
-    return "yuzhenudidguest2";
+    return "yuzhenudidguest";
 };
 
 //判断是否是自己

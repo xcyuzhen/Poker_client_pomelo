@@ -3,7 +3,8 @@ cc.Class({
 
     properties: {
         animLoadingPrefab: cc.Prefab,
-        btnGuest: cc.Button,
+        // btnGuest: cc.Button,
+        btnGuestList: [cc.Button],
     },
 
     onLoad () {
@@ -25,27 +26,43 @@ cc.Class({
 
     //登录检测
     loginCheck () {
+        var self = this;
+
         var autoLogin = false;
         if (autoLogin) {
             //自动登录
 
         } else {
             //手动登录
-            this.m_animLoading.active = false;
-            this.m_animLoading.getComponent('animLoading').stopAnim();
-            this.btnGuest.node.active = true;
+            self.m_animLoading.active = false;
+            self.m_animLoading.getComponent('animLoading').stopAnim();
+            // self.btnGuest.node.active = true;
+
+            for (var i = 0; i < self.btnGuestList.length; i++) {
+                var btn = self.btnGuestList[i];
+                btn.node.active = true;
+            }
         }
     },
 
     //游客登录按钮点击事件
-    guestLogin () {
+    guestLogin (sender, userIndex) {
         var self = this;
 
-        self.btnGuest.node.active = false;
+        for (var i = 0; i < self.btnGuestList.length; i++) {
+            var btn = self.btnGuestList[i];
+            btn.node.active = false;
+        }
+
+        // self.btnGuest.node.active = false;
         self.m_animLoading.active = true;
         self.m_animLoading.getComponent('animLoading').playAnim();
 
         var udid = Global.Tools.getUdid()
+        if (!!userIndex) {
+            udid += userIndex;
+        }
+
         var params = {
             system: "win32",
             platform: "1",

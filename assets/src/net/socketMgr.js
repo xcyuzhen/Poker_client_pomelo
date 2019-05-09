@@ -2,7 +2,6 @@ cc.Class({
     init () {
     	this.initData();
         this.initPomeloEvent();
-    	this.requestServerConfig();
     },
 
     initData () {
