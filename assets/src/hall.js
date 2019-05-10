@@ -32,6 +32,16 @@ cc.Class({
         this.m_lbID.string = "ID:" + Global.SelfUserData.mid;
     },
 
+    //创建房间
+    createRoom (sender) {
+
+    },
+
+    //加入房间
+    enterRoom (sender) {
+
+    },
+
     //选择游戏
     chooseGame (sender, eventData) {
         var self = this;
