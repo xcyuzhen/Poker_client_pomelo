@@ -667,7 +667,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "spHead<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 11
@@ -733,7 +733,7 @@
   },
   {
     "__type__": "cc.Mask",
-    "_name": "",
+    "_name": "clip<Mask>",
     "_objFlags": 0,
     "node": {
       "__id__": 10
@@ -745,7 +745,7 @@
     },
     "_type": 2,
     "_segments": 64,
-    "_N$alphaThreshold": 0,
+    "_N$alphaThreshold": 1,
     "_N$inverted": false,
     "_id": "ba8yOqsMFCxaw55ZXljiqj"
   },
@@ -855,7 +855,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "kuang<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 18
@@ -2221,7 +2221,7 @@
         "__id__": 55
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 2,
     "_components": [],
     "_prefab": null,
