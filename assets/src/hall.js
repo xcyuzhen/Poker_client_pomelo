@@ -8,6 +8,7 @@ cc.Class({
         m_groupSV: cc.ScrollView,
         m_gameListLayer: cc.Node,
         m_groupListLayer: cc.Node,
+        m_createRoomLayer: cc.Component,
     },
 
     onLoad () {
@@ -33,17 +34,17 @@ cc.Class({
     },
 
     //创建房间
-    createRoom (sender) {
-
+    createRoomBtnClickEvent (sender) {
+        this.m_createRoomLayer.openView();
     },
 
     //加入房间
-    enterRoom (sender) {
+    enterRoomBtnClickEvent (sender) {
 
     },
 
     //选择游戏
-    chooseGame (sender, eventData) {
+    chooseGameBtnClickEvent (sender, eventData) {
         var self = this;
 
         //拿到场次列表数据
