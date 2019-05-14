@@ -58,6 +58,7 @@ cc.Class({
         Global.Pomelo = pomelo;
         Global.Game = this;
         Global.MsgBoxMgr = this.m_msgBoxMgr;
+        Global.ResMgr = this.node.getComponent("resMgr");
         Global.SelfUserData = new UserData();
         Global.GameList = {};
     },

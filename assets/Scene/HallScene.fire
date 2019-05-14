@@ -3699,6 +3699,18 @@
     "m_bg": {
       "__id__": 56
     },
+    "m_roundContainer": {
+      "__id__": 63
+    },
+    "m_payTypeContainer": {
+      "__id__": 66
+    },
+    "m_btnCreate": {
+      "__id__": 75
+    },
+    "m_lbDiaNum": {
+      "__id__": 73
+    },
     "_id": "57A+CptWRL4bpvndrsRPSv"
   },
   {
