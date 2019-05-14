@@ -113,7 +113,7 @@ cc.Class({
         btnRadio.pressedSprite = Global.ResMgr.RadioBtnNor;
         btnRadio.hoverSprite = Global.ResMgr.RadioBtnNor;
         btnRadio.disabledSprite = Global.ResMgr.RadioBtnDis;
-        btnRadio.scale = btnScale;
+        btnRadio.node.scale = btnScale;
         btnRadio.node.setAnchorPoint(cc.v2(0, 0));
         btnRadio.node.setPosition(posX, posY);
         btnRadio.node.name = "BtnRadio";
@@ -143,6 +143,8 @@ cc.Class({
 
         node.width = width;
         node.height = height;
+
+        console.log("AAAAAAA BBBBBBB ", width, height);
 
         //校正位置
         btnRadio.node.setAnchorPoint(cc.v2(0, 0.5));
