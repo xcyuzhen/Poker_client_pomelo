@@ -46,12 +46,6 @@ UiFactory.createLabel = function (str, fontSize) {
 //创建按钮
 UiFactory.createButton = function (spriteFrame) {
     var node = new cc.Node();
-
-    var sprite = node.addComponent(cc.Sprite);
-    if (spriteFrame) {
-        sprite.spriteFrame = spriteFrame;
-        sprite.sizeMode = cc.Sprite.SizeMode.RAW;
-    }
     var btn = node.addComponent(cc.Button);
 
     return btn;

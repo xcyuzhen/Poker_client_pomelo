@@ -5,10 +5,11 @@ cc.Class({
         m_container: cc.Node,
         m_loading: cc.Node,
         m_bg: cc.Node,
-        m_roundContainer: cc.Node,
-        m_payTypeContainer: cc.Node,
         m_btnCreate: cc.Button,
         m_lbDiaNum: cc.Label,
+        m_nodeRoundList: [cc.Node],
+        m_nodeMaList: [cc.Node],
+        m_lbCost: cc.Label,
     },
 
     onLoad () {
@@ -20,10 +21,10 @@ cc.Class({
     },
 
     initData () {
+        this.m_createRoomConfig = null;
         this.m_roundNum = null;
-        this.m_payType = null;
-        this.m_roundRadioItemList = {};
-        this.m_payTypeRadioItemList = {};
+        this.m_costNum = null;
+        this.m_maNum = null;
     },
 
     openView () {
@@ -56,109 +57,142 @@ cc.Class({
     updateView (data) {
         var self = this;
 
-        var startPosX = 0, startPosY = 0;
-        var diffX = 200, diffY = -70;
-        var numPerRow = 2;
-        self.m_roundContainer.removeAllChildren(true);
-        self.m_roundRadioItemList = {};
+        //初始化数据
+        self.m_createRoomConfig = data;
+        this.m_roundNum = null;
+        this.m_costNum = null;
+        this.m_maNum = null;
+
+        //局数选择
         var roundConfig = data.costNumConfig;
-        for (var i = 0; i < roundConfig.length; i++) {
+        for (var i = 0; i < self.m_nodeRoundList.length; i++) {
             (function (index) {
+                var node = self.m_nodeRoundList[index];
                 var config = roundConfig[index];
-                var desc = config.roundNum + "局";
-                var radioItem = self.createRadioItem(desc, function (sender) {
-                    for (var tmpRoundNum in self.m_roundRadioItemList) {
-                        var tmpRadioItem = self.m_roundRadioItemList[tmpRoundNum];
-                        self.changeRadioStatus(tmpRadioItem, (config.roundNum == tmpRoundNum));
-                        if (config.roundNum == tmpRoundNum) {
-                            self.m_roundNum = config.roundNum;
-                        }
+                if (!!config) {
+                    //添加按钮的点击事件
+                    var btnRadio = node.getChildByName("btnRadio").getComponent(cc.Button);
+                    var handler = Global.Tools.createClickEventHandler(self.node, "createRoomLayer", "roundRadioClickEvent", {index: index, roundNum: config.roundNum, cost: config.cost})
+                    btnRadio.clickEvents = [];
+                    btnRadio.clickEvents.push(handler);
+
+                    var desc = config.roundNum + "局";
+                    var lbRoundNum = node.getChildByName("lbRoundNum").getComponent(cc.Label);
+                    lbRoundNum.string = desc;
+
+                    node.active = true;
+
+                    //设置初始值
+                    if (config.roundNum == data.RoundDefault) {
+                        self.m_lbCost.string = config.cost;
+                        btnRadio.interactable = false;
+                        lbRoundNum.node.color = cc.Color.RED;
+                        self.m_roundNum = config.roundNum;
+                        self.m_costNum = config.cost;
+                    } else {
+                        btnRadio.interactable = true;
+                        lbRoundNum.node.color = cc.Color.WHITE;
                     }
-                });
-
-                var rowIndex = Math.floor(index / numPerRow) + 1;
-                var columnIndex = (index % numPerRow) + 1;
-                var posX = startPosX + (columnIndex - 1) * diffX;
-                var posY = startPosY + (rowIndex - 1) * diffY;
-                radioItem.setPosition(posX, posY);
-                self.m_roundContainer.addChild(radioItem);
-
-                self.m_roundRadioItemList[config.roundNum] = radioItem;
+                } else {
+                    node.active = false;                                        
+                }
             })(i);
         }
 
-        self.m_payTypeContainer.removeAllChildren(true);
-        self.m_payTypeRadioItemList = {};
+        //马数选择
+        var maConfig = data.MaNumConfig;
+        for (var i = 0; i < self.m_nodeMaList.length; i++) {
+            (function (index) {
+                var node = self.m_nodeMaList[index];
+                var maNum = maConfig[index];
+                if (!!maNum) {
+                    //添加按钮的点击事件
+                    var btnRadio = node.getChildByName("btnRadio").getComponent(cc.Button);
+                    var handler = Global.Tools.createClickEventHandler(self.node, "createRoomLayer", "maRadioClickEvent", {index: index, maNum: maNum})
+                    btnRadio.clickEvents = [];
+                    btnRadio.clickEvents.push(handler);
+
+                    var desc = maNum + "马";
+                    var lbMaNum = node.getChildByName("lbMaNum").getComponent(cc.Label);
+                    lbMaNum.string = desc;
+
+                    node.active = true;
+
+                    //设置初始值
+                    if (maNum == data.MaDefault) {
+                        btnRadio.interactable = false;
+                        lbMaNum.node.color = cc.Color.RED;
+                        self.m_maNum = maNum;
+                    } else {
+                        btnRadio.interactable = true;
+                        lbMaNum.node.color = cc.Color.WHITE;
+                    }
+                } else {
+                    node.active = false;                                        
+                }
+            })(i);
+        }
 
         self.m_container.active = true;
         self.m_loading.active = false;
         this.m_loading.getComponent('animLoading').stopAnim();
     },
 
-    //创建单选项
-    //desc:                 文字描述
-    //btnClickEventCB:      按钮点击回调
-    createRadioItem (desc, btnClickEventCB) {
-        var node = new cc.Node();
-        node.setAnchorPoint(cc.v2(0, 0));
+    roundRadioClickEvent (sender, param) {
+        var self = this;
 
-        var width = 0, height = 0;
-        var posX = 0, posY = 0;
+        var index = param.index;
+        var cost = param.cost;
 
-        //创建radioBtn
-        var btnScale = 0.5;
-        var btnRadio = Global.UiFactory.createButton(Global.ResMgr.RadioBtnNor);
-        btnRadio.transition = cc.Button.Transition.SPRITE;
-        btnRadio.normalSprite = Global.ResMgr.RadioBtnNor;
-        btnRadio.pressedSprite = Global.ResMgr.RadioBtnNor;
-        btnRadio.hoverSprite = Global.ResMgr.RadioBtnNor;
-        btnRadio.disabledSprite = Global.ResMgr.RadioBtnDis;
-        btnRadio.node.scale = btnScale;
-        btnRadio.node.setAnchorPoint(cc.v2(0, 0));
-        btnRadio.node.setPosition(posX, posY);
-        btnRadio.node.name = "BtnRadio";
-        node.addChild(btnRadio.node);
-        //添加按钮事件
+        for (var i = 0; i < self.m_nodeRoundList.length; i++) {
+            var node = self.m_nodeRoundList[i];
+            var btnRadio = node.getChildByName("btnRadio").getComponent(cc.Button);
+            btnRadio.interactable = (index != i);
 
+            var lbRoundNumNode = node.getChildByName("lbRoundNum");
+            var color = (index == i) ? cc.Color.RED : cc.Color.WHITE;
+            lbRoundNumNode.color = color;
+        }
 
-        posX += btnRadio.node.width * btnScale;
-        height = Math.max(height, btnRadio.node.height*btnScale);
-
-        //创建描述lb
-        var lbDesc = Global.UiFactory.createLabel(desc, 26);
-        lbDesc.lineHeight = 26;
-        lbDesc.horizontalAlign = cc.Label.HorizontalAlign.LEFT;
-        lbDesc.verticalAlign = cc.Label.VerticalAlign.BOTTOM;
-        lbDesc.overflow = cc.Label.Overflow.NONE;
-        lbDesc.enableWrapText = false;
-        lbDesc.node.setAnchorPoint(cc.v2(0, 0));
-        lbDesc.node.setPosition(posX, posY);
-        lbDesc.node.name = "LbDesc";
-        node.addChild(lbDesc.node);
-        lbDesc._updateRenderData(true);
-
-        posX += lbDesc.node.width;
-        width = posX;
-        height = Math.max(height, lbDesc.node.height);
-
-        node.width = width;
-        node.height = height;
-
-        console.log("AAAAAAA BBBBBBB ", width, height);
-
-        //校正位置
-        btnRadio.node.setAnchorPoint(cc.v2(0, 0.5));
-        btnRadio.node.y = height / 2;
-        lbDesc.node.setAnchorPoint(cc.v2(0, 0.5));
-        lbDesc.node.y = height / 2;
-
-        return node;
+        self.m_lbCost.string = cost;
+        self.m_roundNum = param.roundNum;
     },
 
-    //改变单选想的状态
-    changeRadioStatus (radioItem, sel) {
-        var btnRadioNode = radioItem.getChildByName("BtnRadio");
-        var btnRadio = btnRadioNode.getComponent(cc.Button);
-        btnRadio.interactable = (!!sel);
+    maRadioClickEvent (sender, param) {
+        var self = this;
+
+        var index = param.index;
+        var maNum = param.maNum
+
+        for (var i = 0; i < self.m_nodeMaList.length; i++) {
+            var node = self.m_nodeMaList[i];
+            var btnRadio = node.getChildByName("btnRadio").getComponent(cc.Button);
+            btnRadio.interactable = (index != i);
+
+            var lbMaNumNode = node.getChildByName("lbMaNum");
+            var color = (index == i) ? cc.Color.RED : cc.Color.WHITE;
+            lbMaNumNode.color = color;
+        }
+
+        this.m_maNum = maNum;
+    },
+
+    //创建房间按钮点击事件
+    createRoomClickEvent (sender) {
+        var self = this;
+
+        //判断自己的金币或者钻石是否足够
+        var costType = self.m_createRoomConfig.costType;
+        if (costType == 1) {
+            if (Global.SelfUserData.gold < self.m_costNum) {
+                Global.MsgBoxMgr.showMsgBox({content: "金币不足，无法开房！"});
+                return;
+            }
+        } else if (costType == 2) {
+            if (Global.SelfUserData.diamond < self.m_costNum) {
+                Global.MsgBoxMgr.showMsgBox({content: "钻石不足，无法开房！"});
+                return;
+            }
+        }
     },
 });
