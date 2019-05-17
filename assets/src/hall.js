@@ -9,6 +9,7 @@ cc.Class({
         m_gameListLayer: cc.Node,
         m_groupListLayer: cc.Node,
         m_createRoomLayer: cc.Component,
+        m_enterRoomLayer: cc.Component,
     },
 
     onLoad () {
@@ -40,7 +41,7 @@ cc.Class({
 
     //加入房间
     enterRoomBtnClickEvent (sender) {
-
+        this.m_enterRoomLayer.openView();
     },
 
     //选择游戏

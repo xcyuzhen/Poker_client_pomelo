@@ -40,6 +40,8 @@ Global.GroupItemResConfig = [
 	"hall/e4",
 ];
 
+Global.FriendRoomNumLength = 6;
+
 //房间状态(和后台配置保持一致)
 Global.RoomState = {
 	UN_INITED: 0, 						//房间未初始化
