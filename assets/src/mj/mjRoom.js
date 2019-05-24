@@ -79,11 +79,25 @@ cc.Class({
             this.roomState = res.roomState;
         }
 
+        if (this[funcName]) {
+            this[funcName](res);
+        }
+
         this.m_roomInfoMgr.commonMsgHandler(funcName, res);
         this.m_playerMgr.commonMsgHandler(funcName, res);
         this.m_opeMgr.commonMsgHandler(funcName, res);
         this.m_animMgr.commonMsgHandler(funcName, res);
         this.m_resultMgr.commonMsgHandler(funcName, res);
         this.m_msgMgr.commonMsgHandler(funcName, res);
+    },
+
+    //清理桌子
+    clearTable () {
+        this.m_roomInfoMgr.clearTable();
+        this.m_playerMgr.clearTable();
+        this.m_opeMgr.clearTable();
+        this.m_animMgr.clearTable();
+        this.m_resultMgr.clearTable();
+        this.m_msgMgr.clearTable();
     },
 });

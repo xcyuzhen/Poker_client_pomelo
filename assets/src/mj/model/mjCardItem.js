@@ -58,15 +58,6 @@ cc.Class({
         spArrow.node.active = false;
         this.addChild(spArrow.node);
 
-        spArrow.node.runAction(cc.repeatForever(
-            cc.sequence(
-                cc.moveBy(uiData.Anim.AnimTime, uiData.Anim.UpDiff),
-                cc.delayTime(uiData.Anim.DelayTime),
-                cc.moveBy(uiData.Anim.AnimTime, uiData.Anim.DownDiff),
-                cc.delayTime(uiData.Anim.DelayTime)
-            )
-        ));
-
         this.m_spOutCardArrow = spArrow;
     },
 
@@ -206,6 +197,23 @@ cc.Class({
     //设置出牌箭头是否显示
     setOutCardArrowVisible (visible) {
         this.m_spOutCardArrow.node.active = !!visible;
+        if (!visible) {
+            this.m_spOutCardArrow.node.stopAllActions();
+        }
+    },
+
+    //开始播放箭头动画
+    playOutCardArrowAnim () {
+        var uiData = this.m_uiData.OutCardArrow;
+
+        this.m_spOutCardArrow.node.runAction(cc.repeatForever(
+            cc.sequence(
+                cc.moveBy(uiData.Anim.AnimTime, uiData.Anim.UpDiff),
+                cc.delayTime(uiData.Anim.DelayTime),
+                cc.moveBy(uiData.Anim.AnimTime, uiData.Anim.DownDiff),
+                cc.delayTime(uiData.Anim.DelayTime)
+            )
+        ));
     },
 
     //更新玩家数据
@@ -314,6 +322,7 @@ cc.Class({
                     self.m_spOutCardArrow.node.x = centerPos.x + diff.x;
                     self.m_spOutCardArrow.node.y = centerPos.y + diff.y;
                     Global.Room.m_playerMgr.showOutCardArrow(self.m_gameData.mid);
+                    self.playOutCardArrowAnim();
 
                     if (!!cb) {
                         cb();
@@ -882,6 +891,7 @@ cc.Class({
 
         this.m_outCardsList = [];
         this.m_gameData.clearOutCards();
+        this.m_spOutCardArrow.node.stopAllActions();
         this.m_spOutCardArrow.node.active = false;
     },
 

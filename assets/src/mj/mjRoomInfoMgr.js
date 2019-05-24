@@ -1,15 +1,18 @@
 var BaseMgr = require("./mjBaseMgr");
 var UiConfig = require("./config/mjUiConfig");
+var Words = require("./config/mjWords");
 
 cc.Class({
     extends: BaseMgr,
 
     properties: {
-        m_lbGroupName: cc.Label,
         m_lbLeftTime: cc.Label,
+        m_lbTime: cc.Label,
         m_lbLeftCardsNum: cc.Label,
         m_turnplate: cc.Node,
         m_turnplate1: cc.Node,
+        m_infoBg: cc.Node,
+        m_friendInfoBg: cc.Node,
     },
 
     onDestroy () {
@@ -29,6 +32,22 @@ cc.Class({
     },
 
     initUIView () {
+        this.initTimeTimer();
+    },
+
+    initTimeTimer () {
+        var self = this;
+        self.m_lbTime.node.runAction(cc.repeatForever(
+            cc.sequence(
+                cc.callFunc(function () {
+                    var date = new Date();
+                    var hour = Global.Tools.getFormatNumber(date.getHours(), 2);
+                    var minutes = Global.Tools.getFormatNumber(date.getMinutes(), 2);
+                    self.m_lbTime.string = self.m_uiData.TimeTimer.Txt.format(hour, minutes);
+                }),
+                cc.delayTime(1)
+            )
+        ));
     },
 
     btnExitClickEvent () {
@@ -43,7 +62,11 @@ cc.Class({
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
     enterRoom (res) {
-        var level = res.roomData.level;
+        this.updateRoomInfo(res.roomData);
+    },
+
+    updateRoomInfo (roomData) {
+        var level = roomData.level;
         for (var index in this.gameConfig.groupList) {
             var config = this.gameConfig.groupList[index];
             if (config.level === level) {
@@ -52,10 +75,26 @@ cc.Class({
             }
         }
 
-        if (this.groupConfig) {
-            this.m_lbGroupName.string = this.groupConfig.name;
+        if (roomData.isFriendRoom) {
+            //好友房
+            this.m_infoBg.active = false;
+            this.m_friendInfoBg.active = true;
         } else {
-            this.m_lbGroupName.string = "好友房";
+            //普通金币场
+            this.m_infoBg.active = true;
+            this.m_friendInfoBg.active = false;
+
+            //场次
+            var lbGroupName = this.m_infoBg.getChildByName("lbGroupName").getComponent(cc.Label);
+            lbGroupName.string = this.groupConfig.name;
+
+            //底分
+            var lbBase = this.m_infoBg.getChildByName("lbBase").getComponent(cc.Label);
+            lbBase.string = Words.RoomInfoBase.format(this.groupConfig.base);
+
+            //马场
+            var lbMa = this.m_infoBg.getChildByName("lbMa").getComponent(cc.Label);
+            lbMa.string = Words.RoomInfoMaNum.format(roomData.maNum);
         }
     },
 
@@ -146,11 +185,10 @@ cc.Class({
     updateRoundLeftCardsNum (leftCardsNum) {
         var leftCardsNum = parseInt(leftCardsNum);
         if (leftCardsNum < 0) {
-            this.m_lbLeftCardsNum.string = "";
-        } else {
-            var str = "剩余{0}张";
-            this.m_lbLeftCardsNum.string = str.format(leftCardsNum);
+            leftCardsNum = 0;
         }
+
+        this.m_lbLeftCardsNum.string = leftCardsNum;
     },
 
     //刷新转盘
@@ -158,7 +196,7 @@ cc.Class({
         var curOutCardLocalSeatID = Global.Room.m_playerMgr.getLocalSeatByMid(opeMid);
         var rotateAngle = this.m_uiData.Turnplate.RotateAngle[curOutCardLocalSeatID];
         if (rotateAngle != undefined && rotateAngle != null) {
-            this.m_turnplate.rotation = rotateAngle;
+            this.m_turnplate.angle = rotateAngle;
 
             this.m_turnplate.active = true;
             this.m_turnplate1.active = false;
