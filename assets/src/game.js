@@ -11,11 +11,13 @@ cc.Class({
 
     properties: {
         m_msgBoxMgr: cc.Component,
+        m_globalLoading: cc.Component,
     },
 
     onLoad () {
         cc.game.addPersistRootNode(this.node);
         cc.game.addPersistRootNode(this.m_msgBoxMgr.node);
+        cc.game.addPersistRootNode(this.m_globalLoading.node);
         this.init();
 
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
@@ -49,6 +51,7 @@ cc.Class({
         this.m_socketMgr.init();
 
         this.m_msgBoxMgr.node.zIndex = HallUiConfig.ZIndexConfig.MsgBox;
+        this.m_globalLoading.node.zIndex = HallUiConfig.ZIndexConfig.GlobalLoading;
     },
 
     initData () {
@@ -58,6 +61,7 @@ cc.Class({
         Global.Pomelo = pomelo;
         Global.Game = this;
         Global.MsgBoxMgr = this.m_msgBoxMgr;
+        Global.GlobalLoading = this.m_globalLoading;
         Global.ResMgr = this.node.getComponent("resMgr");
         Global.SelfUserData = new UserData();
         Global.GameList = {};
@@ -72,7 +76,6 @@ cc.Class({
     socketConnected () {
         //如果是登录界面
         var curScene = cc.director.getScene();
-        console.log("GGGGGGGGGG ", curScene.getName());
         if (curScene.getName() == "LoginScene") {
             var login = curScene.getChildByName("Canvas").getComponent("login");
             login.socketConnected();

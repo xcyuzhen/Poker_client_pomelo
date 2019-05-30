@@ -2,61 +2,33 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        animLoadingPrefab: cc.Prefab,
         // btnGuest: cc.Button,
         btnGuestList: [cc.Button],
     },
 
     onLoad () {
-        //创建loading
-        this.m_animLoading = cc.instantiate(this.animLoadingPrefab);
-        this.node.addChild(this.m_animLoading);
-        this.m_animLoading.setPosition(0, 0);
-        this.m_animLoading.getComponent('animLoading').playAnim();
+        this.initData();
     },
 
-    onDestroy () {
-        this.m_animLoading.removeFromParent(true);
+    start () {
+        this.loginCheck();
+    },
+
+    initData () {
+        this.m_loginUserIndex = null;
     },
 
     //socket连接成功
     socketConnected () {
-        this.loginCheck();
-    },
-
-    //登录检测
-    loginCheck () {
         var self = this;
+        var userIndex = self.m_loginUserIndex;
 
-        var autoLogin = false;
-        if (autoLogin) {
-            //自动登录
-
-        } else {
-            //手动登录
-            self.m_animLoading.active = false;
-            self.m_animLoading.getComponent('animLoading').stopAnim();
-            // self.btnGuest.node.active = true;
-
-            for (var i = 0; i < self.btnGuestList.length; i++) {
-                var btn = self.btnGuestList[i];
-                btn.node.active = true;
-            }
-        }
-    },
-
-    //游客登录按钮点击事件
-    guestLogin (sender, userIndex) {
-        var self = this;
-
-        for (var i = 0; i < self.btnGuestList.length; i++) {
-            var btn = self.btnGuestList[i];
-            btn.node.active = false;
-        }
+        // for (var i = 0; i < self.btnGuestList.length; i++) {
+        //     var btn = self.btnGuestList[i];
+        //     btn.node.active = false;
+        // }
 
         // self.btnGuest.node.active = false;
-        self.m_animLoading.active = true;
-        self.m_animLoading.getComponent('animLoading').playAnim();
 
         var udid = Global.Tools.getUdid()
         if (!!userIndex) {
@@ -83,8 +55,37 @@ cc.Class({
                 Global.SelfUserData.setUserData(data.userData);
                 Global.GameList = data.gameList;
 
-                cc.director.loadScene("HallScene");
+                cc.director.loadScene("HallScene", function () {
+                    Global.GlobalLoading.setLoadingVisible(false);
+                });
             }
         });
+    },
+
+    //登录检测
+    loginCheck () {
+        var self = this;
+
+        var autoLogin = false;
+        if (autoLogin) {
+            //自动登录
+
+        } else {
+            //手动登录
+            // self.btnGuest.node.active = true;
+
+            for (var i = 0; i < self.btnGuestList.length; i++) {
+                var btn = self.btnGuestList[i];
+                btn.node.active = true;
+            }
+        }
+    },
+
+    //游客登录按钮点击事件
+    guestLogin (sender, userIndex) {
+        Global.GlobalLoading.setLoadingVisible(true);
+
+        this.m_loginUserIndex = userIndex;
+        Global.Game.m_socketMgr.connectSocket();
     },
 });

@@ -47,9 +47,6 @@ cc.Class({
 
             console.log("拉取服务端配置成功");
             Global.Tools._debug(self.serverConfig);
-
-            //连接socket
-            self.connectSocket();
         });
     },
 
