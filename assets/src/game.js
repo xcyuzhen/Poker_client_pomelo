@@ -74,11 +74,31 @@ cc.Class({
 
     //socket连接成功
     socketConnected () {
-        //如果是登录界面
         var curScene = cc.director.getScene();
-        if (curScene.getName() == "LoginScene") {
+        var sceneName = curScene.getName();
+        if (sceneName == "LoginScene") {
+            //在登录界面
             var login = curScene.getChildByName("Canvas").getComponent("login");
             login.socketConnected();
+        } else {
+            //在其他场景连接socket成功，登录
+            this.m_socketMgr.login();
+        }
+    },
+
+    //登录成功
+    loginSucceed () {
+        var curScene = cc.director.getScene();
+        var sceneName = curScene.getName();
+        if (sceneName == "LoginScene") {
+            var login = curScene.getChildByName("Canvas").getComponent("login");
+            login.loginSucceed();
+        } else if (sceneName == "HallScene") {
+            var hall = curScene.getChildByName("Canvas").getComponent("hall");
+            hall.loginSucceed();
+        } else if (!!Global.Room) {
+            //在游戏场景中
+            Global.Room.reloadGame();
         }
     },
 

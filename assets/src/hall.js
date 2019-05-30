@@ -15,6 +15,7 @@ cc.Class({
     onLoad () {
         this.initData();
         this.initUIView();
+        this.checkInGame();
     },
 
     //初始化数据
@@ -26,6 +27,11 @@ cc.Class({
         this.updateSelfInfo();
         this.m_gameListLayer.active = true;
         this.m_groupListLayer.active = false;
+    },
+
+    //检测是否在游戏中
+    checkInGame () {
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.RELOAD_GAME, {});
     },
 
     //刷新个人信息
@@ -130,5 +136,11 @@ cc.Class({
     //收到socketMsg
     socketMsgGet (res) {
 
+    },
+
+    //登录成功
+    loginSucceed () {
+        Global.GlobalLoading.setLoadingVisible(false);
+        this.updateSelfInfo();
     },
 });

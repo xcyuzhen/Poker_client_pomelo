@@ -100,4 +100,9 @@ cc.Class({
         this.m_resultMgr.clearTable();
         this.m_msgMgr.clearTable();
     },
+
+    //拉取断线重连消息
+    reloadGame () {
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.RELOAD_GAME, {});
+    },
 });

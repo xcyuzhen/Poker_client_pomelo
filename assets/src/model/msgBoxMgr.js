@@ -27,9 +27,7 @@ cc.Class({
         var content = param.content || "";
         self.m_lbContent.string = content;
 
-        self.clickEventCallBack = param.clickEventCallBack || function () {
-            self.node.active = false;
-        };
+        self.clickEventCallBack = param.clickEventCallBack;
 
         self.node.active = true;
     },
