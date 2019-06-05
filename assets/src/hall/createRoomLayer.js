@@ -1,3 +1,5 @@
+var Words = require('../config/words');
+
 cc.Class({
     extends: cc.Component,
 
@@ -76,7 +78,7 @@ cc.Class({
                     btnRadio.clickEvents = [];
                     btnRadio.clickEvents.push(handler);
 
-                    var desc = config.roundNum + "局";
+                    var desc = config.roundNum + Words.Round;
                     var lbRoundNum = node.getChildByName("lbRoundNum").getComponent(cc.Label);
                     lbRoundNum.string = desc;
 
@@ -112,7 +114,7 @@ cc.Class({
                     btnRadio.clickEvents = [];
                     btnRadio.clickEvents.push(handler);
 
-                    var desc = maNum + "马";
+                    var desc = maNum + Words.Ma;
                     var lbMaNum = node.getChildByName("lbMaNum").getComponent(cc.Label);
                     lbMaNum.string = desc;
 
@@ -185,12 +187,12 @@ cc.Class({
         var costType = self.m_createRoomConfig.costType;
         if (costType == 1) {
             if (Global.SelfUserData.gold < self.m_costNum) {
-                Global.MsgBoxMgr.showMsgBox({content: "金币不足，无法开房！"});
+                Global.MsgBoxMgr.showMsgBox({content: Words.CreateRoomErrMsg1});
                 return;
             }
         } else if (costType == 2) {
             if (Global.SelfUserData.diamond < self.m_costNum) {
-                Global.MsgBoxMgr.showMsgBox({content: "钻石不足，无法开房！"});
+                Global.MsgBoxMgr.showMsgBox({content: Words.CreateRoomErrMsg2});
                 return;
             }
         }

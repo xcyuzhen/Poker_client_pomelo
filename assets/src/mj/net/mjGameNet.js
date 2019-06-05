@@ -71,7 +71,7 @@ cc.Class({
 
     socketMsgGet (data) {
         var groupName = data.groupName;
-        if (groupName === Global.MsgGroupName[Global.GameID.GT_MJ]) {
+        if (groupName == Global.MsgGroupName[Global.GameID.GT_MJ]) {
             console.log("GGGGGGGGGGGGGGGGG 麻将房间收到推送消息, cmd = ", data.res.socketCmd)
             this.msgList.push(data);
         }

@@ -30,7 +30,7 @@ cc.Class({
     start () {
         var self = this;
 
-        cc.director.loadScene("LoginScene", function () {
+        cc.director.loadScene(Global.SceneNameMap.SNM_LOGIN, function () {
             self.m_socketMgr.requestServerConfig();
         });
     },
@@ -69,14 +69,20 @@ cc.Class({
 
     //从游戏返回大厅
     backHallFromGame () {
-        cc.director.loadScene("HallScene");
+        cc.director.loadScene(Global.SceneNameMap.SNM_HALL);
+    },
+
+    //检测是否在游戏中
+    checkInGame () {
+        // this.m_socketMgr.sendMsg(Global.SocketCmd.RELOAD_GAME, {});
+        Global.GlobalLoading.setLoadingVisible(false);
     },
 
     //socket连接成功
     socketConnected () {
         var curScene = cc.director.getScene();
         var sceneName = curScene.getName();
-        if (sceneName == "LoginScene") {
+        if (sceneName == Global.SceneNameMap.SNM_LOGIN) {
             //在登录界面
             var login = curScene.getChildByName("Canvas").getComponent("login");
             login.socketConnected();
@@ -90,10 +96,10 @@ cc.Class({
     loginSucceed () {
         var curScene = cc.director.getScene();
         var sceneName = curScene.getName();
-        if (sceneName == "LoginScene") {
+        if (sceneName == Global.SceneNameMap.SNM_LOGIN) {
             var login = curScene.getChildByName("Canvas").getComponent("login");
             login.loginSucceed();
-        } else if (sceneName == "HallScene") {
+        } else if (sceneName == Global.SceneNameMap.SNM_HALL) {
             var hall = curScene.getChildByName("Canvas").getComponent("hall");
             hall.loginSucceed();
         } else if (!!Global.Room) {

@@ -55,7 +55,7 @@ cc.Class({
             if (data.code !== Global.Code.OK) {
                 console.log(data.msg);
             } else {
-                cc.director.loadScene("HallScene");
+                cc.director.loadScene(Global.SceneNameMap.SNM_HALL);
             }
         })
     },

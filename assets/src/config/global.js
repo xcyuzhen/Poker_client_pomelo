@@ -25,6 +25,12 @@ Global.MsgGroupName = {
 	[Global.GameID.GT_MJ]: "MjGroup",
 };
 
+//场景名字表
+Global.SceneNameMap = {
+	SNM_LOGIN: "LoginScene",
+	SNM_HALL: "HallScene",
+};
+
 //房间场景名字配置
 Global.RoomSceneName = {
 	[Global.GameID.GT_MJ]: "MJRoomScene",

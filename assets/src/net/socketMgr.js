@@ -29,7 +29,7 @@ cc.Class({
             switch (groupName) {
                 case Global.MsgGroupName.HALL:
                     var curScene = cc.director.getScene();
-                    if (curScene.getName() === "HallScene") {
+                    if (curScene.getName() == Global.SceneNameMap.SNM_HALL) {
                         var hall = curScene.getChildByName("Canvas").getComponent("hall");
                         hall.socketMsgGet(data);
                     }
@@ -194,12 +194,7 @@ cc.Class({
             } else {
                 Global.SelfUserData.setUserData(data.userData);
                 Global.GameList = data.gameList;
-
                 Global.Game.loginSucceed();
-
-                cc.director.loadScene("HallScene", function () {
-                    Global.GlobalLoading.setLoadingVisible(false);
-                });
             }
         });
     },

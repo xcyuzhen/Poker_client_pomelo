@@ -61,6 +61,8 @@ cc.Class({
 
     //登录成功
     loginSucceed () {
-        cc.director.loadScene("HallScene");
+        cc.director.loadScene(Global.SceneNameMap.SNM_HALL, function () {
+            Global.Game.checkInGame();
+        });
     },
 });
