@@ -104,12 +104,11 @@ cc.Class({
     //拉取断线重连消息
     requestReloadGame () {
         Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.RELOAD_GAME, {}, function (data) {
-            console.log("BBBBBBBBBBB CCCCCCC ");
-            Global.Tools._debug(data)
             if (data.code != Global.Code.OK) {
                 //没在游戏中，返回大厅
                 Global.Game.backHallFromGame();
             } else {
+                //在游戏中，清除loading
                 Global.GlobalLoading.setLoadingVisible(false);
             }
         });

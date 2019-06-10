@@ -15,6 +15,11 @@ cc.Class({
     onLoad () {
         this.initData();
         this.initUIView();
+        this.startSelfInfoTimer();
+    },
+
+    onDestroy () {
+        
     },
 
     //初始化数据
@@ -26,6 +31,10 @@ cc.Class({
         this.updateSelfInfo();
         this.m_gameListLayer.active = true;
         this.m_groupListLayer.active = false;
+    },
+
+    startSelfInfoTimer () {
+
     },
 
     //刷新个人信息

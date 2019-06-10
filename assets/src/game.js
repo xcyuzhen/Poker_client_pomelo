@@ -21,6 +21,11 @@ cc.Class({
         this.init();
 
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+        cc.game.on(cc.game.EVENT_SHOW, function () {
+            if (Global.Room) {
+                Global.Room.requestReloadGame();
+            }
+        }, this);
     },
 
     onDestroy () {
@@ -70,8 +75,8 @@ cc.Class({
     //从游戏返回大厅
     backHallFromGame () {
         var self = this;
-        cc.director.loadScene(Global.SceneNameMap.SNM_HALL);
         Global.GlobalLoading.setLoadingVisible(true);
+        cc.director.loadScene(Global.SceneNameMap.SNM_HALL);
 
         //刷新个人信息
         self.m_socketMgr.sendMsg(Global.SocketCmd.REQUEST_USER_INFO, {}, function (data) {
@@ -80,6 +85,13 @@ cc.Class({
                 console.log(data.msg);
             } else {
                 Global.SelfUserData.setUserData(data.userData);
+
+                var curScene = cc.director.getScene();
+                var sceneName = curScene.getName();
+                if (sceneName == Global.SceneNameMap.SNM_HALL) {
+                    var hall = curScene.getChildByName("Canvas").getComponent("hall");
+                    hall.updateSelfInfo();
+                }
             }         
         });
     },
