@@ -32,6 +32,10 @@ cc.Class({
     },
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
+    reloadGame (res) {
+        this.roundInfo(res.roundInfo);
+    },
+    
     roundInfo (res) {
         var self = this;
 

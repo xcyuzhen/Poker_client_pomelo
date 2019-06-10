@@ -1,7 +1,8 @@
 window.Global = {};
 
 Global.Code = {
-	OK: 200, 
+	OK: 200,
+	FAIL: 500,
 };
 
 Global.ServerConfigUrl = {

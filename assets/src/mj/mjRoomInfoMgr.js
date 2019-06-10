@@ -55,12 +55,17 @@ cc.Class({
             if (data.code !== Global.Code.OK) {
                 console.log(data.msg);
             } else {
-                cc.director.loadScene(Global.SceneNameMap.SNM_HALL);
+                Global.Game.backHallFromGame();
             }
         })
     },
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
+    reloadGame (res) {
+        this.updateRoomInfo(res.roomData);
+        this.roundInfo(res.roundInfo);
+    },
+
     enterRoom (res) {
         this.updateRoomInfo(res.roomData);
     },

@@ -102,7 +102,16 @@ cc.Class({
     },
 
     //拉取断线重连消息
-    reloadGame () {
-        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.RELOAD_GAME, {});
+    requestReloadGame () {
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.RELOAD_GAME, {}, function (data) {
+            console.log("BBBBBBBBBBB CCCCCCC ");
+            Global.Tools._debug(data)
+            if (data.code != Global.Code.OK) {
+                //没在游戏中，返回大厅
+                Global.Game.backHallFromGame();
+            } else {
+                Global.GlobalLoading.setLoadingVisible(false);
+            }
+        });
     },
 });

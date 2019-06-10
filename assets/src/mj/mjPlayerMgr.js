@@ -39,7 +39,7 @@ cc.Class({
         //找到自己的seatID
         for (var mid in userList) {
             var userData = userList[mid];
-            if (selfMid === mid) {
+            if (selfMid == mid) {
                 selfSeatID = userData.seatID;
                 self.m_selfUserData = userData;
                 break;
@@ -47,7 +47,7 @@ cc.Class({
         }
 
         //没有找到自己的座位号
-        if (selfSeatID === undefined) {
+        if (selfSeatID == undefined) {
             console.log("PPPPPPPPPPPPPPPPPPPPPPPP updatePlayerList 没有找到自己的座位号");
             Global.Tools._debug(userList);
             return;
@@ -111,9 +111,13 @@ cc.Class({
     },
 
     ////////////////////////////////////消息处理函数begin////////////////////////////////////
+    reloadGame (res) {
+        this.updateUserList(res);
+        this.roundInfo(res.roundInfo);
+    },
+
     enterRoom (res) {
-    	this.updatePlayerList(res.userList);
-        this.m_btnReady.node.active = (this.m_selfUserData.ready == 0);
+        this.updateUserList(res);
     },
 
     updateUserList (res) {
@@ -136,7 +140,7 @@ cc.Class({
 
     //回合消息
     roundInfo (res) {
-        this.udpateUserGameData(res.userList, res.lastOpeMid, res.lastOpeItem);
+        this.updateUserGameData(res.userList, res.lastOpeMid, res.lastOpeItem);
 
         //判断是否显示出牌箭头
         if (!!res.lastOpeItem && (res.lastOpeItem.opeType == Config.OPE_TYPE.OUT_CARD)) {
@@ -220,7 +224,7 @@ cc.Class({
 
     ////////////////////////////////////功能函数begin////////////////////////////////////
     //刷新玩家游戏数据
-    udpateUserGameData (gameUserList, lastOpeMid, lastOpeItem) {
+    updateUserGameData (gameUserList, lastOpeMid, lastOpeItem) {
         var self = this;
 
         gameUserList = gameUserList || [];

@@ -79,6 +79,7 @@ cc.Class({
 
     initMsgCmdMap () {
         this.msgCmdMap = {
+            [Global.SocketCmd.RELOAD_GAME]: "reloadGame",
             [Global.SocketCmd.ENTER_ROOM]: "enterRoom",
             [Global.SocketCmd.USER_LEAVE]: "userLeave",
 

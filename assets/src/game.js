@@ -69,13 +69,40 @@ cc.Class({
 
     //从游戏返回大厅
     backHallFromGame () {
+        var self = this;
         cc.director.loadScene(Global.SceneNameMap.SNM_HALL);
+        Global.GlobalLoading.setLoadingVisible(true);
+
+        //刷新个人信息
+        self.m_socketMgr.sendMsg(Global.SocketCmd.REQUEST_USER_INFO, {}, function (data) {
+            Global.GlobalLoading.setLoadingVisible(false);
+            if (data.code != Global.Code.OK) {
+                console.log(data.msg);
+            } else {
+                Global.SelfUserData.setUserData(data.userData);
+            }         
+        });
     },
 
     //检测是否在游戏中
     checkInGame () {
-        // this.m_socketMgr.sendMsg(Global.SocketCmd.RELOAD_GAME, {});
-        Global.GlobalLoading.setLoadingVisible(false);
+        var self = this;
+        self.m_socketMgr.sendMsg(Global.SocketCmd.CHECK_IN_GAME, {}, function (data) {
+            if (data.code != Global.Code.OK) {
+                console.log(data.msg);
+                Global.GlobalLoading.setLoadingVisible(false);
+            } else {
+                var gameID = data.gameID;
+                var roomSceneName = Global.RoomSceneName[gameID];
+                if (!!roomSceneName) {
+                    //删除冗余的数据
+                    Global.Game.m_socketMgr.delMsgDataByGroup(Global.MsgGroupName[gameID]);
+                    cc.director.loadScene(roomSceneName, function () {
+                        Global.Room.requestReloadGame();
+                    });
+                }
+            }
+        });
     },
 
     //socket连接成功
@@ -104,7 +131,7 @@ cc.Class({
             hall.loginSucceed();
         } else if (!!Global.Room) {
             //在游戏场景中
-            Global.Room.reloadGame();
+            Global.Room.requestReloadGame();
         }
     },
 

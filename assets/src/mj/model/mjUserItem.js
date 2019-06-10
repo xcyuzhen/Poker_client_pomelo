@@ -26,10 +26,14 @@ cc.Class({
     initUIView () {
     	var self = this;
 
+        //是否已经开局
+        var isPlaying = Global.Room.roomState == Global.RoomState.PLAYING;
+
         var containerNode = new cc.Node();
         containerNode.setContentSize(self.m_uiConfig.Container.Size);
         containerNode.setAnchorPoint(self.m_uiConfig.Container.Ap[self.m_seatID]);
-        containerNode.setPosition(self.m_uiConfig.Container.Pos[self.m_seatID]);
+        var containerPos = isPlaying ? self.m_uiConfig.Container.Pos1[self.m_seatID] : self.m_uiConfig.Container.Pos[self.m_seatID];
+        containerNode.setPosition(containerPos);
         self.addChild(containerNode);
         self.m_containerNode = containerNode;
 
@@ -85,7 +89,6 @@ cc.Class({
         spReady.node.setAnchorPoint(self.m_uiConfig.Ready.Ap[self.m_seatID]);
         var readyDiff = self.m_uiConfig.Ready.Diff[self.m_seatID];
         spReady.node.setPosition(headPos.x + readyDiff.x, headPos.y + readyDiff.y);
-        var isPlaying = Global.Room.roomState === Global.RoomState.PLAYING;
         var showReady = (!isPlaying) && (self.m_userData.ready === 1);
         spReady.node.active = showReady;
         self.m_containerNode.addChild(spReady.node, 1);

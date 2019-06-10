@@ -118,7 +118,7 @@ cc.Class({
         }
 
         Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.ENTER_GROUP_LEVEL, params, function (data) {
-            if (data.code !== Global.Code.OK) {
+            if (data.code != Global.Code.OK) {
                 console.log(data.msg);
             } else {
                 var roomSceneName = Global.RoomSceneName[gameID];
