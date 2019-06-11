@@ -6079,7 +6079,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "spDiaIcon",
+    "_name": "spCostIcon",
     "_objFlags": 0,
     "_parent": {
       "__id__": 121
@@ -6688,12 +6688,6 @@
     "m_bg": {
       "__id__": 56
     },
-    "m_btnCreate": {
-      "__id__": 129
-    },
-    "m_lbDiaNum": {
-      "__id__": 127
-    },
     "m_nodeRoundList": [
       {
         "__id__": 63
@@ -6722,6 +6716,9 @@
         "__id__": 114
       }
     ],
+    "m_spCostType": {
+      "__id__": 125
+    },
     "m_lbCost": {
       "__id__": 127
     },

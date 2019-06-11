@@ -54,7 +54,13 @@ cc.Class({
                 if (! handler) {
                     console.log("没有相应的处理函数 socketCmd = ", socketCmd);
                 } else {
-                    Global.Room.commonMsgHandler(handler, oneMsg.res);
+                    if (Global.Room.isRoomInited() || 
+                        socketCmd == Global.SocketCmd.RELOAD_GAME || 
+                        socketCmd == Global.SocketCmd.ENTER_ROOM) {
+                        Global.Room.commonMsgHandler(handler, oneMsg.res);
+                    } else {
+                        console.log("房间没有初始化完成，直接丢掉该消息");
+                    }
                 }
             }
         }

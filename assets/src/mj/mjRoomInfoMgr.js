@@ -84,6 +84,19 @@ cc.Class({
             //好友房
             this.m_infoBg.active = false;
             this.m_friendInfoBg.active = true;
+
+            //房间号
+            var lbRoomNum = this.m_friendInfoBg.getChildByName("lbRoomNum").getComponent(cc.Label);
+            lbRoomNum.string = Words.RoomInfoRoomNum.format(roomData.roomNum);
+
+            //马场
+            var lbMa = this.m_friendInfoBg.getChildByName("lbMa").getComponent(cc.Label);
+            lbMa.string = Words.RoomInfoMaNum.format(roomData.maNum);
+
+            //局数
+            var lbRound = this.m_friendInfoBg.getChildByName("lbRound").getComponent(cc.Label);
+            lbRound.string = Words.RoomInfoRound.format(roomData.curRoundNum, roomData.totalRoundNum);
+
         } else {
             //普通金币场
             this.m_infoBg.active = true;
@@ -125,7 +138,6 @@ cc.Class({
 
     roundInfo (res) {
         this.updateRoundLeftCardsNum(res.leftCardsNum);
-        this.udpateRoundTurnplate(res.curOpeMid);
 
         var leftTime = res.leftTime;
         this.startTimer(leftTime);

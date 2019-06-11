@@ -1278,6 +1278,12 @@
     "RadioBtnDis": {
       "__uuid__": "13d3f636-14c1-48a1-882c-adcbeceaed8a"
     },
+    "SpGold": {
+      "__uuid__": "abc7e931-c62a-467e-acd3-d307e323cafa"
+    },
+    "SpDiamond": {
+      "__uuid__": "1ade5dd8-f2fb-4ae4-9445-410699f4095a"
+    },
     "Num4": [
       {
         "__uuid__": "f1d8e70c-b028-4fb8-adbf-c6ebe25d9061"

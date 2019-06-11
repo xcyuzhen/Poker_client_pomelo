@@ -20,6 +20,12 @@ Global.GameID = {
 	GT_MJ: 1,
 };
 
+//创建房间扣费类型
+Global.CostType = {
+	CT_GOLD: 1,							//金币
+	CT_DIA: 2, 							//钻石
+};
+
 //msg分组(和后台配置保持一致)
 Global.MsgGroupName = {
 	HALL: "HallGroup",

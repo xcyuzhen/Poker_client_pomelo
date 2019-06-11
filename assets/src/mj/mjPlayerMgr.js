@@ -128,6 +128,9 @@ cc.Class({
         if (this.m_selfUserData.ready == 1 && Global.Room.roomState != Global.RoomState.PLAYING) {
             Global.Room.clearTable();
         }
+
+        //设置房间初始化完成
+        Global.Room.setRoomInited(true);
     },
 
     //游戏开始

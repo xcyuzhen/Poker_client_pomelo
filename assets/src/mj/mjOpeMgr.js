@@ -35,9 +35,13 @@ cc.Class({
     reloadGame (res) {
         this.roundInfo(res.roundInfo);
     },
-    
+
     roundInfo (res) {
         var self = this;
+
+        //刷新箭头指向
+        //放在这里进行刷新是因为断线重连进来，playerMgr中要先加载座位信息，然后箭头才知道指向哪个
+        Global.Room.m_roomInfoMgr.udpateRoundTurnplate(res.curOpeMid);
 
         self.m_curOpeMid = res.curOpeMid;
 

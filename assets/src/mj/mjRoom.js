@@ -63,6 +63,7 @@ cc.Class({
         this.m_resultMgr.init();
         this.m_msgMgr.init();
 
+        this.m_roomInited = false;
         this.roomState = Global.RoomState.UN_INITED;
     },
 
@@ -112,5 +113,14 @@ cc.Class({
                 Global.GlobalLoading.setLoadingVisible(false);
             }
         });
+    },
+
+    //房间是否初始化完成
+    isRoomInited () {
+        return this.m_roomInited;
+    },
+
+    setRoomInited (inited) {
+        this.m_roomInited = inited;
     },
 });

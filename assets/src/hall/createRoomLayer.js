@@ -7,10 +7,9 @@ cc.Class({
         m_container: cc.Node,
         m_loading: cc.Node,
         m_bg: cc.Node,
-        m_btnCreate: cc.Button,
-        m_lbDiaNum: cc.Label,
         m_nodeRoundList: [cc.Node],
         m_nodeMaList: [cc.Node],
+        m_spCostType: cc.Sprite,
         m_lbCost: cc.Label,
     },
 
@@ -135,6 +134,13 @@ cc.Class({
             })(i);
         }
 
+        var costType = data.costType;
+        if (costType == Global.CostType.CT_GOLD) {
+            self.m_spCostType.spriteFrame = Global.ResMgr.SpGold;
+        } else if (costType == Global.CostType.CT_DIA) {
+            self.m_spCostType.spriteFrame = Global.ResMgr.SpDiamond;
+        }
+
         self.m_container.active = true;
         self.m_loading.active = false;
         this.m_loading.getComponent('animLoading').stopAnim();
@@ -185,16 +191,36 @@ cc.Class({
 
         //判断自己的金币或者钻石是否足够
         var costType = self.m_createRoomConfig.costType;
-        if (costType == 1) {
+        if (costType == Global.CostType.CT_GOLD) {
             if (Global.SelfUserData.gold < self.m_costNum) {
                 Global.MsgBoxMgr.showMsgBox({content: Words.CreateRoomErrMsg1});
                 return;
             }
-        } else if (costType == 2) {
+        } else if (costType == Global.CostType.CT_DIA) {
             if (Global.SelfUserData.diamond < self.m_costNum) {
                 Global.MsgBoxMgr.showMsgBox({content: Words.CreateRoomErrMsg2});
                 return;
             }
         }
+
+        var param = {
+            gameType: Global.GameID.GT_MJ,
+            roundNum: self.m_roundNum,
+            maNum: self.m_maNum,
+        };
+        Global.Game.m_socketMgr.sendMsg(Global.SocketCmd.CREATE_FRIEND_ROOM, param, function (data) {
+            if (data.code != Global.Code.OK) {
+                if (data.msg) {
+                    console.log(data.msg);
+                }
+                Global.GlobalLoading.setLoadingVisible(true);
+            } else {
+                var roomSceneName = Global.RoomSceneName[Global.GameID.GT_MJ];
+                cc.director.loadScene(roomSceneName, function () {
+                    Global.GlobalLoading.setLoadingVisible(false);
+                });
+            }
+        });
+        Global.GlobalLoading.setLoadingVisible(true);
     },
 });
