@@ -135,7 +135,7 @@ Tools.getFormatNumber = function (num, minLen) {
     var zeroNum = minLen - numStr.length;
 
     if (zeroNum > 0) {
-        var zeroStr = new Array(zeroNum).fill('0');
+        var zeroStr = new Array(zeroNum).fill('0').join('');
         numStr = zeroStr + numStr;
     }
 
